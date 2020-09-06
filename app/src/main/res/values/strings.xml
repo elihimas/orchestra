@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Orchestra</string>
+    <string name="examples_title">Examples</string>
+
+    <string name="fade_in">Fade in</string>
+    <string name="fade_out">Fade out</string>
+    <string name="translate">Translate</string>
+    <string name="scale">Scale</string>
+    <string name="coordinator_layout">Coordinator layout</string>
+    <string name="form">Form</string>
+</resources>
