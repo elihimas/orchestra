@@ -7,7 +7,7 @@ import com.elihimas.orchestra.model.Examples
 
 class ExampleStarter(private val context: Context) {
 
-    fun start(example: Examples) {
+    fun execute(example: Examples) {
         val nextClass = when (example) {
             Examples.FadeIn -> FadeInExampleActivity::class.java
             Examples.FadeOut -> FadeOutExampleActivity::class.java

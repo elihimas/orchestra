@@ -1,31 +1,14 @@
 package com.elihimas.orchestra.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
+import com.elihimas.orchestra.model.Examples
 import kotlinx.android.synthetic.main.activity_centered_butterfly.*
 
-class FadeInExampleActivity : AppCompatActivity() {
+class FadeInExampleActivity : CenteredImageActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_centered_butterfly)
+    override fun getExample() = Examples.FadeIn
 
-        init()
-    }
-
-    private fun init() {
-        Orchestra.setup {
-            on(butterflyImage).alpha(0)
-        }
-
-        configView.onAnimate {
-            runAnimation()
-        }
-    }
-
-    private fun runAnimation() {
+    override fun runAnimation() {
         val duration = configView.duration.toLong()
         val initialAlpha = configView.initialAlpha
         val finalAlpha = configView.finalAlpha

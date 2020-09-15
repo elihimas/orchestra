@@ -1,37 +1,17 @@
 package com.elihimas.orchestra.activities
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
+import com.elihimas.orchestra.model.Examples
 import kotlinx.android.synthetic.main.activity_centered_butterfly.*
 
-class FadeOutExampleActivity : AppCompatActivity() {
+class FadeOutExampleActivity : CenteredImageActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_centered_butterfly)
+    override fun getExample() = Examples.FadeOut
 
-        init()
-    }
-
-    private fun init() {
-        configView.initialAlpha = 1f
-        configView.finalAlpha = 0f
-
-        Orchestra.setup {
-            on(butterflyImage).alpha(1)
-        }
-
-        configView.onAnimate {
-            runAnimation()
-        }
-    }
-
-    private fun runAnimation() {
+    override fun runAnimation() {
         val duration = configView.duration.toLong()
-        val initialAlpha = configView.initialAlpha.toFloat()
-        val finalAlpha = configView.finalAlpha.toFloat()
+        val initialAlpha = configView.initialAlpha
+        val finalAlpha = configView.finalAlpha
 
         Orchestra.launch {
             on(butterflyImage)

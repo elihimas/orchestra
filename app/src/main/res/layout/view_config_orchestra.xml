@@ -16,6 +16,7 @@
         android:progress="8000" />
 
     <TextView
+        android:id="@+id/initialAlphaText"
         style="@style/ConfigName"
         android:text="@string/initial_alpha" />
 
@@ -25,6 +26,7 @@
         android:max="100" />
 
     <TextView
+        android:id="@+id/finalAlphaText"
         style="@style/ConfigName"
         android:text="@string/final_alpha" />
 

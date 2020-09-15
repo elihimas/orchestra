@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ExampleStarter exampleStarter = new ExampleStarter(this);
         RecyclerView optionsRecycler = findViewById(R.id.optionsRecycler);
-        ExamplesAdapter adapter = new ExamplesAdapter(optionsRecycler, example -> exampleStarter.start(example));
+        ExamplesAdapter adapter = new ExamplesAdapter(optionsRecycler, example -> exampleStarter.execute(example));
         optionsRecycler.hasFixedSize();
         optionsRecycler.setAdapter(adapter);
     }
