@@ -9,12 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CoordinatorExampleActivity"></activity>
-        <activity android:name=".activities.ScaleExampleActivity" />
-        <activity android:name=".activities.TranslateExampleActivity" />
-        <activity android:name=".activities.FadeOutExampleActivity" />
-        <activity android:name=".activities.FadeInExampleActivity" />
-        <activity android:name=".activities.FormExampleActivity" />
+        <activity
+            android:name=".activities.CoordinatorExampleActivity"
+            android:label="@string/coordinator_layout" />
+        <activity
+            android:name=".activities.ScaleExampleActivity"
+            android:label="@string/scale" />
+        <activity
+            android:name=".activities.TranslateExampleActivity"
+            android:label="@string/translate" />
+        <activity
+            android:name=".activities.FadeOutExampleActivity"
+            android:label="@string/fade_out" />
+        <activity
+            android:name=".activities.FadeInExampleActivity"
+            android:label="@string/fade_in" />
+        <activity
+            android:name=".activities.FormExampleActivity"
+            android:label="@string/form" />
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">

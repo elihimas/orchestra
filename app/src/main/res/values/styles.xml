@@ -18,4 +18,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="ConfigName" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="ConfigSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">7dp</item>
+    </style>
+
 </resources>

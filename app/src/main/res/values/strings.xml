@@ -8,4 +8,9 @@
     <string name="scale">Scale</string>
     <string name="coordinator_layout">Coordinator layout</string>
     <string name="form">Form</string>
+
+    <string name="duration">Duration</string>
+    <string name="initial_alpha">Initial alpha</string>
+    <string name="final_alpha">Final alpha</string>
+    <string name="animate">Animate</string>
 </resources>
