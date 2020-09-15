@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.R
-import kotlinx.android.synthetic.main.activity_fade_in_example.*
+import kotlinx.android.synthetic.main.activity_centered_butterfly.*
 
 class FadeInExampleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fade_in_example)
+        setContentView(R.layout.activity_centered_butterfly)
 
         init()
     }
@@ -27,8 +27,8 @@ class FadeInExampleActivity : AppCompatActivity() {
 
     private fun runAnimation() {
         val duration = configView.duration.toLong()
-        val initialAlpha = configView.initialAlpha.toFloat()
-        val finalAlpha = configView.finalAlpha.toFloat() / 100
+        val initialAlpha = configView.initialAlpha
+        val finalAlpha = configView.finalAlpha
 
         Orchestra.launch {
             on(butterflyImage)

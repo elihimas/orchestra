@@ -13,10 +13,16 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     val duration: Int
         get() = durationSeekBar.progress
-    val initialAlpha: Int
-        get() = initialAlphaSeekBar.progress
-    val finalAlpha: Int
-        get() = finalAlphaSeekBar.progress
+    var initialAlpha: Float
+        get() = (initialAlphaSeekBar.progress / 100).toFloat()
+        set(value) {
+            initialAlphaSeekBar.progress = (value * 100).toInt()
+        }
+    var finalAlpha: Float
+        get() = (finalAlphaSeekBar.progress / 100).toFloat()
+        set(value) {
+            finalAlphaSeekBar.progress = (value * 100).toInt()
+        }
 
     fun onAnimate(animateFunction: () -> Unit) {
         animateButton.setOnClickListener {
