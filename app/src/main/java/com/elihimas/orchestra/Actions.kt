@@ -100,13 +100,6 @@ class ParallelActions(private val reference: Animations) : Action() {
     }
 }
 
-class FadeOutAction : Action(600) {
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation.alpha(0f)
-    }
-}
-
 class DelayAction(duration: Long) : Action(duration) {
     override fun runAnimation(view: View, endAction: Runnable?) {
         GlobalScope.launch {

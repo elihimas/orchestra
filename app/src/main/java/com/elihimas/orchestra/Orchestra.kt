@@ -86,10 +86,10 @@ open class Animations : Block {
     fun delay(duration: Long) = add(DelayAction(duration))
 
     fun fadeIn() = fadeIn(0f, 1f)
-
     fun fadeIn(initialAlpha: Float = 0f, finalAlpha: Float = 1f) = add(FadeInAction(initialAlpha, finalAlpha))
 
-    fun fadeOut() = add(FadeOutAction())
+    fun fadeOut() = fadeIn(1f, 0f)
+    fun fadeOut(initialAlpha: Float = 1f, finalAlpha: Float = 0f) = fadeIn(initialAlpha, finalAlpha)
 
     fun scale(scale: Float) = add(ScaleAction(scale))
     fun scale(scaleV: Int) = scale(scaleV.toFloat())

@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import com.elihimas.orchestra.usecases.AnimationConfiguration
 import kotlinx.android.synthetic.main.view_config_orchestra.view.*
 
-class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), AnimationConfiguration {
 
     init {
         inflate(context, R.layout.view_config_orchestra, this)
@@ -42,16 +43,22 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
             }
         }
 
-    val duration: Long
+    override var duration: Long
         get() = durationSeekBar.progress.toLong()
-    val scale: Float
+        set(value) {
+            durationSeekBar.progress = (value).toInt()
+        }
+    override var scale: Float
         get() = scaleSeekBar.progress.toFloat() / 10
-    var initialAlpha: Float
+        set(value) {
+            scaleSeekBar.progress = (value * 10).toInt()
+        }
+    override var initialAlpha: Float
         get() = initialAlphaSeekBar.progress.toFloat() / 100
         set(value) {
             initialAlphaSeekBar.progress = (value * 100).toInt()
         }
-    var finalAlpha: Float
+    override var finalAlpha: Float
         get() = finalAlphaSeekBar.progress.toFloat() / 100
         set(value) {
             finalAlphaSeekBar.progress = (value * 100).toInt()

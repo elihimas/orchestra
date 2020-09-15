@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.model.Examples
+import com.elihimas.orchestra.usecases.AnimatorRunner
 import com.elihimas.orchestra.usecases.ButterflyImageConfigurator
 import com.elihimas.orchestra.usecases.ConfigViewConfigurator
 import kotlinx.android.synthetic.main.activity_centered_butterfly.*
@@ -23,12 +24,14 @@ abstract class CenteredImageActivity : AppCompatActivity() {
         ButterflyImageConfigurator(butterflyImage).execute(example)
 
         configView.onAnimate {
-            runAnimation()
+            val animationEnded = {
+                configView.enableAnimateButton()
+            }
+            val runner = AnimatorRunner(configView, butterflyImage, animationEnded)
+            runner.execute(example)
         }
     }
 
     abstract fun getExample(): Examples
-
-    abstract fun runAnimation()
 
 }
