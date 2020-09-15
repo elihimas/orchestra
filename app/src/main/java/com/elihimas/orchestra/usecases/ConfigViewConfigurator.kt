@@ -8,7 +8,6 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
     fun execute(example: Examples) {
         when (example) {
             Examples.FadeIn -> {
-                configView
                 configView.showAlphaControls = true
             }
             Examples.FadeOut -> {
@@ -20,6 +19,9 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
             }
             Examples.Scale -> {
                 configView.showScaleControls = true
+            }
+            Examples.Slide -> {
+
             }
             Examples.CoordinatorLayout -> {
                 configView

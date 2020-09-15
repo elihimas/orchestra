@@ -13,7 +13,9 @@ class ExampleStarter(private val context: Context) {
             Examples.FadeOut -> FadeOutExampleActivity::class.java
             Examples.Translate -> TranslateExampleActivity::class.java
             Examples.Scale -> ScaleExampleActivity::class.java
+            Examples.Slide-> SlideExampleActivity::class.java
             Examples.CoordinatorLayout -> CoordinatorExampleActivity::class.java
+            Examples.ConstrainsLayout -> ConstrainsExampleActivity::class.java
             Examples.Form -> FormExampleActivity::class.java
         }
         context.startActivity(Intent(context, nextClass))

@@ -15,7 +15,7 @@
         android:id="@+id/durationSeekBar"
         style="@style/ConfigSeekBar"
         android:max="30000"
-        android:progress="8000"
+        android:progress="2000"
         android:visibility="visible" />
 
     <TextView

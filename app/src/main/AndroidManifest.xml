@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.ConstrainsExampleActivity"
+            android:label="@string/constrains_layout" />
+        <activity
+            android:name=".activities.SlideExampleActivity"
+            android:label="@string/slide" />
+        <activity
             android:name=".activities.CoordinatorExampleActivity"
             android:label="@string/coordinator_layout" />
         <activity

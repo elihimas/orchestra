@@ -183,6 +183,7 @@ interface OrchestraContext {
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
     fun then(block: () -> Unit)
     fun animations(): Animations
+    fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
 class Orchestra : OrchestraContext, ParallelContext {
@@ -218,7 +219,7 @@ class Orchestra : OrchestraContext, ParallelContext {
     override fun delay(duration: Int) = delay(duration.toLong())
 
     //TODO review this
-    fun changeConstrains(root: ConstraintLayout, layoutId: Int) = ChangeConstrainsBlock(root, layoutId).apply {
+    override fun changeConstrains(root: ConstraintLayout, layoutId: Int) = ChangeConstrainsBlock(root, layoutId).apply {
         blocks.add(this)
     }
 

@@ -3,6 +3,7 @@ package com.elihimas.orchestra.usecases
 import android.view.View
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.Examples
+import kotlin.math.E
 
 interface AnimationConfiguration {
     var duration: Long
@@ -21,6 +22,7 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
             Examples.FadeOut -> runFadeOut()
             Examples.Translate -> runTranslate()
             Examples.Scale -> runScale()
+            Examples.Slide -> runSlide()
             Examples.CoordinatorLayout, Examples.Form -> TODO()
         }
     }
@@ -53,7 +55,6 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
         }
     }
 
-
     private fun runTranslate() {
         val duration = configuration.duration
 
@@ -73,6 +74,22 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
         Orchestra.launch {
             on(target)
                     .scale(scale)
+                    .duration(duration)
+        }.then {
+            animationEnded()
+        }
+    }
+
+    private fun runSlide() {
+        val duration = configuration.duration
+
+        Orchestra.setup {
+            on(target).slideHide()
+        }
+
+        Orchestra.launch {
+            on(target)
+                    .slide()
                     .duration(duration)
         }.then {
             animationEnded()

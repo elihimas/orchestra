@@ -5,7 +5,7 @@ import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.Examples
 import kotlinx.android.synthetic.main.activity_centered_butterfly.*
 
-class ButterflyImageConfigurator(val butterflyImage: ImageView) {
+class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
 
     fun execute(example: Examples) =
             Orchestra.setup {
@@ -23,6 +23,8 @@ class ButterflyImageConfigurator(val butterflyImage: ImageView) {
                     }
                     Examples.Scale -> {
                         setupReference
+                    }
+                    Examples.Slide->{
                     }
                     Examples.CoordinatorLayout -> {
                         setupReference

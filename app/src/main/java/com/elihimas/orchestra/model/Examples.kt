@@ -5,7 +5,9 @@ enum class Examples {
     FadeOut,
     Translate,
     Scale,
+    Slide,
 
+    ConstrainsLayout,
     CoordinatorLayout,
     Form,
 }

@@ -16,6 +16,7 @@
             android:id="@+id/butterflyImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="matrix"
             android:layout_margin="@dimen/butterfly_margin"
             android:src="@drawable/butterfly" />
 

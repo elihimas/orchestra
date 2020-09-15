@@ -8,6 +8,8 @@ object Resources {
         Examples.FadeOut -> R.string.fade_out
         Examples.Translate -> R.string.translate
         Examples.Scale -> R.string.scale
+        Examples.Slide -> R.string.slide
+        Examples.ConstrainsLayout -> R.string.constrains_layout
         Examples.CoordinatorLayout -> R.string.coordinator_layout
         Examples.Form -> R.string.form
     }
