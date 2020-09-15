@@ -9,7 +9,7 @@ class TranslateExampleActivity : CenteredImageActivity() {
     override fun getExample() = Examples.Translate
 
     override fun runAnimation() {
-        val duration = configView.duration.toLong()
+        val duration = configView.duration
 
         Orchestra.launch {
             on(butterflyImage)

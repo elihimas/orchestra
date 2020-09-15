@@ -9,16 +9,17 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
         when (example) {
             Examples.FadeIn -> {
                 configView
+                configView.showAlphaControls = true
             }
             Examples.FadeOut -> {
+                configView.showAlphaControls = true
                 configView.initialAlpha = 1f
                 configView.finalAlpha = 0f
             }
             Examples.Translate -> {
-                configView.alphaControls = false
             }
             Examples.Scale -> {
-                configView
+                configView.showScaleControls = true
             }
             Examples.CoordinatorLayout -> {
                 configView

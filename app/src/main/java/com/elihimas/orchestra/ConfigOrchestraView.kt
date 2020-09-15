@@ -12,7 +12,20 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
         inflate(context, R.layout.view_config_orchestra, this)
     }
 
-    var alphaControls: Boolean
+    var showScaleControls: Boolean
+        get() = scaleSeekBar.visibility == View.VISIBLE
+        set(value) {
+            val visibility = if (value) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            visibility.let {
+                scaleText.visibility = it
+                scaleSeekBar.visibility = it
+            }
+        }
+    var showAlphaControls: Boolean
         get() = initialAlphaSeekBar.visibility == View.VISIBLE
         set(value) {
             val visibility = if (value) {
@@ -28,15 +41,18 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
                 finalAlphaSeekBar.visibility = it
             }
         }
-    val duration: Int
-        get() = durationSeekBar.progress
+
+    val duration: Long
+        get() = durationSeekBar.progress.toLong()
+    val scale: Float
+        get() = scaleSeekBar.progress.toFloat() / 10
     var initialAlpha: Float
-        get() = (initialAlphaSeekBar.progress / 100).toFloat()
+        get() = initialAlphaSeekBar.progress.toFloat() / 100
         set(value) {
             initialAlphaSeekBar.progress = (value * 100).toInt()
         }
     var finalAlpha: Float
-        get() = (finalAlphaSeekBar.progress / 100).toFloat()
+        get() = finalAlphaSeekBar.progress.toFloat() / 100
         set(value) {
             finalAlphaSeekBar.progress = (value * 100).toInt()
         }

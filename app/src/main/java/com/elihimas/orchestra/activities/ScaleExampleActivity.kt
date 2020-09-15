@@ -1,13 +1,23 @@
 package com.elihimas.orchestra.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.elihimas.orchestra.R
+import com.elihimas.orchestra.Orchestra
+import com.elihimas.orchestra.model.Examples
+import kotlinx.android.synthetic.main.activity_centered_butterfly.*
 
-class ScaleExampleActivity : AppCompatActivity() {
+class ScaleExampleActivity : CenteredImageActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scale_example)
+    override fun getExample() = Examples.Scale
+
+    override fun runAnimation() {
+        val duration = configView.duration
+        val scale = configView.scale
+
+        Orchestra.launch {
+            on(butterflyImage)
+                    .scale(scale)
+                    .duration(duration)
+        }.then {
+            configView.enableAnimateButton()
+        }
     }
 }

@@ -9,7 +9,7 @@ class FadeOutExampleActivity : CenteredImageActivity() {
     override fun getExample() = Examples.FadeOut
 
     override fun runAnimation() {
-        val duration = configView.duration.toLong()
+        val duration = configView.duration
         val initialAlpha = configView.initialAlpha
         val finalAlpha = configView.finalAlpha
 

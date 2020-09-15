@@ -9,7 +9,7 @@ class FadeInExampleActivity : CenteredImageActivity() {
     override fun getExample() = Examples.FadeIn
 
     override fun runAnimation() {
-        val duration = configView.duration.toLong()
+        val duration = configView.duration
         val initialAlpha = configView.initialAlpha
         val finalAlpha = configView.finalAlpha
 
