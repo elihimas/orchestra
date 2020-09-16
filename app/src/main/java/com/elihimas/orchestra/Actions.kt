@@ -1,11 +1,14 @@
 package com.elihimas.orchestra
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.animation.TranslateAnimation
+import androidx.core.animation.doOnEnd
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,6 +27,32 @@ abstract class Action(var duration: Long = 2600L, var spacing: Long = 0) {
     open fun beforeAnimation(view: View) {}
 
     abstract fun addAnimation(view: View, animation: ViewPropertyAnimator)
+}
+
+class CircularRevealAction : Action() {
+    override fun runAnimation(view: View, endAction: Runnable?) {
+        val cx = view.width / 2
+        val cy = view.height / 2
+
+        // get the final radius for the clipping circle
+        val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+        // create the animator for this view (the start radius is zero)
+        val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0f, finalRadius)
+        // make the view visible and start the animation
+        view.visibility = View.VISIBLE
+        anim.addListener(object : AnimatorListenerAdapter() {
+
+            override fun onAnimationEnd(animation: Animator?) {
+                endAction?.run()
+            }
+        })
+        anim.start()
+    }
+
+    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
+
+    }
 }
 
 class SlideAction : Action() {
@@ -51,18 +80,9 @@ class SlideAction : Action() {
                 }
             }
             this.duration = this@SlideAction.duration
-            addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
+            addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     endAction?.run()
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                }
-
-                override fun onAnimationStart(animation: Animator?) {
                 }
             })
         }

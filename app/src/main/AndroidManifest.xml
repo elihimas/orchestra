@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.CircularRevealExampleActivity"
+            android:label="@string/circular_reveal" />
+        <activity
             android:name=".activities.ConstrainsExampleActivity"
             android:label="@string/constrains_layout" />
         <activity
@@ -35,7 +38,7 @@
             android:label="@string/form" />
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.Full">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

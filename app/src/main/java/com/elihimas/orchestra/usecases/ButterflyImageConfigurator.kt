@@ -24,7 +24,10 @@ class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
                     Examples.Scale -> {
                         setupReference
                     }
-                    Examples.Slide->{
+                    Examples.Slide -> {
+                    }
+                    Examples.CircularReveal -> {
+                        setupReference.circularRevealHide()
                     }
                     Examples.CoordinatorLayout -> {
                         setupReference

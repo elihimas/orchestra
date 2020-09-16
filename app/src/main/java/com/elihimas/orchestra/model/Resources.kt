@@ -9,6 +9,7 @@ object Resources {
         Examples.Translate -> R.string.translate
         Examples.Scale -> R.string.scale
         Examples.Slide -> R.string.slide
+        Examples.CircularReveal -> R.string.circular_reveal
         Examples.ConstrainsLayout -> R.string.constrains_layout
         Examples.CoordinatorLayout -> R.string.coordinator_layout
         Examples.Form -> R.string.form

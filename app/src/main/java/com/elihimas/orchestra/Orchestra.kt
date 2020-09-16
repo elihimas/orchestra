@@ -96,6 +96,8 @@ open class Animations : Block {
 
     fun slide() = add(SlideAction())
 
+    fun circularReveal() = add(CircularRevealAction())
+
     fun translate(x: Float, y: Float) = add(TranslateAction(x, y))
 
     fun cropShow() = add(CropShowAction())

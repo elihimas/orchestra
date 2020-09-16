@@ -23,6 +23,7 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
             Examples.Translate -> runTranslate()
             Examples.Scale -> runScale()
             Examples.Slide -> runSlide()
+            Examples.CircularReveal -> runCircularReveal()
             Examples.CoordinatorLayout, Examples.Form -> TODO()
         }
     }
@@ -95,4 +96,17 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
             animationEnded()
         }
     }
+
+    private fun runCircularReveal() {
+        val duration = configuration.duration
+
+        Orchestra.launch {
+            on(target)
+                    .circularReveal()
+                    .duration(duration)
+        }.then {
+            animationEnded()
+        }
+    }
+
 }

@@ -65,6 +65,13 @@ class SetupScaleAction(private val value: Float) : SetupAction() {
     }
 }
 
+class CircularRevealHideAction() : SetupAction() {
+    override fun runSetup(view: View) {
+        view.visibility = View.INVISIBLE
+    }
+
+}
+
 class SetupReference(vararg val views: View) {
 
     private val actions = mutableListOf<SetupAction>()
@@ -81,6 +88,8 @@ class SetupReference(vararg val views: View) {
     fun slideHide() = add(SlideHideAction())
 
     fun scale(value: Float) = add(SetupScaleAction(value))
+
+    fun circularRevealHide() = add(CircularRevealHideAction())
 
     fun runSetup() {
         actions.forEach {

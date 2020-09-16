@@ -23,6 +23,9 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
             Examples.Slide -> {
 
             }
+            Examples.CircularReveal -> {
+
+            }
             Examples.CoordinatorLayout -> {
                 configView
             }

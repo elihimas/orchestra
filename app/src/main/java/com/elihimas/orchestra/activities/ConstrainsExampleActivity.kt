@@ -1,6 +1,7 @@
 package com.elihimas.orchestra.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.R
@@ -17,6 +18,8 @@ class ConstrainsExampleActivity : AppCompatActivity() {
         butterflyImage.setOnClickListener {
             animate()
         }
+
+        Toast.makeText(this, R.string.constrains_layout_hint, Toast.LENGTH_LONG).show()
     }
 
     private fun animate() {

@@ -6,6 +6,7 @@ enum class Examples {
     Translate,
     Scale,
     Slide,
+    CircularReveal,
 
     ConstrainsLayout,
     CoordinatorLayout,
