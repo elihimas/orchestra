@@ -8,11 +8,13 @@ import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.animation.TranslateAnimation
-import androidx.core.animation.doOnEnd
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+enum class Direction {
+    Up, Down, Start, End;
+}
 
 abstract class Action(var duration: Long = 2600L, var spacing: Long = 0) {
     open fun runAnimation(view: View, endAction: Runnable?) {
@@ -55,7 +57,7 @@ class CircularRevealAction : Action() {
     }
 }
 
-class SlideAction : Action() {
+class SlideAction(private val direction: Direction) : Action() {
     override fun runAnimation(view: View, endAction: Runnable?) {
         val translate = TranslateAnimation(
                 0f,  // fromXDelta
@@ -68,15 +70,44 @@ class SlideAction : Action() {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
 
-        val finalHeight = view.measuredHeight
-        val initialTopMargin = (view.layoutParams as ViewGroup.MarginLayoutParams).topMargin
+        val finalMeasure = with(view) {
+            when (direction) {
+                Direction.Up, Direction.Down -> measuredHeight
+                Direction.Start, Direction.End -> measuredWidth
+            }
+        }
+        val initialMargin =
+                with(view.layoutParams as ViewGroup.MarginLayoutParams) {
+                    when (direction) {
+                        Direction.Up -> topMargin
+                        Direction.Down -> bottomMargin
+                        Direction.Start -> marginEnd
+                        Direction.End -> marginStart
+                    }
+                }
 
-        val animator = ValueAnimator.ofInt(0, finalHeight).apply {
+        val animator = ValueAnimator.ofInt(0, finalMeasure).apply {
             addUpdateListener { valueAnimator ->
                 val value = valueAnimator.animatedValue as Int
                 view.layoutParams = (view.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                    height = value
-                    topMargin = initialTopMargin - value
+                    when (direction) {
+                        Direction.Up -> {
+                            height = value
+                            topMargin = initialMargin - value
+                        }
+                        Direction.Down -> {
+                            height = value
+                            bottomMargin = initialMargin - value
+                        }
+                        Direction.Start -> {
+                            width = value
+                            marginEnd = initialMargin - value
+                        }
+                        Direction.End -> {
+                            width = value
+                            marginStart = initialMargin - value
+                        }
+                    }
                 }
             }
             this.duration = this@SlideAction.duration
@@ -88,27 +119,11 @@ class SlideAction : Action() {
         }
 
         animator.start()
-//
-//        translate.setAnimationListener(object : Animation.AnimationListener {
-//            override fun onAnimationRepeat(animation: Animation?) {
-//            }
-//
-//            override fun onAnimationEnd(animation: Animation?) {
-//                endAction?.run()
-//            }
-//
-//            override fun onAnimationStart(animation: Animation?) {
-//            }
-//
-//        })
-
-        //view.startAnimation(translate)
     }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         //nothing to do
     }
-
 }
 
 class ParallelActions(private val reference: Animations) : Action() {

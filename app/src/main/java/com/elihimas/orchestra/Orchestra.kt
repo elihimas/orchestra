@@ -94,7 +94,7 @@ open class Animations : Block {
     fun scale(scale: Float) = add(ScaleAction(scale))
     fun scale(scaleV: Int) = scale(scaleV.toFloat())
 
-    fun slide() = add(SlideAction())
+    fun slide(direction: Direction = Direction.Up) = add(SlideAction(direction))
 
     fun circularReveal() = add(CircularRevealAction())
 

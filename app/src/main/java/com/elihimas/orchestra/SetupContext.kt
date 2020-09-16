@@ -1,9 +1,6 @@
 package com.elihimas.orchestra
 
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.view.marginTop
 
 class SetupContext {
 
@@ -21,57 +18,6 @@ class SetupContext {
 
 }
 
-abstract class SetupAction {
-    fun runSetup(views: Array<out View>) {
-        views.forEach {
-            runSetup(it)
-        }
-    }
-
-    abstract fun runSetup(view: View)
-
-}
-
-class AlphaAction(private val value: Float) : SetupAction() {
-    override fun runSetup(view: View) {
-        view.alpha = value
-    }
-}
-
-class SlideHideAction : SetupAction() {
-    override fun runSetup(view: View) {
-        view.apply {
-
-            measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
-
-            val height = measuredHeight.toFloat()
-
-            layoutParams = (layoutParams as ViewGroup.MarginLayoutParams).also {
-                it.topMargin += height.toInt()
-                it.height = 0
-            }
-        }
-    }
-
-}
-
-class SetupScaleAction(private val value: Float) : SetupAction() {
-    override fun runSetup(view: View) {
-        view.apply {
-            scaleX = value
-            scaleY = value
-        }
-    }
-}
-
-class CircularRevealHideAction() : SetupAction() {
-    override fun runSetup(view: View) {
-        view.visibility = View.INVISIBLE
-    }
-
-}
-
 class SetupReference(vararg val views: View) {
 
     private val actions = mutableListOf<SetupAction>()
@@ -85,7 +31,7 @@ class SetupReference(vararg val views: View) {
     fun alpha(value: Float) = add(AlphaAction(value))
     fun alpha(value: Int) = alpha(value.toFloat())
 
-    fun slideHide() = add(SlideHideAction())
+    fun slideHide(direction: Direction = Direction.Up) = add(SlideHideAction(direction))
 
     fun scale(value: Float) = add(SetupScaleAction(value))
 

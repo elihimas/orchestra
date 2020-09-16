@@ -21,7 +21,7 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
                 configView.showScaleControls = true
             }
             Examples.Slide -> {
-
+                configView.showDirectionControls = true
             }
             Examples.CircularReveal -> {
 

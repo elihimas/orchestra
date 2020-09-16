@@ -1,15 +1,16 @@
 package com.elihimas.orchestra.usecases
 
 import android.view.View
+import com.elihimas.orchestra.Direction
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.Examples
-import kotlin.math.E
 
 interface AnimationConfiguration {
     var duration: Long
     var initialAlpha: Float
     var finalAlpha: Float
     var scale: Float
+    var direction: Direction
 }
 
 class AnimatorRunner(private val configuration: AnimationConfiguration,
@@ -83,14 +84,15 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
 
     private fun runSlide() {
         val duration = configuration.duration
+        val direction = configuration.direction
 
         Orchestra.setup {
-            on(target).slideHide()
+            on(target).slideHide(direction)
         }
 
         Orchestra.launch {
             on(target)
-                    .slide()
+                    .slide(direction)
                     .duration(duration)
         }.then {
             animationEnded()

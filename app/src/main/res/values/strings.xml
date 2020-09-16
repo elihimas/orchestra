@@ -6,6 +6,7 @@
     <string name="fade_out">Fade out</string>
     <string name="translate">Translate</string>
     <string name="scale">Scale</string>
+    <string name="direction">Direction</string>
     <string name="coordinator_layout">Coordinator layout</string>
     <string name="form">Form</string>
 
@@ -20,4 +21,8 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="circular_reveal">Circular reveal</string>
     <string name="constrains_layout_hint">Touch the image to animate</string>
+    <string name="direction_up">Up</string>
+    <string name="direction_down">Down</string>
+    <string name="direction_start">Start</string>
+    <string name="direction_end">End</string>
 </resources>

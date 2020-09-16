@@ -3,6 +3,7 @@ package com.elihimas.orchestra
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import com.elihimas.orchestra.usecases.AnimationConfiguration
 import kotlinx.android.synthetic.main.view_config_orchestra.view.*
@@ -11,8 +12,28 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     init {
         inflate(context, R.layout.view_config_orchestra, this)
+
+        val directionNames = mapDirectionNames(context)
+        directionSpinner.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, directionNames)
     }
 
+    private fun mapDirectionNames(context: Context) =
+            Direction.values().map { direction ->
+                {
+                    when (direction) {
+                        Direction.Up -> context.getString(R.string.direction_up)
+                        Direction.Down -> context.getString(R.string.direction_down)
+                        Direction.Start -> context.getString(R.string.direction_start)
+                        Direction.End -> context.getString(R.string.direction_end)
+                    }
+                }
+            }
+
+    override var direction: Direction
+        get() = Direction.values()[directionSpinner.selectedItemPosition]
+        set(value) {
+            directionSpinner.setSelection(value.ordinal)
+        }
     var showScaleControls: Boolean
         get() = scaleSeekBar.visibility == View.VISIBLE
         set(value) {
@@ -24,6 +45,19 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
             visibility.let {
                 scaleText.visibility = it
                 scaleSeekBar.visibility = it
+            }
+        }
+    var showDirectionControls: Boolean
+        get() = directionSpinner.visibility == View.VISIBLE
+        set(value) {
+            val visibility = if (value) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            visibility.let {
+                directionText.visibility = it
+                directionSpinner.visibility = it
             }
         }
     var showAlphaControls: Boolean
