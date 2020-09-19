@@ -2,6 +2,7 @@ package com.elihimas.orchestra.usecases
 
 import com.elihimas.orchestra.ConfigOrchestraView
 import com.elihimas.orchestra.model.Examples
+import java.lang.IllegalArgumentException
 
 class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
 
@@ -20,7 +21,7 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
             Examples.Scale -> {
                 configView.showScaleControls = true
             }
-            Examples.Slide -> {
+            Examples.Slide, Examples.SlideOut -> {
                 configView.showDirectionControls = true
             }
             Examples.CircularReveal -> {
@@ -32,6 +33,7 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
             Examples.Form -> {
                 configView
             }
+            else -> throw IllegalArgumentException("not implemented fot $example")
         }
     }
 }

@@ -13,10 +13,10 @@ class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
 
                 when (example) {
                     Examples.SlideOut, Examples.ConstrainsLayout, Examples.Form,
-                    Examples.Translate, Examples.Scale, Examples.Slide -> {
+                    Examples.Translate, Examples.Scale -> {
                         //nothing to do
                     }
-                    Examples.CircularReveal -> {
+                    Examples.CircularReveal, Examples.Slide -> {
                         setupReference.invisible()
                     }
                     Examples.FadeIn -> {

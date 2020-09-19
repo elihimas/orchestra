@@ -96,7 +96,7 @@ open class Animations : Block {
 
     fun slide(direction: Direction = Direction.Up) = add(SlideAction(direction))
 
-    fun slideOut(direction: Direction = Direction.Up) = add(SlideAction(direction, false))
+    fun slideOut(direction: Direction = Direction.Up) = add(SlideAction(direction, true))
 
     fun circularReveal() = add(CircularRevealAction())
 

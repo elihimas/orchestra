@@ -10,7 +10,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 enum class Direction {
-    Up, Down, Left, Right
+    Up, Down, Left, Right;
+
+    fun reverse(): Direction =
+            when (this) {
+                Up -> Down
+                Down -> Up
+                Left -> Right
+                Right -> Left
+            }
 }
 
 private fun Animation.setEndListener(block: (Animation?) -> Unit?) {
@@ -87,38 +95,54 @@ class CircularRevealAction : Action() {
     }
 }
 
+/**
+ * Slide in and out animation implementation
+ *
+ * @param direction the direction towards to the view should be animated
+ * @param reverseAnimation if the animation is a slide out animation
+ */
 class SlideAction(private val direction: Direction, private val reverseAnimation: Boolean = false) : Action() {
     override fun runAnimation(view: View, endAction: Runnable?) {
         view.visibility = View.VISIBLE
 
         val animator = if (reverseAnimation) {
-            ValueAnimator.ofFloat(1f, 0f)
-        } else {
             ValueAnimator.ofFloat(0f, 1f)
+        } else {
+            ValueAnimator.ofFloat(1f, 0f)
+        }
+
+        val actualDirection = if (reverseAnimation) {
+            direction.reverse()
+        } else {
+            direction
         }
 
         animator.apply {
-            when (direction) {
+            when (actualDirection) {
                 Direction.Up -> addUpdateListener {
-                    val down = view.height * (1 - animatedFraction)
+                    val value = this.animatedValue as Float
+                    val down = view.height * value
 
                     view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
                     view.translationY = down
                 }
                 Direction.Down -> addUpdateListener {
-                    val top = view.height * (1 - animatedFraction)
+                    val value = this.animatedValue as Float
+                    val top = view.height * value
 
                     view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
                     view.translationY = -top
                 }
                 Direction.Left -> addUpdateListener {
-                    val right = view.width * (1 - animatedFraction)
+                    val value = this.animatedValue as Float
+                    val right = view.width * value
 
                     view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
                     view.translationX = right
                 }
                 Direction.Right -> addUpdateListener {
-                    val left = view.width * (1 - animatedFraction)
+                    val value = this.animatedValue as Float
+                    val left = view.width * value
 
                     view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
                     view.translationX = -left
@@ -126,6 +150,12 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
             }
 
             addEndListener {
+                if (reverseAnimation) {
+                    view.visibility = View.INVISIBLE
+                    view.clipBounds = null
+                    view.translationX = 0.0f
+                    view.translationY = 0.0f
+                }
                 endAction?.run()
             }
             this.duration = this@SlideAction.duration

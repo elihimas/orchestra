@@ -4,6 +4,7 @@ import android.view.View
 import com.elihimas.orchestra.Direction
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.Examples
+import java.lang.IllegalArgumentException
 
 interface AnimationConfiguration {
     var duration: Long
@@ -24,8 +25,9 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
             Examples.Translate -> runTranslate()
             Examples.Scale -> runScale()
             Examples.Slide -> runSlide()
+            Examples.SlideOut -> runSlideOut()
             Examples.CircularReveal -> runCircularReveal()
-            Examples.CoordinatorLayout, Examples.Form -> TODO()
+            else -> throw IllegalArgumentException("not implemented for: $example")
         }
     }
 
@@ -89,6 +91,19 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
         Orchestra.launch {
             on(target)
                     .slide(direction)
+                    .duration(duration)
+        }.then {
+            animationEnded()
+        }
+    }
+
+    private fun runSlideOut() {
+        val duration = configuration.duration
+        val direction = configuration.direction
+
+        Orchestra.launch {
+            on(target)
+                    .slideOut(direction)
                     .duration(duration)
         }.then {
             animationEnded()
