@@ -22,6 +22,8 @@ class FormExampleActivity : AppCompatActivity() {
             on(form)
                     .alpha(0)
                     .scale(0.1f)
+            on(*slideViews)
+                    .invisible()
         }
 
         Orchestra.launch {

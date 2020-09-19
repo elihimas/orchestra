@@ -12,27 +12,20 @@ class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
                 val setupReference = on(butterflyImage)
 
                 when (example) {
+                    Examples.SlideOut, Examples.ConstrainsLayout, Examples.Form,
+                    Examples.Translate, Examples.Scale, Examples.Slide -> {
+                        //nothing to do
+                    }
+                    Examples.CircularReveal -> {
+                        setupReference.invisible()
+                    }
                     Examples.FadeIn -> {
                         setupReference.alpha(0f)
                     }
                     Examples.FadeOut -> {
                         setupReference.alpha(1f)
                     }
-                    Examples.Translate -> {
-                        setupReference
-                    }
-                    Examples.Scale -> {
-                        setupReference
-                    }
-                    Examples.Slide -> {
-                    }
-                    Examples.CircularReveal -> {
-                        setupReference.circularRevealHide()
-                    }
                     Examples.CoordinatorLayout -> {
-                        setupReference
-                    }
-                    Examples.Form -> {
                         setupReference
                     }
                 }

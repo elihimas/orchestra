@@ -9,16 +9,19 @@ class ExampleStarter(private val context: Context) {
 
     fun execute(example: Examples) {
         val nextClass = when (example) {
-            Examples.FadeIn -> FadeInExampleActivity::class.java
-            Examples.FadeOut -> FadeOutExampleActivity::class.java
-            Examples.Translate -> TranslateExampleActivity::class.java
-            Examples.Scale -> ScaleExampleActivity::class.java
-            Examples.CircularReveal->CircularRevealExampleActivity::class.java
-            Examples.Slide-> SlideExampleActivity::class.java
+            Examples.FadeIn, Examples.FadeOut, Examples.Scale,
+            Examples.Slide, Examples.SlideOut, Examples.Translate,
+            Examples.CircularReveal -> null
+
             Examples.CoordinatorLayout -> CoordinatorExampleActivity::class.java
             Examples.ConstrainsLayout -> ConstrainsExampleActivity::class.java
             Examples.Form -> FormExampleActivity::class.java
+
         }
-        context.startActivity(Intent(context, nextClass))
+        if (nextClass == null) {
+            CenteredImageActivity.startActivity(context, example)
+        } else {
+            context.startActivity(Intent(context, nextClass))
+        }
     }
 }

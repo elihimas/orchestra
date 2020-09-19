@@ -18,11 +18,11 @@ class SetupContext {
 
 }
 
-class SetupReference(vararg val views: View) {
+class SetupReference(private vararg val views: View) {
 
     private val actions = mutableListOf<SetupAction>()
 
-    open fun add(action: SetupAction): SetupReference {
+    private fun add(action: SetupAction): SetupReference {
         actions.add(action)
 
         return this
@@ -33,7 +33,7 @@ class SetupReference(vararg val views: View) {
 
     fun scale(value: Float) = add(SetupScaleAction(value))
 
-    fun circularRevealHide() = add(CircularRevealHideAction())
+    fun invisible() = add(InvisibleAction())
 
     fun runSetup() {
         actions.forEach {

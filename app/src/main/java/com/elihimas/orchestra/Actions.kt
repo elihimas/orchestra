@@ -87,11 +87,17 @@ class CircularRevealAction : Action() {
     }
 }
 
-class SlideAction(private val direction: Direction) : Action() {
+class SlideAction(private val direction: Direction, private val reverseAnimation: Boolean = false) : Action() {
     override fun runAnimation(view: View, endAction: Runnable?) {
         view.visibility = View.VISIBLE
 
-        val animator = ValueAnimator.ofFloat(0f, 1f).apply {
+        val animator = if (reverseAnimation) {
+            ValueAnimator.ofFloat(1f, 0f)
+        } else {
+            ValueAnimator.ofFloat(0f, 1f)
+        }
+
+        animator.apply {
             when (direction) {
                 Direction.Up -> addUpdateListener {
                     val down = view.height * (1 - animatedFraction)

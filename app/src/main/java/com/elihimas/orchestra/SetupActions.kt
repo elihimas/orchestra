@@ -27,7 +27,7 @@ class SetupScaleAction(private val value: Float) : SetupAction() {
     }
 }
 
-class CircularRevealHideAction() : SetupAction() {
+class InvisibleAction() : SetupAction() {
     override fun runSetup(view: View) {
         view.visibility = View.INVISIBLE
     }
