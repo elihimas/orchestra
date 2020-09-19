@@ -1,19 +1,50 @@
 package com.elihimas.orchestra
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.view.View
-import android.view.ViewAnimationUtils
-import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
-import android.view.animation.TranslateAnimation
+import android.graphics.Rect
+import android.view.*
+import android.view.animation.Animation
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 enum class Direction {
-    Up, Down, Start, End;
+    Up, Down, Left, Right
+}
+
+private fun Animation.setEndListener(block: (Animation?) -> Unit?) {
+    setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {
+
+        }
+
+        override fun onAnimationRepeat(animation: Animation?) {
+        }
+
+        override fun onAnimationEnd(animation: Animation?) {
+            block(animation)
+        }
+
+    })
+}
+
+private fun Animator.addEndListener(block: (Animator?) -> Unit?) {
+    addListener(object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator?) {
+        }
+
+        override fun onAnimationEnd(animation: Animator?) {
+            block(animation)
+        }
+
+        override fun onAnimationCancel(animation: Animator?) {
+        }
+
+        override fun onAnimationRepeat(animation: Animator?) {
+        }
+
+    })
 }
 
 abstract class Action(var duration: Long = 2600L, var spacing: Long = 0) {
@@ -43,12 +74,11 @@ class CircularRevealAction : Action() {
         val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0f, finalRadius)
         // make the view visible and start the animation
         view.visibility = View.VISIBLE
-        anim.addListener(object : AnimatorListenerAdapter() {
+        anim.duration = duration
 
-            override fun onAnimationEnd(animation: Animator?) {
-                endAction?.run()
-            }
-        })
+        anim.addEndListener {
+            endAction?.run()
+        }
         anim.start()
     }
 
@@ -59,72 +89,51 @@ class CircularRevealAction : Action() {
 
 class SlideAction(private val direction: Direction) : Action() {
     override fun runAnimation(view: View, endAction: Runnable?) {
-        val translate = TranslateAnimation(
-                0f,  // fromXDelta
-                0f,  // toXDelta
-                view.height.toFloat(),  // fromYDelta
-                0f) // toYDelta
-        translate.duration = duration
-        translate.fillAfter = true
+        view.visibility = View.VISIBLE
 
-        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
-
-        val finalMeasure = with(view) {
+        val animator = ValueAnimator.ofFloat(0f, 1f).apply {
             when (direction) {
-                Direction.Up, Direction.Down -> measuredHeight
-                Direction.Start, Direction.End -> measuredWidth
-            }
-        }
-        val initialMargin =
-                with(view.layoutParams as ViewGroup.MarginLayoutParams) {
-                    when (direction) {
-                        Direction.Up -> topMargin
-                        Direction.Down -> bottomMargin
-                        Direction.Start -> marginEnd
-                        Direction.End -> marginStart
-                    }
-                }
+                Direction.Up -> addUpdateListener {
+                    val down = view.height * (1 - animatedFraction)
 
-        val animator = ValueAnimator.ofInt(0, finalMeasure).apply {
-            addUpdateListener { valueAnimator ->
-                val value = valueAnimator.animatedValue as Int
-                view.layoutParams = (view.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                    when (direction) {
-                        Direction.Up -> {
-                            height = value
-                            topMargin = initialMargin - value
-                        }
-                        Direction.Down -> {
-                            height = value
-                            bottomMargin = initialMargin - value
-                        }
-                        Direction.Start -> {
-                            width = value
-                            marginEnd = initialMargin - value
-                        }
-                        Direction.End -> {
-                            width = value
-                            marginStart = initialMargin - value
-                        }
-                    }
+                    view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
+                    view.translationY = down
                 }
+                Direction.Down -> addUpdateListener {
+                    val top = view.height * (1 - animatedFraction)
+
+                    view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
+                    view.translationY = -top
+                }
+                Direction.Left -> addUpdateListener {
+                    val right = view.width * (1 - animatedFraction)
+
+                    view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
+                    view.translationX = right
+                }
+                Direction.Right -> addUpdateListener {
+                    val left = view.width * (1 - animatedFraction)
+
+                    view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
+                    view.translationX = -left
+                }
+            }
+
+            addEndListener {
+                endAction?.run()
             }
             this.duration = this@SlideAction.duration
-            addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    endAction?.run()
-                }
-            })
         }
-
         animator.start()
     }
 
+
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
+
         //nothing to do
     }
 }
+
 
 class ParallelActions(private val reference: Animations) : Action() {
 

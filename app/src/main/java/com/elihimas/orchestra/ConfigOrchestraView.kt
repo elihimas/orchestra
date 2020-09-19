@@ -19,13 +19,11 @@ class ConfigOrchestraView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     private fun mapDirectionNames(context: Context) =
             Direction.values().map { direction ->
-                {
-                    when (direction) {
-                        Direction.Up -> context.getString(R.string.direction_up)
-                        Direction.Down -> context.getString(R.string.direction_down)
-                        Direction.Start -> context.getString(R.string.direction_start)
-                        Direction.End -> context.getString(R.string.direction_end)
-                    }
+                when (direction) {
+                    Direction.Up -> context.getString(R.string.direction_up)
+                    Direction.Down -> context.getString(R.string.direction_down)
+                    Direction.Left -> context.getString(R.string.direction_left)
+                    Direction.Right -> context.getString(R.string.direction_right)
                 }
             }
 

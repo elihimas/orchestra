@@ -86,10 +86,6 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
         val duration = configuration.duration
         val direction = configuration.direction
 
-        Orchestra.setup {
-            on(target).slideHide(direction)
-        }
-
         Orchestra.launch {
             on(target)
                     .slide(direction)

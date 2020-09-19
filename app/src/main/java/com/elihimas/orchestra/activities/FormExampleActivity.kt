@@ -19,8 +19,6 @@ class FormExampleActivity : AppCompatActivity() {
         val slideViews = arrayOf(titleText, loginText, loginEditText, passwordText, passwordEditText, loginButton)
 
         Orchestra.setup {
-            on(*slideViews).slideHide()
-
             on(form)
                     .alpha(0)
                     .scale(0.1f)

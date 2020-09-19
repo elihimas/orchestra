@@ -31,8 +31,6 @@ class SetupReference(vararg val views: View) {
     fun alpha(value: Float) = add(AlphaAction(value))
     fun alpha(value: Int) = alpha(value.toFloat())
 
-    fun slideHide(direction: Direction = Direction.Up) = add(SlideHideAction(direction))
-
     fun scale(value: Float) = add(SetupScaleAction(value))
 
     fun circularRevealHide() = add(CircularRevealHideAction())
