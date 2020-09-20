@@ -1,29 +1,47 @@
 <resources>
     <string name="app_name">Orchestra</string>
+
+    <!--    examples-->
     <string name="examples_title">Examples</string>
 
     <string name="fade_in">Fade in</string>
     <string name="fade_out">Fade out</string>
     <string name="translate">Translate</string>
     <string name="scale">Scale</string>
-    <string name="direction">Direction</string>
+    <string name="slide">Slide</string>
+    <string name="slide_out">Slide out</string>
+    <string name="circular_reveal">Circular reveal</string>
+    <string name="bouncing">Bouncing</string>
+    <string name="constrains_layout">Constrains layout</string>
     <string name="coordinator_layout">Coordinator layout</string>
     <string name="form">Form</string>
 
+    <!--    examples-->
+
+    <!--    animation configuration-->
     <string name="duration">Duration</string>
     <string name="initial_alpha">Initial alpha</string>
     <string name="final_alpha">Final alpha</string>
+    <string name="direction">Direction</string>
     <string name="animate">Animate</string>
-    <string name="slide">Slide</string>
-    <string name="slide_out">Slide out</string>
-    <string name="constrains_layout">Constrains layout</string>
-    <string name="awesome_butterfly">Awesome butterfly</string>
-
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
-    <string name="circular_reveal">Circular reveal</string>
-    <string name="constrains_layout_hint">Touch the image to animate</string>
     <string name="direction_up">Up</string>
     <string name="direction_down">Down</string>
     <string name="direction_left">Left</string>
     <string name="direction_right">Right</string>
+    <!--    animation configuration-->
+
+    <!--    constrains example-->
+    <string name="constrains_layout_hint">Touch the image to animate</string>
+    <string name="awesome_butterfly">Awesome butterfly</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <!--    constrains example-->
+
+    <!--    bouncing example-->
+    <string name="awesome_text">Awesome text</string>
+    <string name="awesome_button">Awesome button to gain attention</string>
+    <string name="long_quote">O bom senso é a coisa do mundo melhor partilhada, pois cada um pensa estar tão bem provido dele, que mesmo os mais difíceis de contentar em qualquer outra coisa não costumam desejar tê-lo mais do que o têm</string>
+    <string name="bouncing_rationale">once upon a time there was two stick persons som confusion mispeled words and lack of order.... but a effect can tell where you should focus. and it is not me although I\'m the explanation of the whole point</string>
+    <string name="at_last_message">At last!!</string>
+    <!--    bouncing example-->
 </resources>
+

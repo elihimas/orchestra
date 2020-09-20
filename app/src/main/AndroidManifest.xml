@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.BouncingButtonExampleActivity"
+            android:label="@string/bouncing" />
+        <activity
             android:name=".activities.CenteredImageActivity"
             android:label="@string/translate" />
         <activity

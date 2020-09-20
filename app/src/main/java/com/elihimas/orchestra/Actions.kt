@@ -55,9 +55,11 @@ private fun Animator.addEndListener(block: (Animator?) -> Unit?) {
     })
 }
 
-abstract class Action(var duration: Long = 2600L, var spacing: Long = 0) {
+abstract class Action(var duration: Long = OrchestraConfiguration.General.duration,
+                      var spacing: Long = OrchestraConfiguration.General.spacing) {
     open fun runAnimation(view: View, endAction: Runnable?) {
         beforeAnimation(view)
+
         addAnimation(view, view.animate().also {
             it.withEndAction(endAction)
                     .setDuration(duration)
@@ -158,6 +160,7 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
                 }
                 endAction?.run()
             }
+
             this.duration = this@SlideAction.duration
         }
         animator.start()
@@ -165,7 +168,6 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
 
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-
         //nothing to do
     }
 }

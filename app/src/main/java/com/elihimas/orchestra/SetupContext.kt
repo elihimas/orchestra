@@ -35,6 +35,18 @@ class SetupReference(private vararg val views: View) {
 
     fun invisible() = add(InvisibleAction())
 
+    fun bounce() = add(BounceAction())
+    fun bounce(config: BounceAction.() -> Unit): SetupReference {
+        with(BounceAction()) {
+            add(this)
+            config.invoke(this)
+        }
+
+        return this
+    }
+
+    fun onClick(onClickListener: View.OnClickListener) = add(OnClick(onClickListener))
+
     fun runSetup() {
         actions.forEach {
             it.runSetup(views)
