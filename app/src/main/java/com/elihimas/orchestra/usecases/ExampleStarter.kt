@@ -2,6 +2,7 @@ package com.elihimas.orchestra.usecases
 
 import android.content.Context
 import android.content.Intent
+import com.elihimas.orchestra.BackgroundAndTextColorExampleActivity
 import com.elihimas.orchestra.activities.*
 import com.elihimas.orchestra.model.Examples
 
@@ -14,6 +15,7 @@ class ExampleStarter(private val context: Context) {
             Examples.CircularReveal -> null
 
             Examples.Bouncing -> BouncingButtonExampleActivity::class.java
+            Examples.BackgroundAndTextColor -> BackgroundAndTextColorExampleActivity::class.java
             Examples.CoordinatorLayout -> CoordinatorExampleActivity::class.java
             Examples.ConstrainsLayout -> ConstrainsExampleActivity::class.java
             Examples.Form -> FormExampleActivity::class.java

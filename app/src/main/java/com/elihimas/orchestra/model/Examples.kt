@@ -10,6 +10,7 @@ enum class Examples {
     CircularReveal,
 
     Bouncing,
+    BackgroundAndTextColor,
 
     ConstrainsLayout,
     CoordinatorLayout,

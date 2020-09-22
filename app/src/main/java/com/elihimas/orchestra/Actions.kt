@@ -1,10 +1,15 @@
 package com.elihimas.orchestra
 
-import android.animation.Animator
+import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.graphics.Rect
-import android.view.*
-import android.view.animation.Animation
+import android.graphics.drawable.ColorDrawable
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewPropertyAnimator
+import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.core.animation.doOnEnd
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,42 +26,10 @@ enum class Direction {
             }
 }
 
-private fun Animation.setEndListener(block: (Animation?) -> Unit?) {
-    setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationStart(animation: Animation?) {
-
-        }
-
-        override fun onAnimationRepeat(animation: Animation?) {
-        }
-
-        override fun onAnimationEnd(animation: Animation?) {
-            block(animation)
-        }
-
-    })
-}
-
-private fun Animator.addEndListener(block: (Animator?) -> Unit?) {
-    addListener(object : Animator.AnimatorListener {
-        override fun onAnimationStart(animation: Animator?) {
-        }
-
-        override fun onAnimationEnd(animation: Animator?) {
-            block(animation)
-        }
-
-        override fun onAnimationCancel(animation: Animator?) {
-        }
-
-        override fun onAnimationRepeat(animation: Animator?) {
-        }
-
-    })
-}
-
 abstract class Action(var duration: Long = OrchestraConfiguration.General.duration,
                       var spacing: Long = OrchestraConfiguration.General.spacing) {
+    open fun beforeAnimation(view: View) {}
+
     open fun runAnimation(view: View, endAction: Runnable?) {
         beforeAnimation(view)
 
@@ -67,9 +40,7 @@ abstract class Action(var duration: Long = OrchestraConfiguration.General.durati
         })
     }
 
-    open fun beforeAnimation(view: View) {}
-
-    abstract fun addAnimation(view: View, animation: ViewPropertyAnimator)
+    open fun addAnimation(view: View, animation: ViewPropertyAnimator) {}
 }
 
 class CircularRevealAction : Action() {
@@ -86,9 +57,8 @@ class CircularRevealAction : Action() {
         view.visibility = View.VISIBLE
         anim.duration = duration
 
-        anim.addEndListener {
-            endAction?.run()
-        }
+        anim.doOnEnd { endAction?.run() }
+
         anim.start()
     }
 
@@ -151,7 +121,7 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
                 }
             }
 
-            addEndListener {
+            doOnEnd {
                 if (reverseAnimation) {
                     view.visibility = View.INVISIBLE
                     view.clipBounds = null
@@ -166,18 +136,16 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
         animator.start()
     }
 
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        //nothing to do
-    }
 }
-
 
 class ParallelActions(private val reference: Animations) : Action() {
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
+    }
+
+    override fun runAnimation(view: View, endAction: Runnable?) {
         reference.actions.forEach { action ->
-            action.addAnimation(view, animation)
+            action.runAnimation(view, endAction)
         }
     }
 }
@@ -188,10 +156,6 @@ class DelayAction(duration: Long) : Action(duration) {
             delay(duration)
             endAction?.run()
         }
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        //nothing to do
     }
 }
 
@@ -204,23 +168,53 @@ class TranslateAction(private val x: Float, private val y: Float) : Action() {
     }
 }
 
-class CropShowAction : Action() {
+abstract class AnimateColorAction(@ColorRes vararg val colorResIds: Int) : Action() {
+    override fun runAnimation(view: View, endAction: Runnable?) {
+        val resources = view.context.resources
+        val colorTo = colorResIds.map { resources.getColor(it, view.context.theme) }.toTypedArray()
+        val colorAnimation =
+                if (colorTo.size == 1) {
+                    val firstColor: Int = with(view.background) {
+                        if (this is ColorDrawable) {
+                            this.color
+                        } else {
+                            resources.getColor(android.R.color.transparent, view.context.theme)
+                        }
+                    }
+                    ValueAnimator.ofObject(ArgbEvaluator(), firstColor, colorTo[0])
+                } else {
+                    ValueAnimator.ofObject(ArgbEvaluator(), *colorTo)
+                }
 
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation.setUpdateListener { animator ->
-            view.layoutParams.let {
-                it.width = (animator.animatedFraction * 100).toInt()
-                view.layoutParams = it
-            }
+        with(colorAnimation) {
+            duration = this@AnimateColorAction.duration
+
+            addUpdateListener(createUpdateListener(view))
+            doOnEnd { endAction?.run() }
+            start()
+        }
+    }
+
+    abstract fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener
+}
+
+class ChangeTextColorAction(@ColorRes vararg colorResIds: Int) : AnimateColorAction(*colorResIds) {
+    override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
+        return ValueAnimator.AnimatorUpdateListener {
+            (view as TextView?)?.setTextColor(it.animatedValue as Int)
         }
     }
 }
 
+class ChangeBackgroundAction(@ColorRes vararg colorResIds: Int) : AnimateColorAction(*colorResIds) {
+    override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
+        return ValueAnimator.AnimatorUpdateListener {
+            (view as TextView).setBackgroundColor(it.animatedValue as Int)
+        }
+    }
+}
 
 class ScaleAction(private val scale: Float) : Action() {
-    override fun beforeAnimation(view: View) {
-        view.scaleX
-    }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation

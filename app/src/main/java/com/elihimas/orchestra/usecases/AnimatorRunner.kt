@@ -32,91 +32,87 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
     }
 
     private fun runFadeIn() {
-        val duration = configuration.duration
-        val initialAlpha = configuration.initialAlpha
-        val finalAlpha = configuration.finalAlpha
-
         Orchestra.launch {
             on(target)
-                    .fadeIn(initialAlpha, finalAlpha)
-                    .duration(duration)
+                    .fadeIn {
+                        initialAlpha = configuration.initialAlpha
+                        finalAlpha = configuration.finalAlpha
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runFadeOut() {
-        val duration = configuration.duration
-        val initialAlpha = configuration.initialAlpha
-        val finalAlpha = configuration.finalAlpha
-
         Orchestra.launch {
             on(target)
-                    .fadeIn(initialAlpha, finalAlpha)
-                    .duration(duration)
+                    .fadeIn {
+                        duration = configuration.duration
+                        initialAlpha = configuration.initialAlpha
+                        finalAlpha = configuration.finalAlpha
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runTranslate() {
-        val duration = configuration.duration
-
         Orchestra.launch {
             on(target)
-                    .translate(0f, 600f)
-                    .duration(duration)
+                    .translate(0f, 600f) {
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runScale() {
-        val duration = configuration.duration
         val scale = configuration.scale
 
         Orchestra.launch {
             on(target)
-                    .scale(scale)
-                    .duration(duration)
+                    .scale(scale) {
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runSlide() {
-        val duration = configuration.duration
         val direction = configuration.direction
 
         Orchestra.launch {
             on(target)
-                    .slide(direction)
-                    .duration(duration)
+                    .slide(direction){
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runSlideOut() {
-        val duration = configuration.duration
         val direction = configuration.direction
 
         Orchestra.launch {
             on(target)
-                    .slideOut(direction)
-                    .duration(duration)
+                    .slideOut(direction){
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }
     }
 
     private fun runCircularReveal() {
-        val duration = configuration.duration
-
         Orchestra.launch {
             on(target)
-                    .circularReveal()
-                    .duration(duration)
+                    .circularReveal(){
+                        duration = configuration.duration
+                    }
         }.then {
             animationEnded()
         }

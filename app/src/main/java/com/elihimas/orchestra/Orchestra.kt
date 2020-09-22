@@ -7,6 +7,7 @@ import android.transition.TransitionManager
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.AnticipateOvershootInterpolator
+import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ interface Block {
     suspend fun runBlock(orchestra: Orchestra)
 }
 
-class FadeInAction(private val initialAlpha: Float = 0f, private val finalAlpha: Float = 1f) : Action(600) {
+class FadeInAction(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Action(600) {
 
     override fun beforeAnimation(view: View) {
         view.alpha = initialAlpha
@@ -34,8 +35,10 @@ class FadeInAction(private val initialAlpha: Float = 0f, private val finalAlpha:
     }
 }
 
+typealias FadeOutAction = FadeInAction
+
 //TODO review this class
-class ChangeConstrainsBlock(val root: ConstraintLayout, val layoutId: Int, var duration: Long = 2600) : Block {
+class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 2600) : Block {
 
     override suspend fun runBlock(orchestra: Orchestra) {
         val transition: Transition = ChangeBounds()
@@ -58,22 +61,12 @@ class ChangeConstrainsBlock(val root: ConstraintLayout, val layoutId: Int, var d
 open class Animations : Block {
 
     val actions = mutableListOf<Action>()
-    var lastAction: Action? = null
 
-    open fun add(action: Action): Animations {
+    open fun <T : Action> add(action: T, config: (T.() -> Unit)?): Animations {
         actions.add(action)
-        lastAction = action
 
-        return this
-    }
+        config?.invoke(action)
 
-    open fun duration(duration: Long): Animations {
-        lastAction?.duration = duration
-        return this
-    }
-
-    open fun spacing(spacing: Long): Animations {
-        lastAction?.spacing = spacing
         return this
     }
 
@@ -83,31 +76,54 @@ open class Animations : Block {
         return this
     }
 
-    fun delay(duration: Long) = add(DelayAction(duration))
+    fun fadeIn(config: (FadeInAction.() -> Unit)?) = add(FadeInAction(), config)
+    fun fadeIn() = fadeIn(null)
 
-    fun fadeIn() = fadeIn(0f, 1f)
-    fun fadeIn(initialAlpha: Float = 0f, finalAlpha: Float = 1f) = add(FadeInAction(initialAlpha, finalAlpha))
+    fun fadeOut(config: (FadeOutAction.() -> Unit)?) = add(FadeInAction(1f, 0f), config)
+    fun fadeOut() = fadeOut(null)
 
-    fun fadeOut() = fadeIn(1f, 0f)
-    fun fadeOut(initialAlpha: Float = 1f, finalAlpha: Float = 0f) = fadeIn(initialAlpha, finalAlpha)
+    fun scale(scale: Float, config: (ScaleAction.() -> Unit)? = null) = add(ScaleAction(scale), config)
+    fun scale(scale: Int, config: (ScaleAction.() -> Unit)? = null) = scale(scale.toFloat(), config)
+    fun scale(scale: Float) = scale(scale, null)
 
-    fun scale(scale: Float) = add(ScaleAction(scale))
-    fun scale(scaleV: Int) = scale(scaleV.toFloat())
+    fun slide(direction: Direction = Direction.Up, config: (SlideAction.() -> Unit)? = null) =
+            add(SlideAction(direction), config)
 
-    fun slide(direction: Direction = Direction.Up) = add(SlideAction(direction))
+    fun slide(direction: Direction = Direction.Up) = slide(direction, null)
 
-    fun slideOut(direction: Direction = Direction.Up) = add(SlideAction(direction, true))
+    fun slideOut(direction: Direction = Direction.Up, config: (SlideAction.() -> Unit)? = null) =
+            add(SlideAction(direction, true), config)
 
-    fun circularReveal() = add(CircularRevealAction())
+    fun slideOut(direction: Direction = Direction.Up) = slideOut(direction, null)
 
-    fun translate(x: Float, y: Float) = add(TranslateAction(x, y))
+    fun circularReveal(config: (CircularRevealAction.() -> Unit)? = null) =
+            add(CircularRevealAction(), config)
 
-    fun cropShow() = add(CropShowAction())
+    fun circularReveal() = circularReveal(null)
+
+    fun translate(x: Float, y: Float, config: (TranslateAction.() -> Unit)? = null) =
+            add(TranslateAction(x, y), config)
+
+    fun translate(x: Float, y: Float) = translate(x, y, null)
+
+    fun changeBackground(@ColorRes vararg colorResIds: Int,
+                         config: (ChangeBackgroundAction.() -> Unit)? = null) =
+            add(ChangeBackgroundAction(*colorResIds), config)
+
+    fun changeBackground(@ColorRes vararg colorResIds: Int) = changeBackground(*colorResIds, config = null)
+
+    //TODO make available only to TextViews
+    fun changeTextColor(@ColorRes vararg colorResIds: Int,
+                        config: (ChangeTextColorAction.() -> Unit)? = null) =
+            add(ChangeTextColorAction(*colorResIds), config)
+
+    //TODO make available only to TextViews
+    fun changeTextColor(@ColorRes vararg colorResIds: Int) = changeTextColor(*colorResIds, config = null)
 
     fun parallel(block: Consumer<Animations>): Animations {
         Animations().also { insideReference ->
             block.accept(insideReference)
-            add(ParallelActions(insideReference))
+            add(ParallelActions(insideReference), null)//TODO: verify how to configure parallel actions
         }
 
         return this
@@ -116,9 +132,7 @@ open class Animations : Block {
     fun parallel(block: Animations.() -> Unit): Animations {
         Animations().also { insideReference ->
             block.invoke(insideReference)
-            val action = ParallelActions(insideReference).also {
-                lastAction = it
-            }
+            val action = ParallelActions(insideReference)
             actions.add(action)
         }
 
@@ -130,14 +144,14 @@ open class Animations : Block {
     }
 }
 
-open class ViewReference(vararg val views: View) : Animations() {
+open class ViewReference(private vararg val views: View) : Animations() {
     override suspend fun runBlock(orchestra: Orchestra) {
         actions.forEach { action ->
             val latch = CountDownLatch(views.size)
             if (views.size > 1) {
                 views.forEach { view ->
                     GlobalScope.launch(Dispatchers.Main) {
-                        action.runAnimation(view, Runnable { latch.countDown() })
+                        action.runAnimation(view) { latch.countDown() }
                     }
 
                     coroutineDelay(action.spacing)
@@ -145,7 +159,7 @@ open class ViewReference(vararg val views: View) : Animations() {
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
                     views.forEach { view ->
-                        action.runAnimation(view, Runnable { latch.countDown() })
+                        action.runAnimation(view) { latch.countDown() }
                     }
                 }
             }
@@ -155,7 +169,7 @@ open class ViewReference(vararg val views: View) : Animations() {
 
 }
 
-class ParallelBlock(val orchestraContext: Orchestra) : Block {
+class ParallelBlock(private val orchestraContext: Orchestra) : Block {
     override suspend fun runBlock(orchestra: Orchestra) {
         orchestraContext.blocks.let { blocks ->
             val parallelLatch = CountDownLatch(blocks.size)
@@ -293,6 +307,7 @@ class Orchestra : OrchestraContext, ParallelContext {
             return orchestraContext
         }
 
+        //TODO implement shot or long functionality
         fun shortOrLong(short: () -> Unit, long: () -> Unit) {
             val stacktrace = Thread.currentThread().stackTrace
             val callerClassName = stacktrace[3].className

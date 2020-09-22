@@ -15,7 +15,6 @@
     <string name="constrains_layout">Constrains layout</string>
     <string name="coordinator_layout">Coordinator layout</string>
     <string name="form">Form</string>
-
     <!--    examples-->
 
     <!--    animation configuration-->
@@ -42,6 +41,7 @@
     <string name="long_quote">O bom senso é a coisa do mundo melhor partilhada, pois cada um pensa estar tão bem provido dele, que mesmo os mais difíceis de contentar em qualquer outra coisa não costumam desejar tê-lo mais do que o têm</string>
     <string name="bouncing_rationale">once upon a time there was two stick persons som confusion mispeled words and lack of order.... but a effect can tell where you should focus. and it is not me although I\'m the explanation of the whole point</string>
     <string name="at_last_message">At last!!</string>
+    <string name="background_text_color">Background and text color</string>
     <!--    bouncing example-->
 </resources>
 

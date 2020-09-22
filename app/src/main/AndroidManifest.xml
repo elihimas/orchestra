@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".BackgroundAndTextColorExampleActivity"
+            android:label="@string/background_text_color" />
+        <activity
             android:name=".activities.BouncingButtonExampleActivity"
             android:label="@string/bouncing" />
         <activity

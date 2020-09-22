@@ -28,14 +28,19 @@ class FormExampleActivity : AppCompatActivity() {
 
         Orchestra.launch {
             on(form).parallel {
-                fadeIn()
-                scale(1f)
-            }.duration(200)
+                fadeIn {
+                    duration = 160
+                }
+                scale(1f) {
+                    duration = 400
+                }
+            }
 
             on(*slideViews)
-                    .slide()
-                    .duration(380)
-                    .spacing(120)
+                    .slide {
+                        duration = 380
+                        spacing = 120
+                    }
         }
     }
 }
