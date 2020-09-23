@@ -2,38 +2,34 @@ package com.elihimas.orchestra.usecases
 
 import com.elihimas.orchestra.ConfigOrchestraView
 import com.elihimas.orchestra.model.Examples
-import java.lang.IllegalArgumentException
 
 class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
 
     fun execute(example: Examples) {
-        when (example) {
+        val doExecute = when (example) {
             Examples.FadeIn -> {
-                configView.showAlphaControls = true
+                { configView.showAlphaControls = true }
             }
             Examples.FadeOut -> {
-                configView.showAlphaControls = true
-                configView.initialAlpha = 1f
-                configView.finalAlpha = 0f
+                {
+                    configView.showAlphaControls = true
+                    configView.initialAlpha = 1f
+                    configView.finalAlpha = 0f
+                }
             }
-            Examples.Translate -> {
+            Examples.Translate, Examples.CircularReveal, Examples.BackgroundAndTextColor,
+            Examples.Bouncing, Examples.Form, Examples.ConstrainsLayout,
+            Examples.Rotate, Examples.CoordinatorLayout -> {
+                {/*nothing to do*/ }
             }
             Examples.Scale -> {
-                configView.showScaleControls = true
+                { configView.showScaleControls = true }
             }
             Examples.Slide, Examples.SlideOut -> {
-                configView.showDirectionControls = true
+                { configView.showDirectionControls = true }
             }
-            Examples.CircularReveal -> {
-
-            }
-            Examples.CoordinatorLayout -> {
-                configView
-            }
-            Examples.Form -> {
-                configView
-            }
-            else -> throw IllegalArgumentException("not implemented fot $example")
         }
+
+        doExecute.invoke()
     }
 }

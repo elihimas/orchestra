@@ -47,7 +47,11 @@ class CenteredImageActivity : AppCompatActivity() {
         Examples.Slide -> R.string.slide
         Examples.SlideOut -> R.string.slide_out
         Examples.CircularReveal -> R.string.circular_reveal
-        else -> throw IllegalArgumentException("title not supported for: $example")
+        Examples.Rotate -> R.string.rotate
+
+        Examples.Bouncing, Examples.BackgroundAndTextColor, Examples.ConstrainsLayout,
+        Examples.CoordinatorLayout, Examples.Form ->
+            throw IllegalArgumentException("title not supported for: $example")
     }
 
     private fun getExample(): Examples =
@@ -59,7 +63,7 @@ class CenteredImageActivity : AppCompatActivity() {
         private val supportedExamples =
                 listOf(Examples.FadeIn, Examples.FadeOut, Examples.Scale,
                         Examples.Slide, Examples.SlideOut, Examples.Translate,
-                        Examples.CircularReveal)
+                        Examples.CircularReveal, Examples.Rotate)
 
         fun startActivity(context: Context, example: Examples) {
             if (!supportedExamples.contains(example)) {

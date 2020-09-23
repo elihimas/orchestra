@@ -11,23 +11,26 @@ class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
             Orchestra.setup {
                 val setupReference = on(butterflyImage)
 
-                when (example) {
+                val doExecute = when (example) {
                     Examples.SlideOut, Examples.ConstrainsLayout, Examples.Form,
-                    Examples.Translate, Examples.Scale -> {
-                        //nothing to do
+                    Examples.Translate, Examples.Scale, Examples.Rotate,
+                    Examples.Bouncing, Examples.BackgroundAndTextColor -> {
+                        {/*nothing to do*/ }
                     }
                     Examples.CircularReveal, Examples.Slide -> {
-                        setupReference.invisible()
+                        { setupReference.invisible() }
                     }
                     Examples.FadeIn -> {
-                        setupReference.alpha(0f)
+                        { setupReference.alpha(0f) }
                     }
                     Examples.FadeOut -> {
-                        setupReference.alpha(1f)
+                        { setupReference.alpha(1f) }
                     }
                     Examples.CoordinatorLayout -> {
-                        setupReference
+                        { setupReference }
                     }
                 }
+
+                doExecute.invoke()
             }
 }

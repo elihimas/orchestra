@@ -120,6 +120,11 @@ open class Animations : Block {
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int) = changeTextColor(*colorResIds, config = null)
 
+    fun rotate(angle: Float,
+               config: (RotateAction.() -> Unit)? = null) = add(RotateAction(angle), config)
+
+    fun rotate(angle: Float) = rotate(angle, config = null)
+
     fun parallel(block: Consumer<Animations>): Animations {
         Animations().also { insideReference ->
             block.accept(insideReference)

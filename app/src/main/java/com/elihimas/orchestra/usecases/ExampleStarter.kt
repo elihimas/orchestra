@@ -12,7 +12,7 @@ class ExampleStarter(private val context: Context) {
         val nextClass = when (example) {
             Examples.FadeIn, Examples.FadeOut, Examples.Scale,
             Examples.Slide, Examples.SlideOut, Examples.Translate,
-            Examples.CircularReveal -> null
+            Examples.CircularReveal, Examples.Rotate -> null
 
             Examples.Bouncing -> BouncingButtonExampleActivity::class.java
             Examples.BackgroundAndTextColor -> BackgroundAndTextColorExampleActivity::class.java

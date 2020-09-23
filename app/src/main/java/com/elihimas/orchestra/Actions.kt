@@ -209,7 +209,7 @@ class ChangeTextColorAction(@ColorRes vararg colorResIds: Int) : AnimateColorAct
 class ChangeBackgroundAction(@ColorRes vararg colorResIds: Int) : AnimateColorAction(*colorResIds) {
     override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
         return ValueAnimator.AnimatorUpdateListener {
-            (view as TextView).setBackgroundColor(it.animatedValue as Int)
+            view.setBackgroundColor(it.animatedValue as Int)
         }
     }
 }
@@ -222,4 +222,10 @@ class ScaleAction(private val scale: Float) : Action() {
                 .scaleY(scale)
     }
 
+}
+
+class RotateAction(var angle: Float) : Action() {
+    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
+        animation.rotationBy(angle)
+    }
 }

@@ -19,16 +19,38 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
                      private val animationEnded: () -> Unit) {
 
     fun execute(example: Examples) {
-        when (example) {
-            Examples.FadeIn -> runFadeIn()
-            Examples.FadeOut -> runFadeOut()
-            Examples.Translate -> runTranslate()
-            Examples.Scale -> runScale()
-            Examples.Slide -> runSlide()
-            Examples.SlideOut -> runSlideOut()
-            Examples.CircularReveal -> runCircularReveal()
-            else -> throw IllegalArgumentException("not implemented for: $example")
+        val doExecute = when (example) {
+            Examples.FadeIn -> {
+                { runFadeIn() }
+            }
+            Examples.FadeOut -> {
+                { runFadeOut() }
+            }
+            Examples.Translate -> {
+                { runTranslate() }
+            }
+            Examples.Scale -> {
+                { runScale() }
+            }
+            Examples.Slide -> {
+                { runSlide() }
+            }
+            Examples.SlideOut -> {
+                { runSlideOut() }
+            }
+            Examples.CircularReveal -> {
+                { runCircularReveal() }
+            }
+            Examples.Rotate -> {
+                { runRotate() }
+            }
+            Examples.Bouncing, Examples.BackgroundAndTextColor, Examples.ConstrainsLayout,
+            Examples.CoordinatorLayout, Examples.Form -> {
+                { throw IllegalArgumentException("not implemented for: $example") }
+            }
         }
+
+        doExecute.invoke()
     }
 
     private fun runFadeIn() {
@@ -86,7 +108,7 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
 
         Orchestra.launch {
             on(target)
-                    .slide(direction){
+                    .slide(direction) {
                         duration = configuration.duration
                     }
         }.then {
@@ -99,7 +121,7 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
 
         Orchestra.launch {
             on(target)
-                    .slideOut(direction){
+                    .slideOut(direction) {
                         duration = configuration.duration
                     }
         }.then {
@@ -110,9 +132,19 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
     private fun runCircularReveal() {
         Orchestra.launch {
             on(target)
-                    .circularReveal(){
+                    .circularReveal {
                         duration = configuration.duration
                     }
+        }.then {
+            animationEnded()
+        }
+    }
+
+    private fun runRotate() {
+        Orchestra.launch {
+            on(target).rotate(90f) {
+                duration = configuration.duration
+            }
         }.then {
             animationEnded()
         }

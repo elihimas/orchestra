@@ -11,6 +11,7 @@ object ResourcesMapper {
         Examples.Slide -> R.string.slide
         Examples.SlideOut -> R.string.slide_out
         Examples.Bouncing -> R.string.bouncing
+        Examples.Rotate -> R.string.rotate
         Examples.BackgroundAndTextColor -> R.string.background_text_color
         Examples.CircularReveal -> R.string.circular_reveal
         Examples.ConstrainsLayout -> R.string.constrains_layout

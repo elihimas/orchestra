@@ -9,6 +9,8 @@ enum class Examples {
     SlideOut,
     CircularReveal,
 
+    Rotate,
+
     Bouncing,
     BackgroundAndTextColor,
 

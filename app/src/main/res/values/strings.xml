@@ -42,6 +42,7 @@
     <string name="bouncing_rationale">once upon a time there was two stick persons som confusion mispeled words and lack of order.... but a effect can tell where you should focus. and it is not me although I\'m the explanation of the whole point</string>
     <string name="at_last_message">At last!!</string>
     <string name="background_text_color">Background and text color</string>
+    <string name="rotate">Rotate</string>
     <!--    bouncing example-->
 </resources>
 
