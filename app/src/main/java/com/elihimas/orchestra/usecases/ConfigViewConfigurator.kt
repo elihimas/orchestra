@@ -1,31 +1,32 @@
 package com.elihimas.orchestra.usecases
 
-import com.elihimas.orchestra.ConfigOrchestraView
+import com.elihimas.orchestra.model.AnimateImageAnimations
+import com.elihimas.orchestra.ui.views.ConfigOrchestraView
 import com.elihimas.orchestra.model.Examples
 
+//TODO verify if this class will be necessary
 class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
 
-    fun execute(example: Examples) {
+    fun execute(example: AnimateImageAnimations) {
         val doExecute = when (example) {
-            Examples.FadeIn -> {
+            AnimateImageAnimations.FadeIn -> {
                 { configView.showAlphaControls = true }
             }
-            Examples.FadeOut -> {
+            AnimateImageAnimations.FadeOut -> {
                 {
                     configView.showAlphaControls = true
                     configView.initialAlpha = 1f
                     configView.finalAlpha = 0f
                 }
             }
-            Examples.Translate, Examples.CircularReveal, Examples.BackgroundAndTextColor,
-            Examples.Bouncing, Examples.Form, Examples.ConstrainsLayout,
-            Examples.Rotate, Examples.CoordinatorLayout -> {
+            AnimateImageAnimations.Translate, AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Rotate,
+            AnimateImageAnimations.Bouncing -> {
                 {/*nothing to do*/ }
             }
-            Examples.Scale -> {
+            AnimateImageAnimations.Scale -> {
                 { configView.showScaleControls = true }
             }
-            Examples.Slide, Examples.SlideOut -> {
+            AnimateImageAnimations.Slide, AnimateImageAnimations.SlideOut -> {
                 { configView.showDirectionControls = true }
             }
         }

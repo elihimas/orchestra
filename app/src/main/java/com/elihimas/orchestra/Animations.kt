@@ -10,9 +10,6 @@ import android.view.ViewPropertyAnimator
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.animation.doOnEnd
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 enum class Direction {
     Up, Down, Left, Right;
@@ -26,8 +23,8 @@ enum class Direction {
             }
 }
 
-abstract class Action(var duration: Long = OrchestraConfiguration.General.duration,
-                      var spacing: Long = OrchestraConfiguration.General.spacing) {
+abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
+                         var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
     open fun beforeAnimation(view: View) {}
 
     open fun runAnimation(view: View, endAction: Runnable?) {
@@ -41,9 +38,50 @@ abstract class Action(var duration: Long = OrchestraConfiguration.General.durati
     }
 
     open fun addAnimation(view: View, animation: ViewPropertyAnimator) {}
+
+    public abstract override fun clone(): Any
+
+    internal fun cloneFromTo(from: Animation, to: Animation) {
+        to.duration = from.duration
+        to.spacing = from.spacing
+    }
 }
 
-class CircularRevealAction : Action() {
+open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
+
+    override fun clone(): Any {
+        return FadeInAnimation(initialAlpha, finalAlpha).also {
+            cloneFromTo(it, this)
+        }
+    }
+
+    override fun beforeAnimation(view: View) {
+        view.alpha = initialAlpha
+    }
+
+    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
+        animation.alpha(finalAlpha)
+    }
+}
+
+class FadeOutAnimation(initialAlpha: Float = 1f, finalAlpha: Float = 0f) : FadeInAnimation(initialAlpha, finalAlpha) {
+
+    override fun clone(): Any {
+        return FadeOutAnimation(initialAlpha, finalAlpha).also {
+            cloneFromTo(it, this)
+        }
+    }
+
+}
+
+class CircularRevealAnimation : Animation() {
+
+    override fun clone(): Any {
+        return CircularRevealAnimation().also {
+            cloneFromTo(it, this)
+        }
+    }
+
     override fun runAnimation(view: View, endAction: Runnable?) {
         val cx = view.width / 2
         val cy = view.height / 2
@@ -73,7 +111,14 @@ class CircularRevealAction : Action() {
  * @param direction the direction towards to the view should be animated
  * @param reverseAnimation if the animation is a slide out animation
  */
-class SlideAction(private val direction: Direction, private val reverseAnimation: Boolean = false) : Action() {
+class SlideAnimation(private val direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
+
+    override fun clone(): Any {
+        return SlideAnimation(direction, reverseAnimation).also {
+            cloneFromTo(it, this)
+        }
+    }
+
     override fun runAnimation(view: View, endAction: Runnable?) {
         view.visibility = View.VISIBLE
 
@@ -131,35 +176,39 @@ class SlideAction(private val direction: Direction, private val reverseAnimation
                 endAction?.run()
             }
 
-            this.duration = this@SlideAction.duration
+            this.duration = this@SlideAnimation.duration
         }
         animator.start()
     }
 
 }
 
-class ParallelActions(private val reference: Animations) : Action() {
+class ParallelAnimation(private val reference: Animations) : Animation() {
+
+    override fun clone(): Any {
+        return ParallelAnimation(reference).also {
+            cloneFromTo(it, this)
+        }
+    }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
     }
 
     override fun runAnimation(view: View, endAction: Runnable?) {
-        reference.actions.forEach { action ->
+        reference.animations.forEach { action ->
             action.runAnimation(view, endAction)
         }
     }
 }
 
-class DelayAction(duration: Long) : Action(duration) {
-    override fun runAnimation(view: View, endAction: Runnable?) {
-        GlobalScope.launch {
-            delay(duration)
-            endAction?.run()
+class TranslateAnimation(private val x: Float, private val y: Float) : Animation() {
+
+    override fun clone(): Any {
+        return TranslateAnimation(x, y).also {
+            cloneFromTo(it, this)
         }
     }
-}
 
-class TranslateAction(private val x: Float, private val y: Float) : Action() {
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation
@@ -168,7 +217,8 @@ class TranslateAction(private val x: Float, private val y: Float) : Action() {
     }
 }
 
-abstract class AnimateColorAction(@ColorRes vararg val colorResIds: Int) : Action() {
+abstract class ColorAnimation(@ColorRes vararg val colorResIds: Int) : Animation() {
+
     override fun runAnimation(view: View, endAction: Runnable?) {
         val resources = view.context.resources
         val colorTo = colorResIds.map { resources.getColor(it, view.context.theme) }.toTypedArray()
@@ -187,7 +237,7 @@ abstract class AnimateColorAction(@ColorRes vararg val colorResIds: Int) : Actio
                 }
 
         with(colorAnimation) {
-            duration = this@AnimateColorAction.duration
+            duration = this@ColorAnimation.duration
 
             addUpdateListener(createUpdateListener(view))
             doOnEnd { endAction?.run() }
@@ -198,7 +248,14 @@ abstract class AnimateColorAction(@ColorRes vararg val colorResIds: Int) : Actio
     abstract fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener
 }
 
-class ChangeTextColorAction(@ColorRes vararg colorResIds: Int) : AnimateColorAction(*colorResIds) {
+class ChangeTextColorAnimation(@ColorRes vararg colorResIds: Int) : ColorAnimation(*colorResIds) {
+
+    override fun clone(): Any {
+        return ChangeTextColorAnimation(*colorResIds).also {
+            cloneFromTo(it, this)
+        }
+    }
+
     override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
         return ValueAnimator.AnimatorUpdateListener {
             (view as TextView?)?.setTextColor(it.animatedValue as Int)
@@ -206,7 +263,14 @@ class ChangeTextColorAction(@ColorRes vararg colorResIds: Int) : AnimateColorAct
     }
 }
 
-class ChangeBackgroundAction(@ColorRes vararg colorResIds: Int) : AnimateColorAction(*colorResIds) {
+class ChangeBackgroundAnimation(@ColorRes vararg colorResIds: Int) : ColorAnimation(*colorResIds) {
+
+    override fun clone(): Any {
+        return ChangeBackgroundAnimation(*colorResIds).also {
+            cloneFromTo(it, this)
+        }
+    }
+
     override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
         return ValueAnimator.AnimatorUpdateListener {
             view.setBackgroundColor(it.animatedValue as Int)
@@ -214,7 +278,13 @@ class ChangeBackgroundAction(@ColorRes vararg colorResIds: Int) : AnimateColorAc
     }
 }
 
-class ScaleAction(private val scale: Float) : Action() {
+class ScaleAnimation(var scale: Float) : Animation() {
+
+    override fun clone(): Any {
+        return ScaleAnimation(scale).also {
+            cloneFromTo(it, this)
+        }
+    }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation
@@ -224,7 +294,14 @@ class ScaleAction(private val scale: Float) : Action() {
 
 }
 
-class RotateAction(var angle: Float) : Action() {
+class RotateAnimation(var angle: Float) : Animation() {
+
+    override fun clone(): Any {
+        return RotateAnimation(angle).also {
+            cloneFromTo(it, this)
+        }
+    }
+
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation.rotationBy(angle)
     }

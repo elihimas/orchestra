@@ -84,7 +84,6 @@
         app:layout_constraintLeft_toRightOf="@id/butterflyImage4" />
 
     <ImageView
-        android:id="@+id/butterflyImage6"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:rotation="40"
@@ -128,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@android:color/holo_orange_dark"
-        android:paddingLeft="60dp"
+        android:paddingStart="60dp"
         android:text="@string/bouncing_rationale"
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -173,7 +172,6 @@
         app:layout_constraintLeft_toRightOf="@id/clickButton3" />
 
     <Button
-        android:id="@+id/clickButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"

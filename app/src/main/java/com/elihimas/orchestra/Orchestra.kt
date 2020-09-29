@@ -5,7 +5,6 @@ import android.transition.ChangeBounds
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.View
-import android.view.ViewPropertyAnimator
 import android.view.animation.AnticipateOvershootInterpolator
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,19 +22,6 @@ suspend fun coroutineDelay(millis: Long) = delay(millis)
 interface Block {
     suspend fun runBlock(orchestra: Orchestra)
 }
-
-class FadeInAction(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Action(600) {
-
-    override fun beforeAnimation(view: View) {
-        view.alpha = initialAlpha
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation.alpha(finalAlpha)
-    }
-}
-
-typealias FadeOutAction = FadeInAction
 
 //TODO review this class
 class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 2600) : Block {
@@ -60,75 +46,75 @@ class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layo
 
 open class Animations : Block {
 
-    val actions = mutableListOf<Action>()
+    val animations = mutableListOf<Animation>()
 
-    open fun <T : Action> add(action: T, config: (T.() -> Unit)?): Animations {
-        actions.add(action)
+    open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
+        animations.add(animation)
 
-        config?.invoke(action)
+        config?.invoke(animation)
 
         return this
     }
 
     fun addAnimations(animations: Animations): Animations {
-        actions.addAll(animations.actions)
+        this.animations.addAll(animations.animations)
 
         return this
     }
 
-    fun fadeIn(config: (FadeInAction.() -> Unit)?) = add(FadeInAction(), config)
+    fun fadeIn(config: (FadeInAnimation.() -> Unit)?) = add(FadeInAnimation(), config)
     fun fadeIn() = fadeIn(null)
 
-    fun fadeOut(config: (FadeOutAction.() -> Unit)?) = add(FadeInAction(1f, 0f), config)
+    fun fadeOut(config: (FadeOutAnimation.() -> Unit)?) = add(FadeOutAnimation(1f, 0f), config)
     fun fadeOut() = fadeOut(null)
 
-    fun scale(scale: Float, config: (ScaleAction.() -> Unit)? = null) = add(ScaleAction(scale), config)
-    fun scale(scale: Int, config: (ScaleAction.() -> Unit)? = null) = scale(scale.toFloat(), config)
+    fun scale(scale: Float = 1f, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scale), config)
+    fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
     fun scale(scale: Float) = scale(scale, null)
 
-    fun slide(direction: Direction = Direction.Up, config: (SlideAction.() -> Unit)? = null) =
-            add(SlideAction(direction), config)
+    fun slide(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
+            add(SlideAnimation(direction), config)
 
     fun slide(direction: Direction = Direction.Up) = slide(direction, null)
 
-    fun slideOut(direction: Direction = Direction.Up, config: (SlideAction.() -> Unit)? = null) =
-            add(SlideAction(direction, true), config)
+    fun slideOut(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
+            add(SlideAnimation(direction, true), config)
 
     fun slideOut(direction: Direction = Direction.Up) = slideOut(direction, null)
 
-    fun circularReveal(config: (CircularRevealAction.() -> Unit)? = null) =
-            add(CircularRevealAction(), config)
+    fun circularReveal(config: (CircularRevealAnimation.() -> Unit)? = null) =
+            add(CircularRevealAnimation(), config)
 
     fun circularReveal() = circularReveal(null)
 
-    fun translate(x: Float, y: Float, config: (TranslateAction.() -> Unit)? = null) =
-            add(TranslateAction(x, y), config)
+    fun translate(x: Float, y: Float, config: (TranslateAnimation.() -> Unit)? = null) =
+            add(TranslateAnimation(x, y), config)
 
     fun translate(x: Float, y: Float) = translate(x, y, null)
 
     fun changeBackground(@ColorRes vararg colorResIds: Int,
-                         config: (ChangeBackgroundAction.() -> Unit)? = null) =
-            add(ChangeBackgroundAction(*colorResIds), config)
+                         config: (ChangeBackgroundAnimation.() -> Unit)? = null) =
+            add(ChangeBackgroundAnimation(*colorResIds), config)
 
     fun changeBackground(@ColorRes vararg colorResIds: Int) = changeBackground(*colorResIds, config = null)
 
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int,
-                        config: (ChangeTextColorAction.() -> Unit)? = null) =
-            add(ChangeTextColorAction(*colorResIds), config)
+                        config: (ChangeTextColorAnimation.() -> Unit)? = null) =
+            add(ChangeTextColorAnimation(*colorResIds), config)
 
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int) = changeTextColor(*colorResIds, config = null)
 
     fun rotate(angle: Float,
-               config: (RotateAction.() -> Unit)? = null) = add(RotateAction(angle), config)
+               config: (RotateAnimation.() -> Unit)? = null) = add(RotateAnimation(angle), config)
 
     fun rotate(angle: Float) = rotate(angle, config = null)
 
     fun parallel(block: Consumer<Animations>): Animations {
         Animations().also { insideReference ->
             block.accept(insideReference)
-            add(ParallelActions(insideReference), null)//TODO: verify how to configure parallel actions
+            add(ParallelAnimation(insideReference), null)//TODO: verify how to configure parallel actions
         }
 
         return this
@@ -137,8 +123,8 @@ open class Animations : Block {
     fun parallel(block: Animations.() -> Unit): Animations {
         Animations().also { insideReference ->
             block.invoke(insideReference)
-            val action = ParallelActions(insideReference)
-            actions.add(action)
+            val action = ParallelAnimation(insideReference)
+            animations.add(action)
         }
 
         return this
@@ -151,7 +137,7 @@ open class Animations : Block {
 
 open class ViewReference(private vararg val views: View) : Animations() {
     override suspend fun runBlock(orchestra: Orchestra) {
-        actions.forEach { action ->
+        animations.forEach { action ->
             val latch = CountDownLatch(views.size)
             if (views.size > 1) {
                 views.forEach { view ->

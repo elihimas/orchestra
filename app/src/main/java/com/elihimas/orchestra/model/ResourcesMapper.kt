@@ -3,20 +3,26 @@ package com.elihimas.orchestra.model
 import com.elihimas.orchestra.R
 
 object ResourcesMapper {
-    fun mapExampleName(example: Examples) = when (example) {
-        Examples.FadeIn -> R.string.fade_in
-        Examples.FadeOut -> R.string.fade_out
-        Examples.Translate -> R.string.translate
-        Examples.Scale -> R.string.scale
-        Examples.Slide -> R.string.slide
-        Examples.SlideOut -> R.string.slide_out
+
+    fun map(example: Examples) = when (example) {
+        Examples.AnimateImage -> R.string.animate_image
         Examples.Bouncing -> R.string.bouncing
-        Examples.Rotate -> R.string.rotate
         Examples.BackgroundAndTextColor -> R.string.background_text_color
-        Examples.CircularReveal -> R.string.circular_reveal
         Examples.ConstrainsLayout -> R.string.constrains_layout
         Examples.CoordinatorLayout -> R.string.coordinator_layout
         Examples.Form -> R.string.form
+    }
+
+    fun map(animateImageAnimations: AnimateImageAnimations) = when (animateImageAnimations) {
+        AnimateImageAnimations.FadeIn -> R.string.fade_in
+        AnimateImageAnimations.FadeOut -> R.string.fade_out
+        AnimateImageAnimations.Translate -> R.string.translate
+        AnimateImageAnimations.Scale -> R.string.scale
+        AnimateImageAnimations.Slide -> R.string.slide
+        AnimateImageAnimations.SlideOut -> R.string.slide_out
+        AnimateImageAnimations.Rotate -> R.string.rotate
+        AnimateImageAnimations.CircularReveal -> R.string.circular_reveal
+        AnimateImageAnimations.Bouncing -> R.string.bouncing
     }
 
 }

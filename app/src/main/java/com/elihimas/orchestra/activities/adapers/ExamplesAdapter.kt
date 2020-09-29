@@ -24,9 +24,9 @@ interface ItemSelectedListener {
 
 class ExamplesAdapter(recyclerView: RecyclerView, itemSelectedListener: ItemSelectedListener) : RecyclerView.Adapter<ExamplesAdapter.ExamplesHolder>() {
 
-    private val listener = ClickListener(recyclerView, itemSelectedListener)
-
     class ExamplesHolder(view: View, val nameText: TextView) : RecyclerView.ViewHolder(view)
+
+    private val listener = ClickListener(recyclerView, itemSelectedListener)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             LayoutInflater.from(parent.context).inflate(R.layout.option_row, parent, false).let {
@@ -39,7 +39,7 @@ class ExamplesAdapter(recyclerView: RecyclerView, itemSelectedListener: ItemSele
     override fun onBindViewHolder(holder: ExamplesHolder, position: Int) {
         val example = Examples.values()[position]
 
-        holder.nameText.setText(ResourcesMapper.mapExampleName(example))
+        holder.nameText.setText(ResourcesMapper.map(example))
     }
 
 }

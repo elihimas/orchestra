@@ -10,24 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".BackgroundAndTextColorExampleActivity"
-            android:label="@string/background_text_color" />
-        <activity
-            android:name=".activities.BouncingButtonExampleActivity"
-            android:label="@string/bouncing" />
-        <activity
-            android:name=".activities.CenteredImageActivity"
-            android:label="@string/translate" />
-        <activity
-            android:name=".activities.ConstrainsExampleActivity"
-            android:label="@string/constrains_layout" />
-        <activity
-            android:name=".activities.CoordinatorExampleActivity"
-            android:label="@string/coordinator_layout" />
-        <activity
-            android:name=".activities.FormExampleActivity"
-            android:label="@string/form" />
-        <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.Full">
             <intent-filter>
@@ -39,6 +21,24 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/examples_title" />
+        <activity
+            android:name=".ui.animateimage.AnimateImageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.BackgroundAndTextColorExampleActivity"
+            android:label="@string/background_text_color" />
+        <activity
+            android:name=".activities.BouncingButtonExampleActivity"
+            android:label="@string/bouncing" />
+        <activity
+            android:name=".activities.ConstrainsExampleActivity"
+            android:label="@string/constrains_layout" />
+        <activity
+            android:name=".activities.CoordinatorExampleActivity"
+            android:label="@string/coordinator_layout" />
+        <activity
+            android:name=".activities.FormExampleActivity"
+            android:label="@string/form" />
     </application>
 
 </manifest>

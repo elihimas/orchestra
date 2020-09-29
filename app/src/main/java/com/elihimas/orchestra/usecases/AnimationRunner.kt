@@ -3,7 +3,7 @@ package com.elihimas.orchestra.usecases
 import android.view.View
 import com.elihimas.orchestra.Direction
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.model.Examples
+import com.elihimas.orchestra.model.AnimateImageAnimations
 import java.lang.IllegalArgumentException
 
 interface AnimationConfiguration {
@@ -18,35 +18,34 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
                      private val target: View,
                      private val animationEnded: () -> Unit) {
 
-    fun execute(example: Examples) {
-        val doExecute = when (example) {
-            Examples.FadeIn -> {
+    fun execute(animation: AnimateImageAnimations) {
+        val doExecute = when (animation) {
+            AnimateImageAnimations.FadeIn -> {
                 { runFadeIn() }
             }
-            Examples.FadeOut -> {
+            AnimateImageAnimations.FadeOut -> {
                 { runFadeOut() }
             }
-            Examples.Translate -> {
+            AnimateImageAnimations.Translate -> {
                 { runTranslate() }
             }
-            Examples.Scale -> {
+            AnimateImageAnimations.Scale -> {
                 { runScale() }
             }
-            Examples.Slide -> {
+            AnimateImageAnimations.Slide -> {
                 { runSlide() }
             }
-            Examples.SlideOut -> {
+            AnimateImageAnimations.SlideOut -> {
                 { runSlideOut() }
             }
-            Examples.CircularReveal -> {
+            AnimateImageAnimations.CircularReveal -> {
                 { runCircularReveal() }
             }
-            Examples.Rotate -> {
+            AnimateImageAnimations.Rotate -> {
                 { runRotate() }
             }
-            Examples.Bouncing, Examples.BackgroundAndTextColor, Examples.ConstrainsLayout,
-            Examples.CoordinatorLayout, Examples.Form -> {
-                { throw IllegalArgumentException("not implemented for: $example") }
+            AnimateImageAnimations.Bouncing -> {
+                { throw IllegalArgumentException("not implemented for: $animation") }
             }
         }
 

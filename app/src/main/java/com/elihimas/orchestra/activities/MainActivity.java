@@ -1,5 +1,6 @@
 package com.elihimas.orchestra.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elihimas.orchestra.Orchestra;
 import com.elihimas.orchestra.R;
+import com.elihimas.orchestra.ScaleAnimation;
 import com.elihimas.orchestra.activities.adapers.ExamplesAdapter;
 import com.elihimas.orchestra.usecases.ExampleStarter;
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ExampleStarter exampleStarter = new ExampleStarter(this);
         RecyclerView optionsRecycler = findViewById(R.id.optionsRecycler);
-        ExamplesAdapter adapter = new ExamplesAdapter(optionsRecycler, example -> exampleStarter.execute(example));
+        ExamplesAdapter adapter = new ExamplesAdapter(optionsRecycler, exampleStarter::execute);
         optionsRecycler.hasFixedSize();
         optionsRecycler.setAdapter(adapter);
     }

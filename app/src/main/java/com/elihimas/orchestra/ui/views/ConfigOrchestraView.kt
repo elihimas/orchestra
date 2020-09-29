@@ -1,10 +1,12 @@
-package com.elihimas.orchestra
+package com.elihimas.orchestra.ui.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import com.elihimas.orchestra.Direction
+import com.elihimas.orchestra.R
 import com.elihimas.orchestra.usecases.AnimationConfiguration
 import kotlinx.android.synthetic.main.view_config_orchestra.view.*
 

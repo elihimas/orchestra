@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Orchestra</string>
 
-    <!--    examples-->
+    <!--    examples and animations-->
     <string name="examples_title">Examples</string>
 
+    <string name="animate_image">Animate Image</string>
     <string name="fade_in">Fade in</string>
     <string name="fade_out">Fade out</string>
     <string name="translate">Translate</string>
@@ -15,7 +16,7 @@
     <string name="constrains_layout">Constrains layout</string>
     <string name="coordinator_layout">Coordinator layout</string>
     <string name="form">Form</string>
-    <!--    examples-->
+    <!--    examples and animations-->
 
     <!--    animation configuration-->
     <string name="duration">Duration</string>
@@ -44,5 +45,19 @@
     <string name="background_text_color">Background and text color</string>
     <string name="rotate">Rotate</string>
     <!--    bouncing example-->
+
+    <!--    animate view-->
+    <string name="animations">Animations</string>
+    <string name="code">Code</string>
+
+    <string name="open_parenthesis" translatable="false">(</string>
+    <string name="close_parenthesis" translatable="false">)</string>
+
+    <string name="initial_setup">Initial setup</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <!--    animate view-->
+
+
 </resources>
 

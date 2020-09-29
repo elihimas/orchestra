@@ -2,32 +2,28 @@ package com.elihimas.orchestra.usecases
 
 import android.widget.ImageView
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.model.Examples
-import kotlinx.android.synthetic.main.activity_centered_butterfly.*
+import com.elihimas.orchestra.model.AnimateImageAnimations
 
 class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
 
-    fun execute(example: Examples) =
+    fun execute(animation: AnimateImageAnimations) =
             Orchestra.setup {
                 val setupReference = on(butterflyImage)
 
-                val doExecute = when (example) {
-                    Examples.SlideOut, Examples.ConstrainsLayout, Examples.Form,
-                    Examples.Translate, Examples.Scale, Examples.Rotate,
-                    Examples.Bouncing, Examples.BackgroundAndTextColor -> {
+                val doExecute = when (animation) {
+                    AnimateImageAnimations.SlideOut,
+                    AnimateImageAnimations.Translate, AnimateImageAnimations.Scale, AnimateImageAnimations.Rotate,
+                    AnimateImageAnimations.Bouncing -> {
                         {/*nothing to do*/ }
                     }
-                    Examples.CircularReveal, Examples.Slide -> {
+                    AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Slide -> {
                         { setupReference.invisible() }
                     }
-                    Examples.FadeIn -> {
+                    AnimateImageAnimations.FadeIn -> {
                         { setupReference.alpha(0f) }
                     }
-                    Examples.FadeOut -> {
+                    AnimateImageAnimations.FadeOut -> {
                         { setupReference.alpha(1f) }
-                    }
-                    Examples.CoordinatorLayout -> {
-                        { setupReference }
                     }
                 }
 
