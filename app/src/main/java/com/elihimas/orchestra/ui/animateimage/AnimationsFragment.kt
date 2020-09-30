@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.Animation
 import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.fragment_animations.*
 
 class AnimationsFragment : Fragment() {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(AnimationsViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(requireActivity()).get(AnimationsViewModel::class.java) }
 
     private val animationsAdapter by lazy {
         AnimationsAdapter { animation ->
@@ -45,15 +43,14 @@ class AnimationsFragment : Fragment() {
     private fun open(animation: Animation) {
         val editAnimationFragment =
                 EditAnimationFragment.newInstance(animation, animationEditedListener = {
-                    updateAnimation(it)
+                    updateAnimation()
                 })
         val fragmentManager = requireActivity().supportFragmentManager
 
         editAnimationFragment.show(fragmentManager, editAnimationFragmentTag)
     }
 
-    private fun updateAnimation(animation: Animation) {
-        viewModel.updateAnimations(animationsAdapter.animations)
+    private fun updateAnimation() {
         animationsAdapter.notifyDataSetChanged()
     }
 

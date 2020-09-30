@@ -41,9 +41,8 @@ class FieldsAdapter(private val animation: Animation) : RecyclerView.Adapter<Fie
     private fun addEditTextWatcher(editText: EditText, view: View) {
         editText.doAfterTextChanged { newValueText ->
             val field = view.tag as Field
-            val paramType = field.paramType()
 
-            when (paramType) {
+            when (val paramType = field.paramType()) {
                 ParamTypes.Float -> field.setFloat(animationClone, newValueText.toString().toFloat())
                 ParamTypes.Int -> field.setInt(animationClone, newValueText.toString().toInt())
                 ParamTypes.Long -> field.setLong(animationClone, newValueText.toString().toLong())

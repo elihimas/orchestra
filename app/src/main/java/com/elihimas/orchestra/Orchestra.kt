@@ -68,7 +68,7 @@ open class Animations : Block {
     fun fadeOut(config: (FadeOutAnimation.() -> Unit)?) = add(FadeOutAnimation(1f, 0f), config)
     fun fadeOut() = fadeOut(null)
 
-    fun scale(scale: Float = 1f, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scale), config)
+    fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scale), config)
     fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
     fun scale(scale: Float) = scale(scale, null)
 
@@ -77,8 +77,8 @@ open class Animations : Block {
 
     fun slide(direction: Direction = Direction.Up) = slide(direction, null)
 
-    fun slideOut(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
-            add(SlideAnimation(direction, true), config)
+    fun slideOut(direction: Direction = Direction.Up, config: (SlideOutAnimation.() -> Unit)? = null) =
+            add(SlideOutAnimation(direction), config)
 
     fun slideOut(direction: Direction = Direction.Up) = slideOut(direction, null)
 
@@ -182,8 +182,7 @@ class DelayBlock(val duration: Long) : Block {
     }
 }
 
-interface ParallelContext {
-}
+interface ParallelContext
 
 interface OrchestraContext {
     fun delay(duration: Long)
@@ -210,7 +209,7 @@ class Orchestra : OrchestraContext, ParallelContext {
 
     internal suspend fun doRunBlocks(blocks: List<Block>, blocksLatch: CountDownLatch? = null) {
         blocks.forEach { block ->
-            block.runBlock(this);
+            block.runBlock(this)
             blocksLatch?.countDown()
         }
     }

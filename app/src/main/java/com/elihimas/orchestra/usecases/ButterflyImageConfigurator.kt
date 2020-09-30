@@ -13,9 +13,6 @@ class ButterflyImageConfigurator(private val butterflyImage: ImageView) {
                 val doExecute = when (animation) {
                     AnimateImageAnimations.SlideOut,
                     AnimateImageAnimations.Translate, AnimateImageAnimations.Scale, AnimateImageAnimations.Rotate,
-                    AnimateImageAnimations.Bouncing -> {
-                        {/*nothing to do*/ }
-                    }
                     AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Slide -> {
                         { setupReference.invisible() }
                     }

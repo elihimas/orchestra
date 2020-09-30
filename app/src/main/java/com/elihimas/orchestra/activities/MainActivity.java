@@ -1,6 +1,5 @@
 package com.elihimas.orchestra.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.elihimas.orchestra.Orchestra;
 import com.elihimas.orchestra.R;
-import com.elihimas.orchestra.ScaleAnimation;
 import com.elihimas.orchestra.activities.adapers.ExamplesAdapter;
 import com.elihimas.orchestra.usecases.ExampleStarter;
 

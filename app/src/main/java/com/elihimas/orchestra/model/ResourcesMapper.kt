@@ -22,7 +22,6 @@ object ResourcesMapper {
         AnimateImageAnimations.SlideOut -> R.string.slide_out
         AnimateImageAnimations.Rotate -> R.string.rotate
         AnimateImageAnimations.CircularReveal -> R.string.circular_reveal
-        AnimateImageAnimations.Bouncing -> R.string.bouncing
     }
 
 }

@@ -8,7 +8,7 @@ object OrchestraConfiguration {
 
     object AnimateAndWaitDuration {
         var animationDuration = 1000L
-        val waitDuration = 0L
+        var waitDuration = 0L
     }
 
     object Bounce {

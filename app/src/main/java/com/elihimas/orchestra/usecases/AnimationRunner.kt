@@ -44,9 +44,6 @@ class AnimatorRunner(private val configuration: AnimationConfiguration,
             AnimateImageAnimations.Rotate -> {
                 { runRotate() }
             }
-            AnimateImageAnimations.Bouncing -> {
-                { throw IllegalArgumentException("not implemented for: $animation") }
-            }
         }
 
         doExecute.invoke()

@@ -7,15 +7,12 @@ import java.lang.reflect.Field
 
 enum class ParamTypes { Boolean, Enum, Float, Int, Long }
 
-fun Field.paramType(): ParamTypes {
-    val toString = type.toString()
-    return when (toString) {
-        "long" -> ParamTypes.Long
-        "boolean" -> ParamTypes.Boolean
-        "float" -> ParamTypes.Float
-        "int" -> ParamTypes.Int
-        else -> ParamTypes.Enum
-    }
+fun Field.paramType(): ParamTypes = when (type.toString()) {
+    "long" -> ParamTypes.Long
+    "boolean" -> ParamTypes.Boolean
+    "float" -> ParamTypes.Float
+    "int" -> ParamTypes.Int
+    else -> ParamTypes.Enum
 }
 
 //TODO traverse through all animations tree

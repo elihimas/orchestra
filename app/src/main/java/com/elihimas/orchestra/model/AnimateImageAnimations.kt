@@ -9,5 +9,4 @@ enum class AnimateImageAnimations {
     SlideOut,
     CircularReveal,
     Rotate,
-    Bouncing,
 }

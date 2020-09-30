@@ -6,25 +6,34 @@ import com.elihimas.orchestra.*
 
 class AnimationsViewModel : ViewModel() {
 
+    private val _animationList = mutableListOf<Animation>()
     val animationList by lazy { MutableLiveData<MutableList<Animation>>() }
 
+    init {
+        animationList.postValue(_animationList)
+    }
+
     fun loadAnimation() {
-        animationList.postValue(mock())
+        _animationList.addAll(mock())
+        animationList.postValue(_animationList)
     }
 
     private fun mock() =
             mutableListOf(
-                    FadeInAnimation(),
                     FadeOutAnimation(),
+                    FadeInAnimation(),
                     SlideAnimation(Direction.Right),
-                    ScaleAnimation(3f),
+                    ScaleAnimation(0.2f),
+                    ScaleAnimation(2f),
+                    ScaleAnimation(1f),
                     RotateAnimation(90f),
                     CircularRevealAnimation(),
+                    RotateAnimation(270f),
             )
 
-    fun updateAnimations(animations: MutableList<Animation>) {
-        //TODO review this method
-        //animationsList.postValue(animations)
+    fun addAnimation(animation: Animation) {
+        _animationList.add(animation)
+        animationList.postValue(_animationList)
     }
 
 

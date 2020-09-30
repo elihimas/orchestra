@@ -2,7 +2,6 @@ package com.elihimas.orchestra.usecases
 
 import com.elihimas.orchestra.model.AnimateImageAnimations
 import com.elihimas.orchestra.ui.views.ConfigOrchestraView
-import com.elihimas.orchestra.model.Examples
 
 //TODO verify if this class will be necessary
 class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
@@ -20,9 +19,6 @@ class ConfigViewConfigurator(private val configView: ConfigOrchestraView) {
                 }
             }
             AnimateImageAnimations.Translate, AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Rotate,
-            AnimateImageAnimations.Bouncing -> {
-                {/*nothing to do*/ }
-            }
             AnimateImageAnimations.Scale -> {
                 { configView.showScaleControls = true }
             }

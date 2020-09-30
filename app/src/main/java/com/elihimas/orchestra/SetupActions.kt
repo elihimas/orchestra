@@ -7,8 +7,6 @@ import android.view.animation.BaseInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
-import androidx.annotation.IdRes
-
 
 abstract class SetupAction {
     fun runSetup(views: Array<out View>) {
@@ -35,7 +33,7 @@ class SetupScaleAction(private val value: Float) : SetupAction() {
     }
 }
 
-class InvisibleAction() : SetupAction() {
+class InvisibleAction : SetupAction() {
     override fun runSetup(view: View) {
         view.visibility = View.INVISIBLE
     }
@@ -51,7 +49,7 @@ class BounceAction(var duration: WaitAnimateDuration = WaitAnimateDuration(),
                    var bounceHeight: Float? = null) : SetupAction() {
 
     override fun runSetup(view: View) {
-        val bounceHeight = this.bounceHeight ?: view.context.resources.getDimension(heightResId);
+        val bounceHeight = this.bounceHeight ?: view.context.resources.getDimension(heightResId)
         val animator = ObjectAnimator.ofFloat(view, "translationY", 0f, bounceHeight, 0f)
         animator.duration = duration.animationDuration + duration.waitDuration
 

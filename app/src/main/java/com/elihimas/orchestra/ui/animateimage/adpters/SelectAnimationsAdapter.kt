@@ -21,7 +21,7 @@ class SelectAnimationsAdapter(private val selectAnimationListener: (AnimateImage
     private val animateImageAnimations = listOf(
             AnimateImageAnimations.FadeIn, AnimateImageAnimations.FadeOut, AnimateImageAnimations.Translate,
             AnimateImageAnimations.Scale, AnimateImageAnimations.Slide, AnimateImageAnimations.SlideOut,
-            AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Rotate, AnimateImageAnimations.Bouncing
+            AnimateImageAnimations.CircularReveal, AnimateImageAnimations.Rotate
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimationHolder =

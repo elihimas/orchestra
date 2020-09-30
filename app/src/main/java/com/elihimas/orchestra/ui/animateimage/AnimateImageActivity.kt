@@ -2,13 +2,21 @@ package com.elihimas.orchestra.ui.animateimage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.elihimas.orchestra.FadeInAnimation
 import com.elihimas.orchestra.R
+import com.elihimas.orchestra.ui.animateimage.usecases.EnumToAnimationUseCase
 import kotlinx.android.synthetic.main.activity_animate_image.*
 
 class AnimateImageActivity : AppCompatActivity() {
 
+    private val viewModel by lazy { ViewModelProvider(this).get(AnimationsViewModel::class.java) }
+    private val enumToAnimationUseCase by lazy { EnumToAnimationUseCase() }
+
     private val addAnimationFragment: AddAnimationFragment by lazy {
-        AddAnimationFragment.newInstance {
+        AddAnimationFragment.newInstance {animationEnum->
+            val animation = enumToAnimationUseCase.execute(animationEnum)
+            viewModel.addAnimation(animation)
             addAnimationFragment.dismiss()
         }
     }
