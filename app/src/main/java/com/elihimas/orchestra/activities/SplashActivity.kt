@@ -14,7 +14,19 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
 
-        Orchestra.shortOrLong({ shortSplash() }, { longSplash() })
+        Orchestra.shortOrLong(::tempShortSplash, ::longSplash)
+    }
+
+    private fun tempShortSplash() {
+        Orchestra.launch {
+            on(titleText)
+                    .fadeIn {
+                        duration = 5000
+                    }
+                    .fadeOut {
+                        duration = 9000
+                    }
+        }
     }
 
     private fun shortSplash() {

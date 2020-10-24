@@ -3,7 +3,6 @@ package com.elihimas.orchestra.ui.animateimage
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.elihimas.orchestra.FadeInAnimation
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.ui.animateimage.usecases.EnumToAnimationUseCase
 import kotlinx.android.synthetic.main.activity_animate_image.*

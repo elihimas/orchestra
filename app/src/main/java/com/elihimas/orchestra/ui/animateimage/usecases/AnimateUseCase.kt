@@ -73,7 +73,7 @@ class AnimateUseCase(private val imageView: ImageView) {
     }
 
     private fun ViewReference.addCircularReveal(animation: Animation) {
-        circularReveal() {
+        circularReveal {
             duration = animation.duration
             spacing = animation.spacing
         }

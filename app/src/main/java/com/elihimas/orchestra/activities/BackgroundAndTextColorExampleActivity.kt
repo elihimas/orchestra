@@ -78,23 +78,24 @@ class BackgroundAndTextColorExampleActivity : AppCompatActivity() {
 
     private fun animateBackground(view: View, backgroundAndTextColors: BackgroundAndTextColors) {
         val colorDuration = 2000L
-        val foregroundAnticipation = 1000L
+        val foregroundEndAnticipation = 1000L
+
+        val backgrounds = backgroundAndTextColors.backgrounds.toIntArray()
+        val textColors = backgroundAndTextColors.textColors?.toIntArray()
 
         Orchestra.launch {
-            on(view).parallel {
-                val backgrounds = backgroundAndTextColors.backgrounds.toIntArray()
-                val textColors = backgroundAndTextColors.textColors?.toIntArray()
-
-                changeBackground(*backgrounds) {
-                    duration = backgrounds.size * colorDuration
-                }
-
-                textColors?.let {
-                    changeTextColor(*textColors) {
-                        duration = (textColors.size * colorDuration) - foregroundAnticipation
-                    }
-                }
+            on(view).changeBackground(*backgrounds) {
+                duration = backgrounds.size * colorDuration
             }
+
+//            on(view).parallel {
+//
+//                textColors?.let {
+//                    changeTextColor(*textColors) {
+//                        duration = (textColors.size * colorDuration) - foregroundEndAnticipation
+//                    }
+//                }
+//            }
         }
     }
 

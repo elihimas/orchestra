@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProvider
-import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.ui.animateimage.usecases.AnimateUseCase
 import kotlinx.android.synthetic.main.fragment_animate_image.*
