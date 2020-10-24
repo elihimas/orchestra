@@ -14,17 +14,58 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
 
+        init()
+    }
+
+    private fun init() {
+        root.setOnClickListener {
+            onRootClicked()
+        }
+
         Orchestra.shortOrLong(::tempShortSplash, ::longSplash)
+    }
+
+    private fun onRootClicked() {
+        Orchestra.launch {
+            on(rightSquare)
+                    .rotate(360f) {
+                        duration = 6000
+                    }
+                    .rotate(-720f) {
+                        duration = 4000
+                    }
+                    .rotate(360f) {
+                        duration = 400
+                    }
+        }
     }
 
     private fun tempShortSplash() {
         Orchestra.launch {
-            on(titleText)
+            on(titleText, leftSquare)
                     .fadeIn {
+                        duration = 2000
+                    }
+                    .scale(3) {
                         duration = 5000
                     }
-                    .fadeOut {
-                        duration = 9000
+                    .rotate(270f) {
+                        duration = 6000
+                    }
+                    .rotate(-180f) {
+                        duration = 4000
+                    }
+                    .scale(0.5f) {
+                        duration = 3000
+                    }
+                    .scale(2) {
+                        duration = 3000
+                    }
+                    .rotate(300f) {
+                        duration = 6500
+                    }
+                    .rotate(80f) {
+
                     }
         }
     }
