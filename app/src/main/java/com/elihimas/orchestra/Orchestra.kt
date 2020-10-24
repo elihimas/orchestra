@@ -1,5 +1,6 @@
 package com.elihimas.orchestra
 
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.transition.ChangeBounds
 import android.transition.Transition
@@ -19,12 +20,22 @@ import java.util.function.Consumer
 
 suspend fun coroutineDelay(millis: Long) = delay(millis)
 
-interface Block {
-    suspend fun runBlock(orchestra: Orchestra)
+abstract class Block() {
+    var start = 0F
+    var end = 0f
+
+    abstract suspend fun runBlock(orchestra: Orchestra)
+    abstract fun calculateDuration(): Long
+
+    open fun updateAnimation(time: Float) {}
+    open fun updateAnimationTimeBounds() {}
 }
 
 //TODO review this class
-class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 2600) : Block {
+class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 2600)
+    : Block() {
+
+    override fun calculateDuration() = duration
 
     override suspend fun runBlock(orchestra: Orchestra) {
         val transition: Transition = ChangeBounds()
@@ -44,9 +55,11 @@ class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layo
 
 }
 
-open class Animations : Block {
+open class Animations : Block() {
 
     val animations = mutableListOf<Animation>()
+
+    override fun calculateDuration() = animations.sumOf { animation -> animation.duration }
 
     open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
         animations.add(animation)
@@ -136,6 +149,29 @@ open class Animations : Block {
 }
 
 open class ViewReference(private vararg val views: View) : Animations() {
+    override fun updateAnimationTimeBounds() {
+        var start = start
+        animations.forEach { animation ->
+            animation.start = start
+            animation.end = start + animation.duration
+
+            start += animation.duration
+        }
+    }
+
+    override fun updateAnimation(time: Float) {
+        //TODO create 'currentAnimation' structure
+        views.forEach { view ->
+            animations.forEach { animation ->
+                val proportion = 1 - (animation.end - time) / animation.delta
+
+                if (proportion in 0.0..1.0) {
+                    animation.update(view, proportion)
+                }
+            }
+        }
+    }
+
     override suspend fun runBlock(orchestra: Orchestra) {
         animations.forEach { action ->
             val latch = CountDownLatch(views.size)
@@ -160,7 +196,8 @@ open class ViewReference(private vararg val views: View) : Animations() {
 
 }
 
-class ParallelBlock(private val orchestraContext: Orchestra) : Block {
+class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
+
     override suspend fun runBlock(orchestra: Orchestra) {
         orchestraContext.blocks.let { blocks ->
             val parallelLatch = CountDownLatch(blocks.size)
@@ -174,12 +211,16 @@ class ParallelBlock(private val orchestraContext: Orchestra) : Block {
             parallelLatch.await()
         }
     }
+
+    override fun calculateDuration() = orchestraContext.blocks.maxOf { block -> block.calculateDuration() }
 }
 
-class DelayBlock(val duration: Long) : Block {
+class DelayBlock(val duration: Long) : Block() {
     override suspend fun runBlock(orchestra: Orchestra) {
         coroutineDelay(duration)
     }
+
+    override fun calculateDuration() = duration
 }
 
 interface ParallelContext
@@ -194,17 +235,71 @@ interface OrchestraContext {
     fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
+class AnimationTicker {
+
+    private var startTime = 0L
+
+    private lateinit var blocks: MutableList<Block>
+
+    //TODO should be a list of blocks
+    private var currentBlock: Block? = null
+    private var currentBlockIndex = 0
+
+    private val updateListener: ValueAnimator.AnimatorUpdateListener = ValueAnimator.AnimatorUpdateListener {
+        update(it.animatedValue as Float)
+    }
+
+    private fun update(time: Float) {
+        currentBlock?.let { block ->
+            block.updateAnimation(time)
+
+            if (time > block.end) {
+                currentBlockIndex++
+
+                currentBlock = if (currentBlockIndex < blocks.size) {
+                    blocks[currentBlockIndex]
+                } else {
+                    null
+                }
+            }
+        }
+    }
+
+    fun start(blocks: MutableList<Block>) {
+        var blocksDuration = 0f
+        blocks.forEach { block ->
+            val blockDuration = block.calculateDuration()
+
+            block.start = blocksDuration
+            block.end = block.start + blockDuration
+            block.updateAnimationTimeBounds()
+
+            blocksDuration += blockDuration
+        }
+
+        this.blocks = blocks
+        ValueAnimator.ofFloat(0f, blocksDuration).apply {
+            this.duration = blocksDuration.toLong()
+
+            startTime = System.currentTimeMillis();
+            currentBlock = blocks[currentBlockIndex]
+            addUpdateListener(updateListener)
+        }.start()
+    }
+
+}
+
 class Orchestra : OrchestraContext, ParallelContext {
+
+    private val ticker = AnimationTicker()
 
     private var lastParallelBlock: ParallelBlock? = null
 
     internal val blocks = mutableListOf<Block>()
     private val executionLatch = CountDownLatch(1)
+
     private fun runBlocks() {
-        GlobalScope.launch {
-            doRunBlocks(blocks)
-            executionLatch.countDown()
-        }
+        ticker.start(blocks)
     }
 
     internal suspend fun doRunBlocks(blocks: List<Block>, blocksLatch: CountDownLatch? = null) {

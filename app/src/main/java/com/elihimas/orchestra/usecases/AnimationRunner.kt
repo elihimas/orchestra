@@ -4,7 +4,6 @@ import android.view.View
 import com.elihimas.orchestra.Direction
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.AnimateImageAnimations
-import java.lang.IllegalArgumentException
 
 interface AnimationConfiguration {
     var duration: Long

@@ -26,6 +26,19 @@ enum class Direction {
 
 abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
                          var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
+    var start = 0F
+        set(value) {
+            delta = end - value
+            field = value
+        }
+    var end = 0f
+        set(value) {
+            delta = value - start
+            field = value
+        }
+
+    var delta = 0f
+
     open fun beforeAnimation(view: View) {}
 
     open fun runAnimation(view: View, endAction: Runnable?) {
@@ -46,9 +59,19 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
         to.duration = from.duration
         to.spacing = from.spacing
     }
+
+    open fun update(view: View, proportion: Float) {
+        TODO("Not yet implemented")
+    }
 }
 
 open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
+
+    private val valueDelta = finalAlpha - initialAlpha
+
+    override fun update(view: View, proportion: Float) {
+        view.alpha = initialAlpha + proportion * (valueDelta)
+    }
 
     override fun clone(): Any {
         return FadeInAnimation(initialAlpha, finalAlpha).also {
