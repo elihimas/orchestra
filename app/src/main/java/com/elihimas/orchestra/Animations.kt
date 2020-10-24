@@ -60,16 +60,18 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
         to.spacing = from.spacing
     }
 
-    open fun update(view: View, proportion: Float) {
+    open fun updateAnimation(view: View, proportion: Float) {
         TODO("Not yet implemented")
     }
+
+    open fun init(vararg views: View) {}
 }
 
 open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
 
     private val valueDelta = finalAlpha - initialAlpha
 
-    override fun update(view: View, proportion: Float) {
+    override fun updateAnimation(view: View, proportion: Float) {
         view.alpha = initialAlpha + proportion * (valueDelta)
     }
 
@@ -306,6 +308,20 @@ class ChangeBackgroundAnimation(@ColorRes vararg colorResIds: Int) : ColorAnimat
 
 class ScaleAnimation(var scale: Float) : Animation() {
 
+    private var initialScale = 1f
+    private var valueDelta = 0f
+
+    override fun init(vararg views: View) {
+        initialScale = views[0].scaleX
+        valueDelta = scale - initialScale
+    }
+
+    override fun updateAnimation(view: View, proportion: Float) {
+        val scale = initialScale + proportion * valueDelta
+        view.scaleX = scale
+        view.scaleY = scale
+    }
+
     override fun clone(): Any {
         return ScaleAnimation(scale).also {
             cloneFromTo(it, this)
@@ -321,6 +337,20 @@ class ScaleAnimation(var scale: Float) : Animation() {
 }
 
 class RotateAnimation(var angle: Float) : Animation() {
+
+    private var initialRotation = 0f
+    private var valueDelta = 0f
+
+    override fun init(vararg views: View) {
+        initialRotation = views[0].rotation
+        valueDelta = angle
+        //TODO when implement rotateTo use:
+        //valueDelta = angle - initialRotation
+    }
+
+    override fun updateAnimation(view: View, proportion: Float) {
+        view.rotation = initialRotation + proportion * valueDelta
+    }
 
     override fun clone(): Any {
         return RotateAnimation(angle).also {

@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.function.Consumer
 
@@ -57,6 +58,8 @@ class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layo
 
 open class Animations : Block() {
 
+    val currentAnimations = LinkedList<Animation>()
+    var nextAnimationIndex = 0
     val animations = mutableListOf<Animation>()
 
     override fun calculateDuration() = animations.sumOf { animation -> animation.duration }
@@ -161,14 +164,31 @@ open class ViewReference(private vararg val views: View) : Animations() {
 
     override fun updateAnimation(time: Float) {
         //TODO create 'currentAnimation' structure
+
+        while (nextAnimationIndex < animations.size &&
+                time >= animations[nextAnimationIndex].start) {
+            val nextAnimation = animations[nextAnimationIndex]
+            nextAnimation.init(*views)
+            currentAnimations.add(nextAnimation)
+            nextAnimationIndex++
+        }
+
         views.forEach { view ->
-            animations.forEach { animation ->
+            currentAnimations.forEach { animation ->
                 val proportion = 1 - (animation.end - time) / animation.delta
 
                 if (proportion in 0.0..1.0) {
-                    animation.update(view, proportion)
+                    animation.updateAnimation(view, proportion)
                 }
             }
+        }
+
+        removePastAnimations(time)
+    }
+
+    private fun removePastAnimations(time: Float) {
+        while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
+            currentAnimations.removeFirst()
         }
     }
 
@@ -239,33 +259,36 @@ class AnimationTicker {
 
     private var startTime = 0L
 
-    private lateinit var blocks: MutableList<Block>
+    private lateinit var blocks: LinkedList<Block>
 
     //TODO should be a list of blocks
-    private var currentBlock: Block? = null
-    private var currentBlockIndex = 0
+    private var currentBlocks = LinkedList<Block>()
 
     private val updateListener: ValueAnimator.AnimatorUpdateListener = ValueAnimator.AnimatorUpdateListener {
         update(it.animatedValue as Float)
     }
 
     private fun update(time: Float) {
-        currentBlock?.let { block ->
-            block.updateAnimation(time)
+        currentBlocks.forEach {
+            it.updateAnimation(time)
+        }
 
-            if (time > block.end) {
-                currentBlockIndex++
+        removePastBlocks(time)
 
-                currentBlock = if (currentBlockIndex < blocks.size) {
-                    blocks[currentBlockIndex]
-                } else {
-                    null
-                }
+        blocks.removeBlocksAfter(time).let {
+            if (it.isNotEmpty()) {
+                currentBlocks.addAll(it)
             }
         }
     }
 
-    fun start(blocks: MutableList<Block>) {
+    private fun removePastBlocks(time: Float) {
+        while (blocks.peekFirst()?.let { it.end >= time } == true) {
+            blocks.remove()
+        }
+    }
+
+    fun start(blocks: LinkedList<Block>) {
         var blocksDuration = 0f
         blocks.forEach { block ->
             val blockDuration = block.calculateDuration()
@@ -278,15 +301,32 @@ class AnimationTicker {
         }
 
         this.blocks = blocks
+        currentBlocks = blocks.removeBlocksAfter(0f)
+
         ValueAnimator.ofFloat(0f, blocksDuration).apply {
             this.duration = blocksDuration.toLong()
 
             startTime = System.currentTimeMillis();
-            currentBlock = blocks[currentBlockIndex]
             addUpdateListener(updateListener)
         }.start()
     }
 
+}
+
+private fun LinkedList<Block>.removeBlocksAfter(time: Float): LinkedList<Block> {
+    val removedBlocks = LinkedList<Block>()
+
+    fun isFirstBlockAfter(time: Float): Boolean {
+        return this.peekFirst()?.let { it.start >= time } == true
+    }
+
+    while (isFirstBlockAfter(time)) {
+        this.removeFirst().let {
+            removedBlocks.addLast(it)
+        }
+    }
+
+    return removedBlocks
 }
 
 class Orchestra : OrchestraContext, ParallelContext {
@@ -295,7 +335,7 @@ class Orchestra : OrchestraContext, ParallelContext {
 
     private var lastParallelBlock: ParallelBlock? = null
 
-    internal val blocks = mutableListOf<Block>()
+    internal val blocks = LinkedList<Block>()
     private val executionLatch = CountDownLatch(1)
 
     private fun runBlocks() {
