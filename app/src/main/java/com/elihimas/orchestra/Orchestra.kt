@@ -10,6 +10,7 @@ import android.view.animation.AnticipateOvershootInterpolator
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,7 +29,7 @@ abstract class Block() {
     abstract suspend fun runBlock(orchestra: Orchestra)
     abstract fun calculateDuration(): Long
 
-    open fun updateAnimation(time: Float) {}
+    open fun updateAnimations(time: Float) {}
     open fun updateAnimationTimeBounds() {}
 }
 
@@ -162,33 +163,44 @@ open class ViewReference(private vararg val views: View) : Animations() {
         }
     }
 
-    override fun updateAnimation(time: Float) {
+    override fun updateAnimations(time: Float) {
         //TODO create 'currentAnimation' structure
+        currentAnimations.forEach { animation ->
+            updateAnimation(animation, time)
+        }
+
+        removePastAnimations(views, time)
+
 
         while (nextAnimationIndex < animations.size &&
                 time >= animations[nextAnimationIndex].start) {
             val nextAnimation = animations[nextAnimationIndex]
             nextAnimation.init(*views)
+
+            updateAnimation(nextAnimation, time)
+
             currentAnimations.add(nextAnimation)
             nextAnimationIndex++
         }
-
-        views.forEach { view ->
-            currentAnimations.forEach { animation ->
-                val proportion = 1 - (animation.end - time) / animation.delta
-
-                if (proportion in 0.0..1.0) {
-                    animation.updateAnimation(view, proportion)
-                }
-            }
-        }
-
-        removePastAnimations(time)
     }
 
-    private fun removePastAnimations(time: Float) {
+    private fun updateAnimation(animation: Animation, time: Float) {
+        views.forEach { view ->
+            val proportion = 1 - (animation.end - time) / animation.delta
+
+            if (proportion in 0.0..1.0) {
+                animation.updateAnimation(view, proportion)
+            }
+        }
+    }
+
+    private fun removePastAnimations(views: Array<out View>, time: Float) {
         while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
-            currentAnimations.removeFirst()
+            val pastAnimation = currentAnimations.removeFirst()
+
+            views.forEach { view ->
+                pastAnimation.updateAnimation(view, 1f)
+            }
         }
     }
 
@@ -257,9 +269,10 @@ interface OrchestraContext {
 
 class AnimationTicker {
 
-    private var startTime = 0L
+    private var currentTime = 0f
 
-    private lateinit var blocks: LinkedList<Block>
+    //TODO synchronize
+    private val blocks = LinkedList<Block>()
 
     //TODO should be a list of blocks
     private var currentBlocks = LinkedList<Block>()
@@ -269,11 +282,11 @@ class AnimationTicker {
     }
 
     private fun update(time: Float) {
-        currentBlocks.forEach {
-            it.updateAnimation(time)
-        }
+        currentTime = time
 
-        removePastBlocks(time)
+        currentBlocks.forEach {
+            it.updateAnimations(time)
+        }
 
         blocks.removeBlocksAfter(time).let {
             if (it.isNotEmpty()) {
@@ -282,15 +295,10 @@ class AnimationTicker {
         }
     }
 
-    private fun removePastBlocks(time: Float) {
-        while (blocks.peekFirst()?.let { it.end >= time } == true) {
-            blocks.remove()
-        }
-    }
+    fun start(newBlocks: LinkedList<Block>) {
+        var blocksDuration = currentTime
 
-    fun start(blocks: LinkedList<Block>) {
-        var blocksDuration = 0f
-        blocks.forEach { block ->
+        newBlocks.forEach { block ->
             val blockDuration = block.calculateDuration()
 
             block.start = blocksDuration
@@ -300,27 +308,27 @@ class AnimationTicker {
             blocksDuration += blockDuration
         }
 
-        this.blocks = blocks
-        currentBlocks = blocks.removeBlocksAfter(0f)
+        blocks.addAll(newBlocks)
 
-        ValueAnimator.ofFloat(0f, blocksDuration).apply {
-            this.duration = blocksDuration.toLong()
+        currentBlocks.addAll(newBlocks.removeBlocksAfter(0f))
 
-            startTime = System.currentTimeMillis();
-            addUpdateListener(updateListener)
-        }.start()
+        if (currentTime == 0f) {
+            ValueAnimator.ofFloat(0f, blocksDuration).apply {
+                this.duration = blocksDuration.toLong()
+
+                addUpdateListener(updateListener)
+                doOnEnd {
+                    Orchestra.disposeCurrentOrchestra()
+                }
+            }.start()
+        }
     }
-
 }
 
 private fun LinkedList<Block>.removeBlocksAfter(time: Float): LinkedList<Block> {
     val removedBlocks = LinkedList<Block>()
 
-    fun isFirstBlockAfter(time: Float): Boolean {
-        return this.peekFirst()?.let { it.start >= time } == true
-    }
-
-    while (isFirstBlockAfter(time)) {
+    while (this.peekFirst()?.let { it.start >= time } == true) {
         this.removeFirst().let {
             removedBlocks.addLast(it)
         }
@@ -394,6 +402,22 @@ class Orchestra : OrchestraContext, ParallelContext {
     }
 
     companion object {
+
+        //TODO synchronize creation and disposing
+        var orchestra: Orchestra? = null
+
+        private fun currentOrchestra(): Orchestra {
+            val current = orchestra ?: Orchestra()
+
+            orchestra = current
+
+            return current
+        }
+
+        internal fun disposeCurrentOrchestra() {
+            orchestra = null
+        }
+
         @JvmStatic
         fun onRecycler(recyclerView: RecyclerView) = RecyclerConfiguration(recyclerView)
 
@@ -406,7 +430,7 @@ class Orchestra : OrchestraContext, ParallelContext {
         }
 
         fun launch(block: OrchestraContext.() -> Unit): OrchestraContext {
-            val orchestraContext = Orchestra()
+            val orchestraContext = currentOrchestra()
             block.invoke(orchestraContext)
             orchestraContext.runBlocks()
 

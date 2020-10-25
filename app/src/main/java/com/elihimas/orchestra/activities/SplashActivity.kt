@@ -18,6 +18,17 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        listOf(sqr1, sqr2, sqr3, sqr4, sqr5).forEach {
+            it.setOnClickListener {
+                Orchestra.launch {
+                    on(it)
+                            .rotate(90f) {
+                                duration = 2000
+                            }
+                }
+            }
+        }
+
         root.setOnClickListener {
             onRootClicked()
         }
@@ -28,14 +39,11 @@ class SplashActivity : AppCompatActivity() {
     private fun onRootClicked() {
         Orchestra.launch {
             on(rightSquare)
-                    .rotate(360f) {
+                    .scale(6) {
+                        duration = 700
+                    }
+                    .rotate(-360f) {
                         duration = 6000
-                    }
-                    .rotate(-720f) {
-                        duration = 4000
-                    }
-                    .rotate(360f) {
-                        duration = 400
                     }
         }
     }
@@ -44,28 +52,19 @@ class SplashActivity : AppCompatActivity() {
         Orchestra.launch {
             on(titleText, leftSquare)
                     .fadeIn {
-                        duration = 2000
+                        duration = 800
                     }
                     .scale(3) {
-                        duration = 5000
+                        duration = 2000
                     }
-                    .rotate(270f) {
-                        duration = 6000
+                    .rotate(180f) {
+                        duration = 700
                     }
-                    .rotate(-180f) {
-                        duration = 4000
+                    .rotate(-360f) {
+                        duration = 900
                     }
-                    .scale(0.5f) {
-                        duration = 3000
-                    }
-                    .scale(2) {
-                        duration = 3000
-                    }
-                    .rotate(300f) {
-                        duration = 6500
-                    }
-                    .rotate(80f) {
-
+                    .rotate(180f) {
+                        duration = 700
                     }
         }
     }
