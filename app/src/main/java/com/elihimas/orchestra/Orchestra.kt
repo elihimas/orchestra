@@ -164,23 +164,24 @@ open class ViewReference(private vararg val views: View) : Animations() {
     }
 
     override fun updateAnimations(time: Float) {
-        //TODO create 'currentAnimation' structure
+        doUpdateAnimations(time)
+        removePastAnimations( time)
+        addStartedAnimations(time)
+    }
+
+    private fun doUpdateAnimations(time: Float) {
         currentAnimations.forEach { animation ->
             updateAnimation(animation, time)
         }
+    }
 
-        removePastAnimations(views, time)
+    private fun removePastAnimations( time: Float) {
+        while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
+            val pastAnimation = currentAnimations.removeFirst()
 
-
-        while (nextAnimationIndex < animations.size &&
-                time >= animations[nextAnimationIndex].start) {
-            val nextAnimation = animations[nextAnimationIndex]
-            nextAnimation.init(*views)
-
-            updateAnimation(nextAnimation, time)
-
-            currentAnimations.add(nextAnimation)
-            nextAnimationIndex++
+            views.forEach { view ->
+                pastAnimation.updateAnimation(view, 1f)
+            }
         }
     }
 
@@ -194,13 +195,16 @@ open class ViewReference(private vararg val views: View) : Animations() {
         }
     }
 
-    private fun removePastAnimations(views: Array<out View>, time: Float) {
-        while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
-            val pastAnimation = currentAnimations.removeFirst()
+    private fun addStartedAnimations(time: Float) {
+        while (nextAnimationIndex < animations.size &&
+                time >= animations[nextAnimationIndex].start) {
+            val nextAnimation = animations[nextAnimationIndex]
+            nextAnimation.init(*views)
 
-            views.forEach { view ->
-                pastAnimation.updateAnimation(view, 1f)
-            }
+            updateAnimation(nextAnimation, time)
+
+            currentAnimations.add(nextAnimation)
+            nextAnimationIndex++
         }
     }
 
@@ -225,10 +229,19 @@ open class ViewReference(private vararg val views: View) : Animations() {
             latch.await()
         }
     }
-
 }
 
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
+    override fun updateAnimationTimeBounds() {
+        orchestraContext.blocks.forEach{block->
+            block.updateAnimationTimeBounds()
+        }
+    }
+    override fun updateAnimations(time: Float)  {
+        orchestraContext.blocks.forEach{block->
+            block.updateAnimations(time)
+        }
+    }
 
     override suspend fun runBlock(orchestra: Orchestra) {
         orchestraContext.blocks.let { blocks ->
