@@ -284,11 +284,18 @@ class AnimationTicker {
     private fun update(time: Float) {
         currentTime = time
 
+        updateBlocks(time)
+        addStartedBlocks(time)
+    }
+
+    private fun updateBlocks(time: Float) {
         currentBlocks.forEach {
             it.updateAnimations(time)
         }
+    }
 
-        blocks.removeBlocksAfter(time).let {
+    private fun addStartedBlocks(time: Float) {
+        blocks.removeStartedBlocks(time).let {
             if (it.isNotEmpty()) {
                 currentBlocks.addAll(it)
             }
@@ -296,25 +303,16 @@ class AnimationTicker {
     }
 
     fun start(newBlocks: LinkedList<Block>) {
-        var blocksDuration = currentTime
-
-        newBlocks.forEach { block ->
-            val blockDuration = block.calculateDuration()
-
-            block.start = blocksDuration
-            block.end = block.start + blockDuration
-            block.updateAnimationTimeBounds()
-
-            blocksDuration += blockDuration
-        }
+        val baseTime = currentTime
+        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(newBlocks, baseTime)
 
         blocks.addAll(newBlocks)
 
-        currentBlocks.addAll(newBlocks.removeBlocksAfter(0f))
+        currentBlocks.addAll(newBlocks.removeStartedBlocks(0f))
 
         if (currentTime == 0f) {
-            ValueAnimator.ofFloat(0f, blocksDuration).apply {
-                this.duration = blocksDuration.toLong()
+            ValueAnimator.ofFloat(baseTime, blocksEnd).apply {
+                this.duration = (blocksEnd - baseTime).toLong()
 
                 addUpdateListener(updateListener)
                 doOnEnd {
@@ -323,9 +321,25 @@ class AnimationTicker {
             }.start()
         }
     }
+
+    private fun updateBlocksTimeBoundsAndCalculateEnd(newBlocks: LinkedList<Block>, baseTime: Float): Float {
+        var blocksEnd = baseTime
+
+        newBlocks.forEach { block ->
+            val blockDuration = block.calculateDuration()
+
+            block.start = blocksEnd
+            block.end = block.start + blockDuration
+            block.updateAnimationTimeBounds()
+
+            blocksEnd += blockDuration
+        }
+
+        return blocksEnd
+    }
 }
 
-private fun LinkedList<Block>.removeBlocksAfter(time: Float): LinkedList<Block> {
+private fun LinkedList<Block>.removeStartedBlocks(time: Float): LinkedList<Block> {
     val removedBlocks = LinkedList<Block>()
 
     while (this.peekFirst()?.let { it.start >= time } == true) {
