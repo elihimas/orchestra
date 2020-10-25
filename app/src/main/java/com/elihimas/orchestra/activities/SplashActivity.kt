@@ -50,6 +50,34 @@ class SplashActivity : AppCompatActivity() {
 
     private fun tempShortSplash() {
         Orchestra.launch {
+            parallel {
+                on(sqr1)
+                        .rotate(180f) {
+                            duration = 3000
+                        }
+                        .scale(2) {
+                            duration = 4000
+                        }
+
+
+                on(sqr3)
+                        .scale(2) {
+                            duration = 4000
+                        }
+                        .rotate(180f) {
+                            duration = 3000
+                        }
+
+
+                on(sqr5)
+                        .scale(2) {
+                            duration = 600
+                        }
+                        .rotate(720f) {
+                            duration = 800
+                        }
+            }
+
             on(titleText, leftSquare)
 //                    .fadeIn {
 //                        duration = 800
@@ -57,9 +85,9 @@ class SplashActivity : AppCompatActivity() {
 //                    .scale(3) {
 //                        duration = 2000
 //                    }
-                    .rotate(1800f) {
-                        duration = 7000
-                    }
+//                    .rotate(1800f) {
+//                        duration = 7000
+//                    }
 //                    .rotate(-360f) {
 //                        duration = 900
 //                    }
