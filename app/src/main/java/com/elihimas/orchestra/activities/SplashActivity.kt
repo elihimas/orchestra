@@ -53,19 +53,19 @@ class SplashActivity : AppCompatActivity() {
             parallel {
                 on(sqr1)
                         .rotate(180f) {
-                            duration = 3000
+                            duration = 300
                         }
                         .scale(2) {
-                            duration = 4000
+                            duration = 400
                         }
 
 
                 on(sqr3)
                         .scale(2) {
-                            duration = 4000
+                            duration = 400
                         }
                         .rotate(180f) {
-                            duration = 3000
+                            duration = 300
                         }
 
 
@@ -78,23 +78,38 @@ class SplashActivity : AppCompatActivity() {
                         }
             }
 
+            on(sqr1, sqr3, sqr5)
+                    .scale(1) {
+                        duration = 300
+                    }
+
             on(titleText, leftSquare)
-//                    .fadeIn {
-//                        duration = 800
-//                    }
-//                    .scale(3) {
-//                        duration = 2000
-//                    }
-//                    .rotate(1800f) {
-//                        duration = 7000
-//                    }
-//                    .rotate(-360f) {
-//                        duration = 900
-//                    }
-//                    .rotate(180f) {
-//                        duration = 700
-//                    }
+                    .fadeIn {
+                        duration = 800
+                    }
+                    .scale(3) {
+                        duration = 2000
+                    }
+                    .rotate(180f) {
+                        duration = 700
+                    }
+                    .rotate(-360f) {
+                        duration = 900
+                    }
+                    .rotate(180f) {
+                        duration = 700
+                    }
         }
+
+        android.os.Handler().postDelayed({
+            Orchestra.launch {
+                on(rightSquare)
+                        .scale(4)
+                        .rotate(3600f) {
+                            duration = 10000
+                        }
+            }
+        }, 2200)
     }
 
     private fun shortSplash() {

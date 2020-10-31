@@ -1,5 +1,6 @@
 package com.elihimas.orchestra
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.transition.ChangeBounds
@@ -165,7 +166,7 @@ open class ViewReference(private vararg val views: View) : Animations() {
 
     override fun updateAnimations(time: Float) {
         doUpdateAnimations(time)
-        removePastAnimations( time)
+        removePastAnimations(time)
         addStartedAnimations(time)
     }
 
@@ -175,7 +176,7 @@ open class ViewReference(private vararg val views: View) : Animations() {
         }
     }
 
-    private fun removePastAnimations( time: Float) {
+    private fun removePastAnimations(time: Float) {
         while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
             val pastAnimation = currentAnimations.removeFirst()
 
@@ -233,12 +234,13 @@ open class ViewReference(private vararg val views: View) : Animations() {
 
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
     override fun updateAnimationTimeBounds() {
-        orchestraContext.blocks.forEach{block->
+        orchestraContext.blocks.forEach { block ->
             block.updateAnimationTimeBounds()
         }
     }
-    override fun updateAnimations(time: Float)  {
-        orchestraContext.blocks.forEach{block->
+
+    override fun updateAnimations(time: Float) {
+        orchestraContext.blocks.forEach { block ->
             block.updateAnimations(time)
         }
     }
@@ -298,7 +300,14 @@ class AnimationTicker {
         currentTime = time
 
         updateBlocks(time)
+        removePastBlocks(time)
         addStartedBlocks(time)
+    }
+
+    private fun removePastBlocks(time: Float) {
+        while (currentBlocks.peekFirst()?.let { time >= it.end } == true) {
+            currentBlocks.removeFirst()
+        }
     }
 
     private fun updateBlocks(time: Float) {
@@ -315,23 +324,32 @@ class AnimationTicker {
         }
     }
 
-    fun start(newBlocks: LinkedList<Block>) {
+    fun start(newBlocks: LinkedList<Block>, force: Boolean = false) {
         val baseTime = currentTime
-        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(newBlocks, baseTime)
-
         blocks.addAll(newBlocks)
+        currentBlocks.addAll(newBlocks.removeStartedBlocks(baseTime))
 
-        currentBlocks.addAll(newBlocks.removeStartedBlocks(0f))
+        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(blocks, baseTime)
 
-        if (currentTime == 0f) {
+
+        if (currentTime == 0f || force) {
             ValueAnimator.ofFloat(baseTime, blocksEnd).apply {
                 this.duration = (blocksEnd - baseTime).toLong()
 
                 addUpdateListener(updateListener)
-                doOnEnd {
-                    Orchestra.disposeCurrentOrchestra()
-                }
+                doOnEnd(::doOnEnd)
             }.start()
+        }
+    }
+
+    private fun doOnEnd(animator: Animator) {
+        val baseTime = currentTime
+        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(blocks, baseTime)
+
+        if (blocks.isNotEmpty() && currentBlocks.isNotEmpty()) {
+            start(LinkedList(), force = true)
+        } else {
+            Orchestra.disposeCurrentOrchestra()
         }
     }
 
