@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.function.Consumer
+import kotlin.math.max
 
 suspend fun coroutineDelay(millis: Long) = delay(millis)
 
@@ -287,7 +288,7 @@ class AnimationTicker {
     private var currentTime = 0f
 
     //TODO synchronize
-    private val blocks = LinkedList<Block>()
+    private lateinit var nextBlocks: LinkedList<Block>
 
     //TODO should be a list of blocks
     private var currentBlocks = LinkedList<Block>()
@@ -317,24 +318,25 @@ class AnimationTicker {
     }
 
     private fun addStartedBlocks(time: Float) {
-        blocks.removeStartedBlocks(time).let {
+        nextBlocks.removeStartedBlocks(time).let {
             if (it.isNotEmpty()) {
                 currentBlocks.addAll(it)
             }
         }
     }
 
-    fun start(newBlocks: LinkedList<Block>, force: Boolean = false) {
+    fun start(blocks: LinkedList<Block>, force: Boolean = false) {
         val baseTime = currentTime
-        blocks.addAll(newBlocks)
-        currentBlocks.addAll(newBlocks.removeStartedBlocks(baseTime))
 
-        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(blocks, baseTime)
+        nextBlocks = blocks
+        val blocksEndTime = updateBlocksTimeBoundsAndCalculateEnd(nextBlocks, currentBlocks, baseTime)
 
+        currentBlocks.addAll(nextBlocks.removeStartedBlocks(baseTime).also {
+        })
 
-        if (currentTime == 0f || force) {
-            ValueAnimator.ofFloat(baseTime, blocksEnd).apply {
-                this.duration = (blocksEnd - baseTime).toLong()
+        if (baseTime == 0f || force) {
+            ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
+                this.duration = (blocksEndTime - baseTime).toLong() + 1000
 
                 addUpdateListener(updateListener)
                 doOnEnd(::doOnEnd)
@@ -343,17 +345,16 @@ class AnimationTicker {
     }
 
     private fun doOnEnd(animator: Animator) {
-        val baseTime = currentTime
-        val blocksEnd = updateBlocksTimeBoundsAndCalculateEnd(blocks, baseTime)
-
-        if (blocks.isNotEmpty() && currentBlocks.isNotEmpty()) {
-            start(LinkedList(), force = true)
+        if (nextBlocks.isNotEmpty() || currentBlocks.isNotEmpty()) {
+            start(nextBlocks, force = true)
         } else {
             Orchestra.disposeCurrentOrchestra()
         }
     }
 
-    private fun updateBlocksTimeBoundsAndCalculateEnd(newBlocks: LinkedList<Block>, baseTime: Float): Float {
+    private fun updateBlocksTimeBoundsAndCalculateEnd(newBlocks: LinkedList<Block>,
+                                                      currentBlocks: LinkedList<Block>,
+                                                      baseTime: Float): Float {
         var blocksEnd = baseTime
 
         newBlocks.forEach { block ->
@@ -366,7 +367,10 @@ class AnimationTicker {
             blocksEnd += blockDuration
         }
 
-        return blocksEnd
+
+        val currentBlocksMaxEnd = currentBlocks.maxOfOrNull { it.end } ?: 0f
+
+        return max(blocksEnd, currentBlocksMaxEnd)
     }
 }
 

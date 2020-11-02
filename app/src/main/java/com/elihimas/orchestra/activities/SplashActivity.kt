@@ -22,30 +22,14 @@ class SplashActivity : AppCompatActivity() {
             it.setOnClickListener {
                 Orchestra.launch {
                     on(it)
-                            .rotate(90f) {
-                                duration = 2000
+                            .rotate(900f) {
+                                duration = 5000
                             }
                 }
             }
         }
 
-        root.setOnClickListener {
-            onRootClicked()
-        }
-
-        Orchestra.shortOrLong(::tempShortSplash, ::longSplash)
-    }
-
-    private fun onRootClicked() {
-        Orchestra.launch {
-            on(rightSquare)
-                    .scale(6) {
-                        duration = 700
-                    }
-                    .rotate(-360f) {
-                        duration = 6000
-                    }
-        }
+        //Orchestra.shortOrLong(::tempShortSplash, ::longSplash)
     }
 
     private fun tempShortSplash() {
