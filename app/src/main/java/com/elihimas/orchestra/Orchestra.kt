@@ -8,6 +8,7 @@ import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.View
 import android.view.animation.AnticipateOvershootInterpolator
+import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -336,7 +337,8 @@ class AnimationTicker {
 
         if (baseTime == 0f || force) {
             ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
-                this.duration = (blocksEndTime - baseTime).toLong() + 1000
+                this.duration = (blocksEndTime - baseTime).toLong()
+                interpolator = LinearInterpolator()
 
                 addUpdateListener(updateListener)
                 doOnEnd(::doOnEnd)
