@@ -3,6 +3,7 @@ package com.elihimas.orchestra.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.elihimas.orchestra.Direction
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -18,13 +19,13 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        listOf(sqr1, sqr2, sqr3, sqr4, sqr5).forEach {
-            it.setOnClickListener {
+        listOf(sqr1, sqr2, sqr3, sqr4, sqr5, sqr6, sqr7, sqr8, sqr9, sqr10).forEachIndexed { index, view ->
+            view.setOnClickListener {
                 Orchestra.launch {
-                    on(it)
-                            .rotate(900f) {
-                                duration = 5000
-                            }
+                    on(view)
+                            .rotate(360f) { duration = 300 }
+                            .translate(-70.0f, 90f) { duration = 400 }
+                            .slideOut(Direction.values()[index % 4])
                 }
             }
         }

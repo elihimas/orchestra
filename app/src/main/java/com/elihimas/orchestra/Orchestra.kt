@@ -337,7 +337,7 @@ class AnimationTicker {
 
         if (baseTime == 0f || force) {
             ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
-                this.duration = (blocksEndTime - baseTime).toLong()
+                duration = (blocksEndTime - baseTime).toLong()
                 interpolator = LinearInterpolator()
 
                 addUpdateListener(updateListener)
