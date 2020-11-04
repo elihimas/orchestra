@@ -139,11 +139,57 @@ class CircularRevealAnimation : Animation() {
  */
 open class SlideAnimation(var direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
 
+    val update: (view: View, proportion: Float) -> Unit
+    var initialTranslationX = 0f
+    var initialTranslationY = 0f
+
+    init {
+        val actualDirection = if (reverseAnimation) {
+            direction.reverse()
+        } else {
+            direction
+        }
+
+        update = when (actualDirection) {
+            Direction.Up -> { view, proportion ->
+                val down = view.height * proportion
+
+                view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
+                view.translationY = down + initialTranslationY
+            }
+            Direction.Down -> { view, proportion ->
+                val top = view.height * proportion
+
+                view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
+                view.translationY = -top + initialTranslationY
+            }
+            Direction.Left -> { view, proportion ->
+                val right = view.width * proportion
+
+                view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
+                view.translationX = right + initialTranslationX
+            }
+            Direction.Right -> { view, proportion ->
+                val left = view.width * proportion
+
+                view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
+                view.translationX = -left + initialTranslationX
+            }
+        }
+    }
+
     override fun clone(): Any {
         return SlideAnimation(direction, reverseAnimation).also {
             cloneFromTo(it, this)
         }
     }
+
+    override fun init(vararg views: View) {
+        initialTranslationX = views[0].translationX
+        initialTranslationY = views[0].translationY
+    }
+
+    override fun updateAnimation(view: View, proportion: Float) = update(view, proportion)
 
     override fun runAnimation(view: View, endAction: Runnable?) {
         view.visibility = View.VISIBLE
@@ -230,6 +276,22 @@ class ParallelAnimation(private val reference: Animations) : Animation() {
 }
 
 class TranslateAnimation(private val x: Float, private val y: Float) : Animation() {
+
+    private var initialX = 0f
+    private var initialY = 0f
+
+    override fun init(vararg views: View) {
+        initialX = views[0].translationX
+        initialY = views[0].translationY
+    }
+
+    override fun updateAnimation(view: View, proportion: Float) {
+        val newX = initialX + proportion * x
+        val newY = initialY + proportion * y
+
+        view.translationX = newX
+        view.translationY = newY
+    }
 
     override fun clone(): Any {
         return TranslateAnimation(x, y).also {

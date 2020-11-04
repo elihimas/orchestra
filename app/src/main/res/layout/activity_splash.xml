@@ -38,7 +38,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-
     <View
         android:id="@+id/sqr1"
         android:layout_width="48dp"
@@ -84,5 +83,62 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sqr4" />
 
+    <LinearLayout
+        android:id="@+id/sqr6"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintRight_toLeftOf="@id/sqr1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_dark" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/darker_gray"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/sqr7"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/holo_orange_light"
+        app:layout_constraintRight_toLeftOf="@id/sqr2"
+        app:layout_constraintTop_toBottomOf="@id/sqr1" />
+
+    <View
+        android:id="@+id/sqr8"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/holo_green_dark"
+        app:layout_constraintRight_toLeftOf="@id/sqr3"
+        app:layout_constraintTop_toBottomOf="@id/sqr2" />
+
+    <View
+        android:id="@+id/sqr9"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/holo_green_light"
+        app:layout_constraintRight_toLeftOf="@id/sqr4"
+        app:layout_constraintTop_toBottomOf="@id/sqr3" />
+
+    <View
+        android:id="@+id/sqr10"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/holo_blue_light"
+        app:layout_constraintRight_toLeftOf="@id/sqr5"
+        app:layout_constraintTop_toBottomOf="@id/sqr4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
