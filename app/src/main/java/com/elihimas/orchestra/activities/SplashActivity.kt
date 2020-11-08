@@ -24,8 +24,18 @@ class SplashActivity : AppCompatActivity() {
                 Orchestra.launch {
                     on(view)
                             .rotate(360f) { duration = 300 }
-                            .translate(-70.0f, 90f) { duration = 400 }
-                            .slideOut(Direction.values()[index % 4])
+                            .delay(600)
+                            .rotate(-180f) { duration = 150 }
+
+
+                    parallel {
+                        on(view)
+                                .rotate(720f) { duration = 3000 }
+
+                        on(sqr10)
+                                .delay(1500)
+                                .rotate(360f) { duration = 2500 }
+                    }
                 }
             }
         }

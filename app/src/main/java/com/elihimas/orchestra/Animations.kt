@@ -259,6 +259,14 @@ class SlideOutAnimation(direction: Direction) : SlideAnimation(direction, true)
 
 class ParallelAnimation(private val reference: Animations) : Animation() {
 
+    override fun updateAnimation(view: View, proportion: Float) {
+        super.updateAnimation(view, proportion)
+
+        reference.animations.forEach { animation ->
+            animation.updateAnimation(view, proportion)
+        }
+    }
+
     override fun clone(): Any {
         return ParallelAnimation(reference).also {
             cloneFromTo(it, this)
@@ -396,6 +404,14 @@ class ScaleAnimation(var scale: Float) : Animation() {
                 .scaleY(scale)
     }
 
+}
+
+class DelayAnimation(duration: Long) : Animation(duration) {
+    override fun clone() = DelayAnimation(duration)
+
+    override fun updateAnimation(view: View, proportion: Float) {
+        //nothing to do
+    }
 }
 
 class RotateAnimation(var angle: Float) : Animation() {

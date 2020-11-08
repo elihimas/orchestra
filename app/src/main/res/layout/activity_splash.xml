@@ -101,8 +101,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@android:color/darker_gray"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray" />
     </LinearLayout>
 
     <View
@@ -132,13 +132,26 @@
         app:layout_constraintRight_toLeftOf="@id/sqr4"
         app:layout_constraintTop_toBottomOf="@id/sqr3" />
 
-    <View
+    <LinearLayout
         android:id="@+id/sqr10"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="10dp"
-        android:background="@android:color/holo_blue_light"
+        android:orientation="horizontal"
         app:layout_constraintRight_toLeftOf="@id/sqr5"
-        app:layout_constraintTop_toBottomOf="@id/sqr4" />
+        app:layout_constraintTop_toBottomOf="@id/sqr4">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_light" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

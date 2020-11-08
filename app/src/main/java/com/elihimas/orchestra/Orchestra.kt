@@ -131,6 +131,12 @@ open class Animations : Block() {
 
     fun rotate(angle: Float) = rotate(angle, config = null)
 
+
+    fun delay(duration: Long,
+               config: (DelayAnimation.() -> Unit)? = null) = add(DelayAnimation(duration), config)
+
+    fun delay(duration: Long) = delay(duration, config = null)
+
     fun parallel(block: Consumer<Animations>): Animations {
         Animations().also { insideReference ->
             block.accept(insideReference)
@@ -157,12 +163,12 @@ open class Animations : Block() {
 
 open class ViewReference(private vararg val views: View) : Animations() {
     override fun updateAnimationTimeBounds() {
-        var start = start
+        var animationStart = start
         animations.forEach { animation ->
-            animation.start = start
-            animation.end = start + animation.duration
+            animation.start = animationStart
+            animation.end = animationStart + animation.duration
 
-            start += animation.duration
+            animationStart += animation.duration
         }
     }
 
@@ -237,8 +243,15 @@ open class ViewReference(private vararg val views: View) : Animations() {
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
     override fun updateAnimationTimeBounds() {
         orchestraContext.blocks.forEach { block ->
+            block.start = start
+            block.end = end
+
             block.updateAnimationTimeBounds()
         }
+
+        start = orchestraContext.blocks.minOf { block -> block.start }
+        end = orchestraContext.blocks.maxOf { block -> block.end }
+        val v = 0
     }
 
     override fun updateAnimations(time: Float) {
@@ -332,8 +345,7 @@ class AnimationTicker {
         nextBlocks = blocks
         val blocksEndTime = updateBlocksTimeBoundsAndCalculateEnd(nextBlocks, currentBlocks, baseTime)
 
-        currentBlocks.addAll(nextBlocks.removeStartedBlocks(baseTime).also {
-        })
+        currentBlocks.addAll(nextBlocks.removeStartedBlocks(baseTime))
 
         if (baseTime == 0f || force) {
             ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
