@@ -3,7 +3,6 @@ package com.elihimas.orchestra
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewPropertyAnimator
@@ -315,64 +314,50 @@ class TranslateAnimation(private val x: Float, private val y: Float) : Animation
     }
 }
 
-abstract class ColorAnimation(@ColorRes vararg val colorResIds: Int) : Animation() {
+abstract class ColorAnimation(@ColorRes private val initialColorRes: Int, @ColorRes private val finalColorRes: Int) : Animation() {
 
-    override fun runAnimation(view: View, endAction: Runnable?) {
-        val resources = view.context.resources
-        val colorTo = colorResIds.map { resources.getColor(it, view.context.theme) }.toTypedArray()
-        val colorAnimation =
-                if (colorTo.size == 1) {
-                    val firstColor: Int = with(view.background) {
-                        if (this is ColorDrawable) {
-                            this.color
-                        } else {
-                            resources.getColor(android.R.color.transparent, view.context.theme)
-                        }
-                    }
-                    ValueAnimator.ofObject(ArgbEvaluator(), firstColor, colorTo[0])
-                } else {
-                    ValueAnimator.ofObject(ArgbEvaluator(), *colorTo)
-                }
+    private val evaluator = ArgbEvaluator()
+    protected var initialColor: Int=0
+    protected var finalColor: Int=0
 
-        with(colorAnimation) {
-            duration = this@ColorAnimation.duration
+    override fun init(vararg views: View) {
+        val context= views[0].context
 
-            addUpdateListener(createUpdateListener(view))
-            doOnEnd { endAction?.run() }
-            start()
-        }
+        initialColor = context.getColor(initialColorRes)
+        finalColor = context.getColor(finalColorRes)
     }
 
-    abstract fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener
+    override fun updateAnimation(view: View, proportion: Float) {
+        val color = evaluator.evaluate(proportion, initialColor, finalColor)
+        update(view, color as Int)
+    }
+
+    abstract fun update(view: View, color: Int)
 }
 
-class ChangeTextColorAnimation(@ColorRes vararg colorResIds: Int) : ColorAnimation(*colorResIds) {
+class ChangeTextColorAnimation(@ColorRes initialColorRes: Int, @ColorRes finalColorRes: Int) : ColorAnimation(initialColorRes, finalColorRes) {
 
     override fun clone(): Any {
-        return ChangeTextColorAnimation(*colorResIds).also {
+        return ChangeTextColorAnimation(initialColor, finalColor).also {
             cloneFromTo(it, this)
         }
     }
 
-    override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
-        return ValueAnimator.AnimatorUpdateListener {
-            (view as TextView?)?.setTextColor(it.animatedValue as Int)
-        }
+    override fun update(view: View, color: Int) {
+        (view as TextView?)?.setTextColor(color)
     }
 }
 
-class ChangeBackgroundAnimation(@ColorRes vararg colorResIds: Int) : ColorAnimation(*colorResIds) {
+class ChangeBackgroundAnimation(@ColorRes initialColorRes: Int, @ColorRes finalColorRes: Int) : ColorAnimation(initialColorRes, finalColorRes) {
 
     override fun clone(): Any {
-        return ChangeBackgroundAnimation(*colorResIds).also {
+        return ChangeBackgroundAnimation(initialColor, finalColor).also {
             cloneFromTo(it, this)
         }
     }
 
-    override fun createUpdateListener(view: View): ValueAnimator.AnimatorUpdateListener {
-        return ValueAnimator.AnimatorUpdateListener {
-            view.setBackgroundColor(it.animatedValue as Int)
-        }
+    override fun update(view: View, color: Int) {
+        view.setBackgroundColor(color)
     }
 }
 

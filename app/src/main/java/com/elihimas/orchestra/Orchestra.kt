@@ -113,15 +113,43 @@ open class Animations : Block() {
     fun translate(x: Float, y: Float) = translate(x, y, null)
 
     fun changeBackground(@ColorRes vararg colorResIds: Int,
-                         config: (ChangeBackgroundAnimation.() -> Unit)? = null) =
-            add(ChangeBackgroundAnimation(*colorResIds), config)
+                         config: (ChangeBackgroundAnimation.() -> Unit)? = null) : Animations {
+        val transitionsCount = colorResIds.size - 1
+        colorResIds.forEachIndexed { index, color ->
+            if (index != 0) {
+                val previousColor = colorResIds[index - 1]
+                val animation = ChangeBackgroundAnimation(previousColor, color)
+                config?.invoke(animation)
+
+                animation.duration = animation.duration / transitionsCount
+
+                animations.add(animation)
+            }
+        }
+
+        return this
+    }
 
     fun changeBackground(@ColorRes vararg colorResIds: Int) = changeBackground(*colorResIds, config = null)
 
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int,
-                        config: (ChangeTextColorAnimation.() -> Unit)? = null) =
-            add(ChangeTextColorAnimation(*colorResIds), config)
+                        config: (ChangeTextColorAnimation.() -> Unit)? = null): Animations {
+        val transitionsCount = colorResIds.size - 1
+        colorResIds.forEachIndexed { index, color ->
+            if (index != 0) {
+                val previousColor = colorResIds[index - 1]
+                val animation = ChangeTextColorAnimation(previousColor, color)
+                config?.invoke(animation)
+
+                animation.duration = animation.duration / transitionsCount
+
+                animations.add(animation)
+            }
+        }
+
+        return this
+    }
 
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int) = changeTextColor(*colorResIds, config = null)
@@ -133,7 +161,7 @@ open class Animations : Block() {
 
 
     fun delay(duration: Long,
-               config: (DelayAnimation.() -> Unit)? = null) = add(DelayAnimation(duration), config)
+              config: (DelayAnimation.() -> Unit)? = null) = add(DelayAnimation(duration), config)
 
     fun delay(duration: Long) = delay(duration, config = null)
 
@@ -160,6 +188,7 @@ open class Animations : Block() {
         TODO("Not yet implemented")
     }
 }
+
 
 open class ViewReference(private vararg val views: View) : Animations() {
     override fun updateAnimationTimeBounds() {
