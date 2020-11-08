@@ -3,9 +3,7 @@ package com.elihimas.orchestra.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.elihimas.orchestra.Direction
-import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
+import com.elihimas.orchestra.*
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -21,20 +19,41 @@ class SplashActivity : AppCompatActivity() {
     private fun init() {
         listOf(sqr1, sqr2, sqr3, sqr4, sqr5, sqr6, sqr7, sqr8, sqr9, sqr10).forEachIndexed { index, view ->
             view.setOnClickListener {
+
                 Orchestra.launch {
-                    on(view)
-                            .rotate(360f) { duration = 300 }
-                            .delay(600)
-                            .rotate(-180f) { duration = 150 }
+                    on(titleText)
+                            .scale(4) { duration = 300 }
+                            .changeTextColor(
+                                    android.R.color.holo_red_light,
+                                    android.R.color.holo_blue_light,
+                                    android.R.color.holo_orange_dark,
+                                    android.R.color.holo_orange_light,
+                                    android.R.color.holo_green_light)
+                            {
+                                duration = 2600
+                            }
+                            .scale(1) { duration = 300 }
 
 
                     parallel {
                         on(view)
-                                .rotate(720f) { duration = 3000 }
+                                .changeBackground(
+                                        android.R.color.holo_green_dark,
+                                        android.R.color.holo_orange_dark,
+                                        android.R.color.holo_red_dark,
+                                        android.R.color.holo_orange_light){
+                                    duration = 3000
+                                }
 
-                        on(sqr10)
-                                .delay(1500)
-                                .rotate(360f) { duration = 2500 }
+                        on(sqr5)
+                                .changeBackground(
+                                        android.R.color.black,
+                                        android.R.color.holo_green_light,
+                                        android.R.color.darker_gray,
+                                        android.R.color.transparent,
+                                        android.R.color.holo_purple){
+                                    duration = 3000
+                                }
                     }
                 }
             }
