@@ -1,4 +1,4 @@
-package com.elihimas.orchestra
+package com.elihimas.orchestra.animations
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
@@ -9,6 +9,8 @@ import android.view.ViewPropertyAnimator
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.animation.doOnEnd
+import com.elihimas.orchestra.Animations
+import com.elihimas.orchestra.OrchestraConfiguration
 import kotlin.math.hypot
 
 enum class Direction {
@@ -25,18 +27,19 @@ enum class Direction {
 
 abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
                          var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
-    var start = 0F
+    internal var start = 0F
         set(value) {
-            delta = end - value
+            deltaTime = end - value
             field = value
         }
-    var end = 0f
+    internal var end = 0F
         set(value) {
-            delta = value - start
+            deltaTime = value - start
             field = value
         }
+    var delay = 0L
 
-    var delta = 0f
+    var deltaTime = 0F
 
     open fun beforeAnimation(view: View) {}
 
@@ -59,19 +62,38 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
         to.spacing = from.spacing
     }
 
-    open fun updateAnimation(view: View, proportion: Float) {
+    open fun updateAnimationByTime(view: View, time: Float) {
+        val proportion = 1 - (end - time) / deltaTime
+
+        if (proportion in 0.0..1.0) {
+            updateAnimationByProportion(view, proportion)
+        }
+    }
+
+    open fun updateAnimationByProportion(view: View, proportion: Float) {
         TODO("Not yet implemented")
     }
 
     open fun init(vararg views: View) {}
+
+    open fun calculateDuration(): Long = duration + delay
+
+    open fun updateAnimationTimeBounds(baseTime: Float) {
+        start = baseTime + delay
+        end = start + duration
+    }
 }
 
 open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
 
-    private val valueDelta = finalAlpha - initialAlpha
+    private var valueDelta = 0f
 
-    override fun updateAnimation(view: View, proportion: Float) {
-        view.alpha = initialAlpha + proportion * (valueDelta)
+    override fun init(vararg views: View) {
+        valueDelta = finalAlpha - initialAlpha
+    }
+
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
+        view.alpha = initialAlpha + proportion * valueDelta
     }
 
     override fun clone(): Any {
@@ -99,7 +121,17 @@ class FadeOutAnimation(initialAlpha: Float = 1f, finalAlpha: Float = 0f) : FadeI
 
 }
 
+//TODO for now this class creates it's own ticker
 class CircularRevealAnimation : Animation() {
+
+    var animationStarted = false
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
+        //TODO not working for multiple views
+        if (!animationStarted) {
+            animationStarted = true
+            runAnimation(view, null)
+        }
+    }
 
     override fun clone(): Any {
         return CircularRevealAnimation().also {
@@ -188,7 +220,7 @@ open class SlideAnimation(var direction: Direction, private val reverseAnimation
         initialTranslationY = views[0].translationY
     }
 
-    override fun updateAnimation(view: View, proportion: Float) = update(view, proportion)
+    override fun updateAnimationByProportion(view: View, proportion: Float) = update(view, proportion)
 
     override fun runAnimation(view: View, endAction: Runnable?) {
         view.visibility = View.VISIBLE
@@ -251,36 +283,9 @@ open class SlideAnimation(var direction: Direction, private val reverseAnimation
         }
         animator.start()
     }
-
 }
 
 class SlideOutAnimation(direction: Direction) : SlideAnimation(direction, true)
-
-class ParallelAnimation(private val reference: Animations) : Animation() {
-
-    override fun updateAnimation(view: View, proportion: Float) {
-        super.updateAnimation(view, proportion)
-
-        reference.animations.forEach { animation ->
-            animation.updateAnimation(view, proportion)
-        }
-    }
-
-    override fun clone(): Any {
-        return ParallelAnimation(reference).also {
-            cloneFromTo(it, this)
-        }
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-    }
-
-    override fun runAnimation(view: View, endAction: Runnable?) {
-        reference.animations.forEach { action ->
-            action.runAnimation(view, endAction)
-        }
-    }
-}
 
 class TranslateAnimation(private val x: Float, private val y: Float) : Animation() {
 
@@ -292,7 +297,7 @@ class TranslateAnimation(private val x: Float, private val y: Float) : Animation
         initialY = views[0].translationY
     }
 
-    override fun updateAnimation(view: View, proportion: Float) {
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
         val newX = initialX + proportion * x
         val newY = initialY + proportion * y
 
@@ -317,17 +322,17 @@ class TranslateAnimation(private val x: Float, private val y: Float) : Animation
 abstract class ColorAnimation(@ColorRes private val initialColorRes: Int, @ColorRes private val finalColorRes: Int) : Animation() {
 
     private val evaluator = ArgbEvaluator()
-    protected var initialColor: Int=0
-    protected var finalColor: Int=0
+    protected var initialColor: Int = 0
+    protected var finalColor: Int = 0
 
     override fun init(vararg views: View) {
-        val context= views[0].context
+        val context = views[0].context
 
         initialColor = context.getColor(initialColorRes)
         finalColor = context.getColor(finalColorRes)
     }
 
-    override fun updateAnimation(view: View, proportion: Float) {
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
         val color = evaluator.evaluate(proportion, initialColor, finalColor)
         update(view, color as Int)
     }
@@ -371,7 +376,7 @@ class ScaleAnimation(var scale: Float) : Animation() {
         valueDelta = scale - initialScale
     }
 
-    override fun updateAnimation(view: View, proportion: Float) {
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
         val scale = initialScale + proportion * valueDelta
         view.scaleX = scale
         view.scaleY = scale
@@ -394,7 +399,7 @@ class ScaleAnimation(var scale: Float) : Animation() {
 class DelayAnimation(duration: Long) : Animation(duration) {
     override fun clone() = DelayAnimation(duration)
 
-    override fun updateAnimation(view: View, proportion: Float) {
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
         //nothing to do
     }
 }
@@ -411,7 +416,7 @@ class RotateAnimation(var angle: Float) : Animation() {
         //valueDelta = angle - initialRotation
     }
 
-    override fun updateAnimation(view: View, proportion: Float) {
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
         view.rotation = initialRotation + proportion * valueDelta
     }
 

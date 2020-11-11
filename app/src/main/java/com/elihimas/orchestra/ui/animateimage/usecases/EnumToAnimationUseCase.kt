@@ -1,6 +1,6 @@
 package com.elihimas.orchestra.ui.animateimage.usecases
 
-import com.elihimas.orchestra.*
+import com.elihimas.orchestra.animations.*
 import com.elihimas.orchestra.model.AnimateImageAnimations
 
 class EnumToAnimationUseCase {

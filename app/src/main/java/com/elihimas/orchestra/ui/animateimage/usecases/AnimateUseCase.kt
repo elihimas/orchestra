@@ -2,6 +2,8 @@ package com.elihimas.orchestra.ui.animateimage.usecases
 
 import android.widget.ImageView
 import com.elihimas.orchestra.*
+import com.elihimas.orchestra.animations.*
+import com.elihimas.orchestra.blocks.ViewReference
 
 //TODO verify if view must be a weak reference
 class AnimateUseCase(private val imageView: ImageView) {

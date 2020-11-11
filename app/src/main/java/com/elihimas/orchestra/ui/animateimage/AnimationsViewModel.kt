@@ -2,7 +2,7 @@ package com.elihimas.orchestra.ui.animateimage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.elihimas.orchestra.*
+import com.elihimas.orchestra.animations.*
 
 class AnimationsViewModel : ViewModel() {
 

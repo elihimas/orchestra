@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.elihimas.orchestra.Animation
+import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.fragment_animations.*
 

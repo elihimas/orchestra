@@ -30,6 +30,7 @@
 
 
     <View
+        android:visibility="invisible"
         android:id="@+id/rightSquare"
         android:layout_width="8dp"
         android:layout_height="8dp"

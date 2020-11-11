@@ -1,8 +1,8 @@
 package com.elihimas.orchestra.ui.animateimage.adpters
 
-import com.elihimas.orchestra.Direction
+import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.ViewReference
+import com.elihimas.orchestra.blocks.ViewReference
 import com.elihimas.orchestra.model.AnimateImageAnimations
 
 object AnimationsAdapterAnimator {

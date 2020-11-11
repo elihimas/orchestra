@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.*
+import com.elihimas.orchestra.animations.Animation
 import kotlinx.android.synthetic.main.field_row.view.*
 import java.lang.IllegalStateException
 import java.lang.reflect.Field

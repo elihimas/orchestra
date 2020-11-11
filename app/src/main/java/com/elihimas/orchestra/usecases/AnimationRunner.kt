@@ -1,7 +1,7 @@
 package com.elihimas.orchestra.usecases
 
 import android.view.View
-import com.elihimas.orchestra.Direction
+import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.model.AnimateImageAnimations
 

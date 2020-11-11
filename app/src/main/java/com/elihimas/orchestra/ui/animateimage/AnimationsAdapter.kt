@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.*
+import com.elihimas.orchestra.animations.Animation
 import kotlinx.android.synthetic.main.animation_row.view.*
 
 class AnimationsAdapter(private val animationSelected: (Animation) -> Unit) : RecyclerView.Adapter<AnimationsAdapter.AnimationViewHolder>() {

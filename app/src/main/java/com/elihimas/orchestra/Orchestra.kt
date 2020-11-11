@@ -14,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.RecyclerView
+import com.elihimas.orchestra.animations.*
+import com.elihimas.orchestra.blocks.ViewReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -26,8 +28,8 @@ import kotlin.math.max
 suspend fun coroutineDelay(millis: Long) = delay(millis)
 
 abstract class Block() {
-    var start = 0F
-    var end = 0f
+    internal var start = 0F
+    var end = 0F
 
     abstract suspend fun runBlock(orchestra: Orchestra)
     abstract fun calculateDuration(): Long
@@ -66,7 +68,7 @@ open class Animations : Block() {
     var nextAnimationIndex = 0
     val animations = mutableListOf<Animation>()
 
-    override fun calculateDuration() = animations.sumOf { animation -> animation.duration }
+    override fun calculateDuration() = animations.sumOf { animation -> animation.calculateDuration() }
 
     open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
         animations.add(animation)
@@ -113,7 +115,7 @@ open class Animations : Block() {
     fun translate(x: Float, y: Float) = translate(x, y, null)
 
     fun changeBackground(@ColorRes vararg colorResIds: Int,
-                         config: (ChangeBackgroundAnimation.() -> Unit)? = null) : Animations {
+                         config: (ChangeBackgroundAnimation.() -> Unit)? = null): Animations {
         val transitionsCount = colorResIds.size - 1
         colorResIds.forEachIndexed { index, color ->
             if (index != 0) {
@@ -189,86 +191,6 @@ open class Animations : Block() {
     }
 }
 
-
-open class ViewReference(private vararg val views: View) : Animations() {
-    override fun updateAnimationTimeBounds() {
-        var animationStart = start
-        animations.forEach { animation ->
-            animation.start = animationStart
-            animation.end = animationStart + animation.duration
-
-            animationStart += animation.duration
-        }
-    }
-
-    override fun updateAnimations(time: Float) {
-        doUpdateAnimations(time)
-        removePastAnimations(time)
-        addStartedAnimations(time)
-    }
-
-    private fun doUpdateAnimations(time: Float) {
-        currentAnimations.forEach { animation ->
-            updateAnimation(animation, time)
-        }
-    }
-
-    private fun removePastAnimations(time: Float) {
-        while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
-            val pastAnimation = currentAnimations.removeFirst()
-
-            views.forEach { view ->
-                pastAnimation.updateAnimation(view, 1f)
-            }
-        }
-    }
-
-    private fun updateAnimation(animation: Animation, time: Float) {
-        views.forEach { view ->
-            val proportion = 1 - (animation.end - time) / animation.delta
-
-            if (proportion in 0.0..1.0) {
-                animation.updateAnimation(view, proportion)
-            }
-        }
-    }
-
-    private fun addStartedAnimations(time: Float) {
-        while (nextAnimationIndex < animations.size &&
-                time >= animations[nextAnimationIndex].start) {
-            val nextAnimation = animations[nextAnimationIndex]
-            nextAnimation.init(*views)
-
-            updateAnimation(nextAnimation, time)
-
-            currentAnimations.add(nextAnimation)
-            nextAnimationIndex++
-        }
-    }
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        animations.forEach { action ->
-            val latch = CountDownLatch(views.size)
-            if (views.size > 1) {
-                views.forEach { view ->
-                    GlobalScope.launch(Dispatchers.Main) {
-                        action.runAnimation(view) { latch.countDown() }
-                    }
-
-                    coroutineDelay(action.spacing)
-                }
-            } else {
-                GlobalScope.launch(Dispatchers.Main) {
-                    views.forEach { view ->
-                        action.runAnimation(view) { latch.countDown() }
-                    }
-                }
-            }
-            latch.await()
-        }
-    }
-}
-
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
     override fun updateAnimationTimeBounds() {
         orchestraContext.blocks.forEach { block ->
@@ -280,7 +202,6 @@ class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
 
         start = orchestraContext.blocks.minOf { block -> block.start }
         end = orchestraContext.blocks.maxOf { block -> block.end }
-        val v = 0
     }
 
     override fun updateAnimations(time: Float) {
