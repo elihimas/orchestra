@@ -1,6 +1,7 @@
 package com.elihimas.orchestra.activities
 
 import android.content.Intent
+import android.graphics.RenderNode
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.*
@@ -17,44 +18,34 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        sqr1.post {
+            Orchestra.launch {
+                //TODO fix circular reveal on multiple views
+                on(sqr1, sqr6).circularReveal()
+            }
+        }
+
         listOf(sqr1, sqr2, sqr3, sqr4, sqr5, sqr6, sqr7, sqr8, sqr9, sqr10).forEachIndexed { index, view ->
             view.setOnClickListener {
 
                 Orchestra.launch {
-                    on(titleText)
-                            .scale(4) { duration = 300 }
-                            .changeTextColor(
-                                    android.R.color.holo_red_light,
-                                    android.R.color.holo_blue_light,
-                                    android.R.color.holo_orange_dark,
-                                    android.R.color.holo_orange_light,
-                                    android.R.color.holo_green_light)
-                            {
-                                duration = 2600
+
+                    on(view)
+                            .parallel {
+                                scale(6) {
+                                    duration = 6000
+                                }
+                                fadeOut {
+                                    finalAlpha = 0.3f
+                                    delay = 2000
+                                    duration = 4000
+                                }
+                                rotate(900f) {
+                                    delay = 10000
+                                    duration = 2000
+                                }
                             }
-                            .scale(1) { duration = 300 }
-
-
-                    parallel {
-                        on(view)
-                                .changeBackground(
-                                        android.R.color.holo_green_dark,
-                                        android.R.color.holo_orange_dark,
-                                        android.R.color.holo_red_dark,
-                                        android.R.color.holo_orange_light){
-                                    duration = 3000
-                                }
-
-                        on(sqr5)
-                                .changeBackground(
-                                        android.R.color.black,
-                                        android.R.color.holo_green_light,
-                                        android.R.color.darker_gray,
-                                        android.R.color.transparent,
-                                        android.R.color.holo_purple){
-                                    duration = 3000
-                                }
-                    }
+                            .scale(1) { duration = 1 }
                 }
             }
         }

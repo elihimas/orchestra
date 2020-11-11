@@ -3,6 +3,7 @@ package com.elihimas.orchestra
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
+import com.elihimas.orchestra.animations.Animation
 import java.lang.reflect.Field
 
 enum class ParamTypes { Boolean, Enum, Float, Int, Long }

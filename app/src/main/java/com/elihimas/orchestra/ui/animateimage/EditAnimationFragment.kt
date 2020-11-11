@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.elihimas.orchestra.Animation
+import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.fragment_edit_animation.*
 
