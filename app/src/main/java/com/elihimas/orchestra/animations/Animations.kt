@@ -181,30 +181,59 @@ open class SlideAnimation(var direction: Direction, private val reverseAnimation
             direction
         }
 
-        update = when (actualDirection) {
-            Direction.Up -> { view, proportion ->
-                val down = view.height * proportion
+        if (reverseAnimation) {
+            update = when (actualDirection) {
+                Direction.Up -> { view, proportion ->
+                    val down = view.height * proportion
 
-                view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
-                view.translationY = down + initialTranslationY
+                    view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
+                    view.translationY = down + initialTranslationY
+                }
+                Direction.Down -> { view, proportion ->
+                    val top = view.height * proportion
+
+                    view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
+                    view.translationY = -top + initialTranslationY
+                }
+                Direction.Left -> { view, proportion ->
+                    val right = view.width * proportion
+
+                    view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
+                    view.translationX = right + initialTranslationX
+                }
+                Direction.Right -> { view, proportion ->
+                    val left = view.width * proportion
+
+                    view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
+                    view.translationX = -left + initialTranslationX
+                }
             }
-            Direction.Down -> { view, proportion ->
-                val top = view.height * proportion
+        } else {
+            update = when (actualDirection) {
+                Direction.Up -> { view, proportion ->
+                    val down = view.height * proportion
 
-                view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
-                view.translationY = -top + initialTranslationY
-            }
-            Direction.Left -> { view, proportion ->
-                val right = view.width * proportion
+                    view.clipBounds = Rect(0, 0, view.width, down.toInt())
+                    view.translationY = view.height - down + initialTranslationY
+                }
+                Direction.Down -> { view, proportion ->
+                    val top = view.height * proportion
 
-                view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
-                view.translationX = right + initialTranslationX
-            }
-            Direction.Right -> { view, proportion ->
-                val left = view.width * proportion
+                    view.clipBounds = Rect(0, view.height - top.toInt(), view.width, view.height)
+                    view.translationY = -view.height + top + initialTranslationY
+                }
+                Direction.Left -> { view, proportion ->
+                    val right = view.width * proportion
 
-                view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
-                view.translationX = -left + initialTranslationX
+                    view.clipBounds = Rect(0, 0, right.toInt(), view.height)
+                    view.translationX = view.width - right + initialTranslationX
+                }
+                Direction.Right -> { view, proportion ->
+                    val left = view.width * proportion
+
+                    view.clipBounds = Rect(view.width - left.toInt(), 0, view.width, view.height)
+                    view.translationX = -view.width + left + initialTranslationX
+                }
             }
         }
     }
@@ -216,6 +245,8 @@ open class SlideAnimation(var direction: Direction, private val reverseAnimation
     }
 
     override fun init(vararg views: View) {
+        views.forEach { view -> view.visibility = View.VISIBLE }
+
         initialTranslationX = views[0].translationX
         initialTranslationY = views[0].translationY
     }

@@ -1,10 +1,10 @@
 package com.elihimas.orchestra.activities
 
 import android.content.Intent
-import android.graphics.RenderNode
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.elihimas.orchestra.*
+import com.elihimas.orchestra.Orchestra
+import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -18,39 +18,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        sqr1.post {
-            Orchestra.launch {
-                //TODO fix circular reveal on multiple views
-                on(sqr1, sqr6).circularReveal()
-            }
+        root.post {
+            Orchestra.shortOrLong(::shortSplash, ::longSplash)
         }
 
-        listOf(sqr1, sqr2, sqr3, sqr4, sqr5, sqr6, sqr7, sqr8, sqr9, sqr10).forEachIndexed { index, view ->
-            view.setOnClickListener {
 
-                Orchestra.launch {
-
-                    on(view)
-                            .parallel {
-                                scale(6) {
-                                    duration = 6000
-                                }
-                                fadeOut {
-                                    finalAlpha = 0.3f
-                                    delay = 2000
-                                    duration = 4000
-                                }
-                                rotate(900f) {
-                                    delay = 10000
-                                    duration = 2000
-                                }
-                            }
-                            .scale(1) { duration = 1 }
-                }
-            }
-        }
-
-        //Orchestra.shortOrLong(::tempShortSplash, ::longSplash)
     }
 
     private fun tempShortSplash() {
@@ -106,15 +78,15 @@ class SplashActivity : AppCompatActivity() {
                     }
         }
 
-        android.os.Handler().postDelayed({
-            Orchestra.launch {
-                on(rightSquare)
-                        .scale(4)
-                        .rotate(3600f) {
-                            duration = 10000
-                        }
-            }
-        }, 2200)
+        Orchestra.launch {
+            on(rightSquare)
+                    .circularReveal()
+                    .delay(2000)
+                    .scale(4)
+                    .rotate(3600f) {
+                        duration = 10000
+                    }
+        }
     }
 
     private fun shortSplash() {
