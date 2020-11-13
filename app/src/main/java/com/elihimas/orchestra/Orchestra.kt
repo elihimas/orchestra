@@ -428,6 +428,7 @@ class Orchestra : OrchestraContext, ParallelContext {
         }
 
         internal fun disposeCurrentOrchestra() {
+            orchestra?.executionLatch?.countDown()
             orchestra = null
         }
 
