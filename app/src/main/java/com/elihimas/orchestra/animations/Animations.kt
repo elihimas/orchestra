@@ -9,7 +9,6 @@ import android.view.ViewPropertyAnimator
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.animation.doOnEnd
-import com.elihimas.orchestra.Animations
 import com.elihimas.orchestra.OrchestraConfiguration
 import kotlin.math.hypot
 
@@ -128,8 +127,10 @@ class CircularRevealAnimation : Animation() {
     override fun updateAnimationByProportion(view: View, proportion: Float) {
         //TODO not working for multiple views
         if (!animationStarted) {
-            animationStarted = true
-            runAnimation(view, null)
+            view.post{
+                animationStarted = true
+                runAnimation(view, null)
+            }
         }
     }
 
@@ -318,7 +319,7 @@ open class SlideAnimation(var direction: Direction, private val reverseAnimation
 
 class SlideOutAnimation(direction: Direction) : SlideAnimation(direction, true)
 
-class TranslateAnimation(private val x: Float, private val y: Float) : Animation() {
+class TranslateAnimation(internal val x: Float, internal val y: Float) : Animation() {
 
     private var initialX = 0f
     private var initialY = 0f

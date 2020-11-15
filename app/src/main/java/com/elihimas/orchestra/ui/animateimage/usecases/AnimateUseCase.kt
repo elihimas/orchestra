@@ -1,7 +1,7 @@
 package com.elihimas.orchestra.ui.animateimage.usecases
 
 import android.widget.ImageView
-import com.elihimas.orchestra.*
+import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.*
 import com.elihimas.orchestra.blocks.ViewReference
 
@@ -13,6 +13,7 @@ class AnimateUseCase(private val imageView: ImageView) {
             on(imageView).apply {
                 animations?.forEach { animation ->
                     when (animation) {
+                        is TranslateAnimation -> addTranslate(animation)
                         is FadeInAnimation -> addFadeIn(animation)
                         is FadeOutAnimation -> addFadeOut(animation)
                         is ScaleAnimation -> addScale(animation)
@@ -23,6 +24,13 @@ class AnimateUseCase(private val imageView: ImageView) {
                     }
                 }
             }
+        }
+    }
+
+    private fun ViewReference.addTranslate(animation: TranslateAnimation) {
+        translate(animation.x, animation.y) {
+            duration = animation.duration
+            spacing = animation.spacing
         }
     }
 
