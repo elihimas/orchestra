@@ -85,9 +85,14 @@ open class Animations : Block() {
     fun fadeOut(config: (FadeOutAnimation.() -> Unit)?) = add(FadeOutAnimation(1f, 0f), config)
     fun fadeOut() = fadeOut(null)
 
-    fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scale), config)
+    fun scale(scaleX: Float, scaleY: Float, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scaleX, scaleY), config)
+    fun scale(scaleX: Int, scaleY: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scaleX.toFloat(), scaleY.toFloat(), config)
+    fun scaleX(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, 1f, config)
+    fun scaleY(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale, config)
+    fun scaleX(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), 1f, config)
+    fun scaleY(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale.toFloat(), config)
+    fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, scale, config)
     fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
-    fun scale(scale: Float) = scale(scale, null)
 
     fun slide(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
             add(SlideAnimation(direction), config)

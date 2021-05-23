@@ -37,6 +37,7 @@
             android:name=".activities.CoordinatorExampleActivity"
             android:label="@string/coordinator_layout" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.FormExampleActivity"
             android:label="@string/form" />
     </application>

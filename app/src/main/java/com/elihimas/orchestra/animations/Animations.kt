@@ -25,6 +25,7 @@ enum class Direction {
 }
 
 abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
+        //TODO make spacing work (for instance for Form Example)
                          var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
     internal var start = 0F
         set(value) {
@@ -127,7 +128,7 @@ class CircularRevealAnimation : Animation() {
     override fun updateAnimationByProportion(view: View, proportion: Float) {
         //TODO not working for multiple views
         if (!animationStarted) {
-            view.post{
+            view.post {
                 animationStarted = true
                 runAnimation(view, null)
             }
@@ -398,32 +399,39 @@ class ChangeBackgroundAnimation(@ColorRes initialColorRes: Int, @ColorRes finalC
     }
 }
 
-class ScaleAnimation(var scale: Float) : Animation() {
+class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
 
-    private var initialScale = 1f
-    private var valueDelta = 0f
+    constructor(scale: Float) : this(scale, scale)
+
+    var initialScaleX = 1f
+    var initialScaleY = 1f
+    private var valueDeltaX = 0f
+    private var valueDeltaY = 0f
 
     override fun init(vararg views: View) {
-        initialScale = views[0].scaleX
-        valueDelta = scale - initialScale
+        initialScaleX = views[0].scaleX
+        initialScaleY = views[0].scaleY
+        valueDeltaX = scaleX - initialScaleX
+        valueDeltaY = scaleY - initialScaleY
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) {
-        val scale = initialScale + proportion * valueDelta
-        view.scaleX = scale
-        view.scaleY = scale
+        val scaleX = initialScaleX + proportion * valueDeltaX
+        val scaleY = initialScaleY + proportion * valueDeltaY
+        view.scaleX = scaleX
+        view.scaleY = scaleY
     }
 
     override fun clone(): Any {
-        return ScaleAnimation(scale).also {
+        return ScaleAnimation(scaleX, scaleY).also {
             cloneFromTo(it, this)
         }
     }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation
-                .scaleX(scale)
-                .scaleY(scale)
+                .scaleX(scaleX)
+                .scaleY(scaleY)
     }
 
 }

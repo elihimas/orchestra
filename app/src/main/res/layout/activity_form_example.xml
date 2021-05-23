@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@drawable/form_background"
     tools:context=".activities.FormExampleActivity">
 
     <androidx.cardview.widget.CardView
@@ -17,6 +17,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:maxHeight="80dp"
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minWidth="300dp"
@@ -63,4 +65,5 @@
                 android:text="Login" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

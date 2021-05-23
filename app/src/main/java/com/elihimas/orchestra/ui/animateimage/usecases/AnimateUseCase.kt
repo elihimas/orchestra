@@ -53,7 +53,7 @@ class AnimateUseCase(private val imageView: ImageView) {
     }
 
     private fun ViewReference.addScale(animation: ScaleAnimation) {
-        scale(animation.scale) {
+        scale(animation.scaleX, animation.scaleY) {
             duration = animation.duration
             spacing = animation.spacing
         }
