@@ -27,8 +27,8 @@ abstract class Block() {
     var end = 0F
 
     abstract suspend fun runBlock(orchestra: Orchestra)
-    abstract fun calculateDuration(): Long
 
+    abstract fun calculateDuration(): Long
     open fun updateAnimations(time: Float) {}
     open fun updateAnimationTimeBounds() {}
 }
@@ -85,12 +85,43 @@ open class Animations : Block() {
     fun fadeOut(config: (FadeOutAnimation.() -> Unit)?) = add(FadeOutAnimation(1f, 0f), config)
     fun fadeOut() = fadeOut(null)
 
-    fun scale(scaleX: Float, scaleY: Float, config: (ScaleAnimation.() -> Unit)? = null) = add(ScaleAnimation(scaleX, scaleY), config)
-    fun scale(scaleX: Int, scaleY: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scaleX.toFloat(), scaleY.toFloat(), config)
-    fun scaleX(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, 1f, config)
-    fun scaleY(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale, config)
-    fun scaleX(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), 1f, config)
-    fun scaleY(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale.toFloat(), config)
+    fun scale(scaleX: Float,
+              scaleY: Float,
+              config: (ScaleAnimation.() -> Unit)? = null) =
+            add(ScaleAnimation(scaleX, scaleY), config)
+
+    fun scale(scaleX: Float,
+              scaleY: Float,
+              direction: Direction,
+              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
+            add(DirectionalScaleAnimation(scaleX, scaleY, direction), config)
+
+    fun scale(scaleX: Int,
+              scaleY: Int,
+              config: (ScaleAnimation.() -> Unit)? = null) = scale(scaleX.toFloat(), scaleY.toFloat(), config)
+
+    fun scaleX(scale: Float,
+               config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, 1f, config)
+
+    fun scaleY(scale: Float,
+               config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale, config)
+
+    fun scaleX(scale: Int,
+               config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), 1f, config)
+
+    fun scaleY(scale: Int,
+               config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale.toFloat(), config)
+
+    fun scaleY(scale: Float,
+               direction: Direction,
+               config: (ScaleAnimation.() -> Unit)? = null) =
+            scale(1f, scale, direction, config)
+
+    fun scaleY(scale: Int,
+               direction: Direction,
+               config: (ScaleAnimation.() -> Unit)? = null) =
+            scaleY(scale.toFloat(), direction, config)
+
     fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, scale, config)
     fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
 

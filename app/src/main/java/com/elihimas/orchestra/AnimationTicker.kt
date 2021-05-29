@@ -61,7 +61,7 @@ class AnimationTicker {
         }
     }
 
-    fun start(blocks: LinkedList<Block>, force: Boolean = false) {
+    fun start(blocks: LinkedList<Block>, forceAnimationStart: Boolean = false) {
         val baseTime = currentTime
 
         nextBlocks = blocks
@@ -69,7 +69,7 @@ class AnimationTicker {
 
         currentBlocks.addAll(nextBlocks.removeStartedBlocks(baseTime))
 
-        if (baseTime == 0f || force) {
+        if (baseTime == 0f || forceAnimationStart) {
             ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
                 duration = (blocksEndTime - baseTime).toLong()
                 interpolator = LinearInterpolator()
@@ -82,7 +82,7 @@ class AnimationTicker {
 
     private fun doOnEnd(animator: Animator) {
         if (nextBlocks.isNotEmpty() || currentBlocks.isNotEmpty()) {
-            start(nextBlocks, force = true)
+            start(nextBlocks, forceAnimationStart = true)
         } else {
             Orchestra.disposeCurrentOrchestra()
         }

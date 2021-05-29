@@ -41,6 +41,7 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
 
     var deltaTime = 0F
 
+    //TODO: verify if this is being used
     open fun beforeAnimation(view: View) {}
 
     open fun runAnimation(view: View, endAction: Runnable?) {
@@ -344,7 +345,6 @@ class TranslateAnimation(internal val x: Float, internal val y: Float) : Animati
         }
     }
 
-
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
         animation
                 .translationX(x)
@@ -399,14 +399,14 @@ class ChangeBackgroundAnimation(@ColorRes initialColorRes: Int, @ColorRes finalC
     }
 }
 
-class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
+open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
 
     constructor(scale: Float) : this(scale, scale)
 
     var initialScaleX = 1f
     var initialScaleY = 1f
-    private var valueDeltaX = 0f
-    private var valueDeltaY = 0f
+    protected var valueDeltaX = 0f
+    protected var valueDeltaY = 0f
 
     override fun init(vararg views: View) {
         initialScaleX = views[0].scaleX
@@ -433,7 +433,43 @@ class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
                 .scaleX(scaleX)
                 .scaleY(scaleY)
     }
+}
 
+class DirectionalScaleAnimation(scaleX: Float, scaleY: Float, var direction: Direction) : ScaleAnimation(scaleX, scaleY) {
+
+    constructor(scale: Float, direction: Direction) : this(scale, scale, direction)
+
+    private var initialHeight = 0
+    private var deltaY: Float = 0.0f
+
+    override fun init(vararg views: View) {
+        super.init(*views)
+        initialHeight = views[0].height
+        //TODO: review this. this delta is necessary to handle previous scale operations
+        deltaY = ((views[0].height * views[0].scaleY) - views[0].height) / 2
+    }
+
+    override fun updateAnimationByProportion(view: View, proportion: Float) {
+        val scaleX = initialScaleX + proportion * valueDeltaX
+        val yIncrement = proportion * valueDeltaY
+        val scaleY = initialScaleY + yIncrement
+        view.scaleX = scaleX
+        view.scaleY = scaleY
+
+        if (direction == Direction.Up) {
+            val addedHeight = initialHeight * yIncrement
+            val translation = addedHeight / 2 + deltaY
+            view.translationY = -translation
+        }
+
+        if (direction == Direction.Down) {
+            val addedHeight = initialHeight * yIncrement
+            val translation = addedHeight / 2 + deltaY
+            view.translationY = translation
+        }
+
+        //TODO: handle left and right directions
+    }
 }
 
 class DelayAnimation(duration: Long) : Animation(duration) {
@@ -450,6 +486,7 @@ class RotateAnimation(var angle: Float) : Animation() {
     private var valueDelta = 0f
 
     override fun init(vararg views: View) {
+        //TODO: add data to all views not only one
         initialRotation = views[0].rotation
         valueDelta = angle
         //TODO when implement rotateTo use:
