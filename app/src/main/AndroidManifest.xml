@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.InterpolatorActivity"
+            android:label="@string/example_interpolator" />
+        <activity
             android:name=".activities.MainActivity"
             android:label="@string/examples_title" />
         <activity
@@ -37,9 +40,9 @@
             android:name=".activities.CoordinatorExampleActivity"
             android:label="@string/coordinator_layout" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.FormExampleActivity"
-            android:label="@string/form" />
+            android:label="@string/form"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

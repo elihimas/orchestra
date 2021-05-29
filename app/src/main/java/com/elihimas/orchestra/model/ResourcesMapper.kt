@@ -5,6 +5,7 @@ import com.elihimas.orchestra.R
 object ResourcesMapper {
 
     fun map(example: Examples) = when (example) {
+        Examples.Interpolator -> R.string.example_interpolator
         Examples.AnimateImage -> R.string.animate_image
         Examples.Bouncing -> R.string.bouncing
         Examples.BackgroundAndTextColor -> R.string.background_text_color

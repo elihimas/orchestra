@@ -56,6 +56,7 @@
     <string name="initial_setup">Initial setup</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
+    <string name="example_interpolator">Interpolators</string>
     <!--    animate view-->
 
 

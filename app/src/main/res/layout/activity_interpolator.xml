@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    tools:context=".ui.InterpolatorActivity">
+
+    <View
+        android:id="@+id/square1"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_blue_dark" />
+
+    <View
+        android:id="@+id/square2"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_orange_dark" />
+
+    <View
+        android:id="@+id/square3"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_red_dark" />
+
+    <View
+        android:id="@+id/square4"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_blue_bright" />
+
+    <View
+        android:id="@+id/square5"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_purple" />
+
+    <View
+        android:id="@+id/square6"
+        style="@style/InterpolatorSquare"
+        android:background="@android:color/holo_red_light" />
+</LinearLayout>

@@ -6,6 +6,8 @@ import android.graphics.Rect
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewPropertyAnimator
+import android.view.animation.Interpolator
+import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.animation.doOnEnd
@@ -38,6 +40,7 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
             field = value
         }
     var delay = 0L
+    var interpolator: Interpolator = LinearInterpolator()
 
     var deltaTime = 0F
 
@@ -67,7 +70,8 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
         val proportion = 1 - (end - time) / deltaTime
 
         if (proportion in 0.0..1.0) {
-            updateAnimationByProportion(view, proportion)
+            val interpolatedProportion = interpolator.getInterpolation(proportion)
+            updateAnimationByProportion(view, interpolatedProportion)
         }
     }
 
