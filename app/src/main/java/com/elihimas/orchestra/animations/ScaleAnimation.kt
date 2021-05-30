@@ -9,8 +9,8 @@ open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
 
     var initialScaleX = 1f
     var initialScaleY = 1f
-    protected var valueDeltaX = 0f
-    protected var valueDeltaY = 0f
+    private var valueDeltaX = 0f
+    private var valueDeltaY = 0f
 
     override fun init(vararg views: View) {
         initialScaleX = views[0].scaleX

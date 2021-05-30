@@ -3,12 +3,7 @@ package com.elihimas.orchestra.animations
 import android.graphics.Rect
 import android.view.View
 
-interface SlideStrategy {
-    fun init(vararg views: View)
-    fun update(view: View, proportion: Float)
-}
-
-abstract class HorizontalSlideStrategy : SlideStrategy {
+abstract class HorizontalSlideStrategy : AnimationStrategy {
 
     var initialTranslationX = 0f
 
@@ -17,7 +12,7 @@ abstract class HorizontalSlideStrategy : SlideStrategy {
     }
 }
 
-abstract class VerticalSlideStrategy : SlideStrategy {
+abstract class VerticalSlideStrategy : AnimationStrategy {
 
     var initialTranslationY = 0f
 
@@ -74,7 +69,6 @@ class SlideUpStrategy : VerticalSlideStrategy() {
         view.clipBounds = Rect(0, 0, view.width, down.toInt())
         view.translationY = view.height - down + initialTranslationY
     }
-
 }
 
 class SlideDownStrategy : VerticalSlideStrategy() {
@@ -117,7 +111,7 @@ class SlideRightStrategy : HorizontalSlideStrategy() {
  */
 open class SlideAnimation(var direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
 
-    private val slideStrategy: SlideStrategy
+    private val slideStrategy: AnimationStrategy
 
     init {
         val actualDirection = if (reverseAnimation) {

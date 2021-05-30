@@ -90,15 +90,19 @@ open class Animations : Block() {
               config: (ScaleAnimation.() -> Unit)? = null) =
             add(ScaleAnimation(scaleX, scaleY), config)
 
-    fun scale(scaleX: Float,
-              scaleY: Float,
-              direction: Direction,
-              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
-            add(DirectionalScaleAnimation(scaleX, scaleY, direction), config)
-
     fun scale(scaleX: Int,
               scaleY: Int,
               config: (ScaleAnimation.() -> Unit)? = null) = scale(scaleX.toFloat(), scaleY.toFloat(), config)
+
+    fun scale(scale: Float,
+              direction: Direction,
+              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
+            add(DirectionalScaleAnimation(scale, direction), config)
+
+    fun scale(scale: Int,
+              direction: Direction,
+              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
+            scale(scale.toFloat(), direction, config)
 
     fun scaleX(scale: Float,
                config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, 1f, config)
@@ -111,16 +115,6 @@ open class Animations : Block() {
 
     fun scaleY(scale: Int,
                config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale.toFloat(), config)
-
-    fun scaleY(scale: Float,
-               direction: Direction,
-               config: (ScaleAnimation.() -> Unit)? = null) =
-            scale(1f, scale, direction, config)
-
-    fun scaleY(scale: Int,
-               direction: Direction,
-               config: (ScaleAnimation.() -> Unit)? = null) =
-            scaleY(scale.toFloat(), direction, config)
 
     fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, scale, config)
     fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
