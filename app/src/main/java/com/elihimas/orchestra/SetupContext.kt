@@ -36,6 +36,7 @@ class SetupReference(private vararg val views: View) {
     fun invisible() = add(InvisibleAction())
 
     fun bounce() = add(BounceAction())
+    //TODO move this to extensions
     fun bounce(config: BounceAction.() -> Unit): SetupReference {
         with(BounceAction()) {
             add(this)

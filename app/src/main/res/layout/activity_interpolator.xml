@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="15dp"
-    tools:context=".ui.InterpolatorActivity">
+    tools:context=".activities.InterpolatorActivity">
 
     <View
         android:id="@+id/square1"

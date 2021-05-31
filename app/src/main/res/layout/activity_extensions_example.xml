@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        tools:context=".activities.BouncingButtonExampleActivity">
+
+        <TextView
+            android:id="@+id/tvCrossFade1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="7dp"
+            android:text="texto inicial"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tvCrossFade2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="7dp"
+            android:text="texto inicial"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tv.setTextCrossFade(...)" />
+
+        <Button
+            android:id="@+id/btTextCrossFade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cross fade" />
+
+        <TextView
+            android:id="@+id/tvScale1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="7dp"
+            android:text="texto inicial"
+            android:textSize="25sp" />
+
+
+        <TextView
+            android:id="@+id/tvScale2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingVertical="7dp"
+            android:text="texto inicial"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tv.setTextScaling(...)" />
+
+        <Button
+            android:id="@+id/btTextScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="scale" />
+
+        <ImageView
+            android:id="@+id/ivScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/two_stick_persons" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="iv.setImageResourceScaling(...)" />
+
+        <Button
+            android:id="@+id/btImageScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scale" />
+    </LinearLayout>
+
+</ScrollView>

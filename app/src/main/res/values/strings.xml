@@ -57,6 +57,7 @@
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="example_interpolator">Interpolators</string>
+    <string name="example_extensions">Extensions</string>
     <!--    animate view-->
 
 

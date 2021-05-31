@@ -1,4 +1,4 @@
-package com.elihimas.orchestra.ui
+package com.elihimas.orchestra.activities
 
 import android.os.Bundle
 import android.view.View

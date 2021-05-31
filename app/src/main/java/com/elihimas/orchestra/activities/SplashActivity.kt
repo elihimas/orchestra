@@ -163,64 +163,64 @@ class SplashActivity : AppCompatActivity() {
 
                 val pulseAnimation1 =
                         animations()
-                                .scaleY(12, Direction.Up) {
+                                .scale(12, Direction.Up) {
                                     duration = 300
                                 }
                                 .delay(100)
-                                .scaleY(2, Direction.Up) {
+                                .scale(2, Direction.Up) {
                                     duration = 300
                                 }
                                 .delay(250)
-                                .scaleY(6, Direction.Up) {
+                                .scale(6, Direction.Up) {
                                     duration = 320
                                 }
                                 .delay(100)
-                                .scaleY(0.5f, Direction.Up) {
+                                .scale(0.5f, Direction.Up) {
                                     duration = 300
                                 }
 
                 val pulseAnimation2 = animations()
-                        .scaleY(8, Direction.Up) {
+                        .scale(8, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(1, Direction.Up) {
+                        .scale(1, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(8, Direction.Up) {
+                        .scale(8, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(1, Direction.Up) {
+                        .scale(1, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(8, Direction.Up) {
+                        .scale(8, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(1, Direction.Up) {
+                        .scale(1, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(8, Direction.Up) {
+                        .scale(8, Direction.Up) {
                             duration = 200
                         }
-                        .scaleY(1, Direction.Up) {
+                        .scale(1, Direction.Up) {
                             duration = 200
                         }
                 val pulseAnimation3 = animations()
-                        .scaleY(7, Direction.Up) {
+                        .scale(7, Direction.Up) {
                             duration = 350
                         }
-                        .scaleY(0.8f, Direction.Up) {
+                        .scale(0.8f, Direction.Up) {
                             duration = 450
                         }
-                        .scaleY(7, Direction.Up) {
+                        .scale(7, Direction.Up) {
                             duration = 300
                         }
-                        .scaleY(1.2f, Direction.Up) {
+                        .scale(1.2f, Direction.Up) {
                             duration = 400
                         }
-                        .scaleY(7, Direction.Up) {
+                        .scale(7, Direction.Up) {
                             duration = 300
                         }
-                        .scaleY(1.6f, Direction.Up) {
+                        .scale(1.6f, Direction.Up) {
                             duration = 400
                         }
 
