@@ -21,8 +21,8 @@ class TranslateAnimation(internal val x: Float, internal val y: Float) : Animati
     }
 
     override fun clone(): Any {
-        return TranslateAnimation(x, y).also {
-            cloneFromTo(it, this)
+        return TranslateAnimation(x, y).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 }

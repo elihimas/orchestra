@@ -20,8 +20,8 @@ class RotateAnimation(var angle: Float) : Animation() {
     }
 
     override fun clone(): Any {
-        return RotateAnimation(angle).also {
-            cloneFromTo(it, this)
+        return RotateAnimation(angle).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 }

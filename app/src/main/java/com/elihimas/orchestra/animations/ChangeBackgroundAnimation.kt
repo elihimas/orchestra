@@ -6,8 +6,8 @@ import androidx.annotation.ColorRes
 class ChangeBackgroundAnimation(@ColorRes initialColorRes: Int, @ColorRes finalColorRes: Int) : ColorAnimation(initialColorRes, finalColorRes) {
 
     override fun clone(): Any {
-        return ChangeBackgroundAnimation(initialColor, finalColor).also {
-            cloneFromTo(it, this)
+        return ChangeBackgroundAnimation(initialColor, finalColor).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 

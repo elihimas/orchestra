@@ -7,8 +7,8 @@ import androidx.annotation.ColorRes
 class ChangeTextColorAnimation(@ColorRes initialColorRes: Int, @ColorRes finalColorRes: Int) : ColorAnimation(initialColorRes, finalColorRes) {
 
     override fun clone(): Any {
-        return ChangeTextColorAnimation(initialColor, finalColor).also {
-            cloneFromTo(it, this)
+        return ChangeTextColorAnimation(initialColor, finalColor).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 

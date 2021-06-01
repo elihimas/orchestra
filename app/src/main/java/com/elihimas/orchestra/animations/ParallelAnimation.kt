@@ -25,8 +25,8 @@ class ParallelAnimation(private val reference: Animations) : Animation() {
     }
 
     override fun clone(): Any {
-        return ParallelAnimation(reference).also {
-            cloneFromTo(it, this)
+        return ParallelAnimation(reference.clone()).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 

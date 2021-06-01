@@ -26,8 +26,8 @@ open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
     }
 
     override fun clone(): Any {
-        return ScaleAnimation(scaleX, scaleY).also {
-            cloneFromTo(it, this)
+        return ScaleAnimation(scaleX, scaleY).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 }

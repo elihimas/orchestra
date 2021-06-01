@@ -21,8 +21,8 @@ class CircularRevealAnimation : Animation() {
     }
 
     override fun clone(): Any {
-        return CircularRevealAnimation().also {
-            cloneFromTo(it, this)
+        return CircularRevealAnimation().also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 

@@ -16,8 +16,8 @@ open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float =
     }
 
     override fun clone(): Any {
-        return FadeInAnimation(initialAlpha, finalAlpha).also {
-            cloneFromTo(it, this)
+        return FadeInAnimation(initialAlpha, finalAlpha).also { clone ->
+            cloneFromTo(this, clone)
         }
     }
 

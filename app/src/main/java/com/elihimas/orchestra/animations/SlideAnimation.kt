@@ -137,8 +137,8 @@ open class SlideAnimation(internal var direction: Direction, private val reverse
     }
 
     override fun clone(): Any {
-        return SlideAnimation(direction, reverseAnimation).also {
-            cloneFromTo(it, this)
+        return SlideAnimation(direction, reverseAnimation).also {clone ->
+            cloneFromTo(this, clone)
         }
     }
 

@@ -63,7 +63,16 @@ open class Animations : Block() {
     var nextAnimationIndex = 0
     val animations = mutableListOf<Animation>()
 
-    override fun calculateDuration() = animations.sumOf { animation -> animation.calculateDuration() }
+
+    fun clone() = Animations().also { clone ->
+        this.animations.forEach { animation ->
+            clone.animations.add(animation.clone() as Animation)
+        }
+    }
+
+    override fun calculateDuration(): Long = animations.sumOf { animation ->
+        animation.calculateDuration()
+    }
 
     open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
         animations.add(animation)
@@ -192,6 +201,16 @@ open class Animations : Block() {
 
     fun delay(duration: Long) = delay(duration, config = null)
 
+    // TODO: create a data structure to hold the repeat times and store the animations
+    // the current implementation is just a facilitator
+    fun repeat(times: Int, animations: Animations): Animations {
+        for (index in 0..times) {
+            addAnimations(animations.clone())
+        }
+
+        return this
+    }
+
     fun parallel(block: Consumer<Animations>): Animations {
         Animations().also { insideReference ->
             block.accept(insideReference)
@@ -204,8 +223,8 @@ open class Animations : Block() {
     fun parallel(block: Animations.() -> Unit): Animations {
         Animations().also { insideReference ->
             block.invoke(insideReference)
-            val action = ParallelAnimation(insideReference)
-            animations.add(action)
+            val animation = ParallelAnimation(insideReference)
+            animations.add(animation)
         }
 
         return this
