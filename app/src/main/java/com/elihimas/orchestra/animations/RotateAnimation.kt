@@ -1,7 +1,6 @@
 package com.elihimas.orchestra.animations
 
 import android.view.View
-import android.view.ViewPropertyAnimator
 
 class RotateAnimation(var angle: Float) : Animation() {
 
@@ -24,9 +23,5 @@ class RotateAnimation(var angle: Float) : Animation() {
         return RotateAnimation(angle).also {
             cloneFromTo(it, this)
         }
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation.rotationBy(angle)
     }
 }

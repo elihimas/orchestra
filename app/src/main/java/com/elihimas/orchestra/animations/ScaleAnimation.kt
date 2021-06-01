@@ -1,7 +1,6 @@
 package com.elihimas.orchestra.animations
 
 import android.view.View
-import android.view.ViewPropertyAnimator
 
 open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
 
@@ -30,11 +29,5 @@ open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
         return ScaleAnimation(scaleX, scaleY).also {
             cloneFromTo(it, this)
         }
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation
-                .scaleX(scaleX)
-                .scaleY(scaleY)
     }
 }

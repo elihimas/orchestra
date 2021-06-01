@@ -107,5 +107,7 @@ class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : An
             animationStrategy.update(view, proportion)
 
 
-    override fun clone() = DirectionalScaleAnimation(scale, direction)
+    override fun clone() = DirectionalScaleAnimation(scale, direction).also {
+        cloneFromTo(it, this)
+    }
 }

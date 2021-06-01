@@ -1,7 +1,6 @@
 package com.elihimas.orchestra.animations
 
 import android.view.View
-import android.view.ViewPropertyAnimator
 
 class TranslateAnimation(internal val x: Float, internal val y: Float) : Animation() {
 
@@ -25,11 +24,5 @@ class TranslateAnimation(internal val x: Float, internal val y: Float) : Animati
         return TranslateAnimation(x, y).also {
             cloneFromTo(it, this)
         }
-    }
-
-    override fun addAnimation(view: View, animation: ViewPropertyAnimator) {
-        animation
-                .translationX(x)
-                .translationY(y)
     }
 }

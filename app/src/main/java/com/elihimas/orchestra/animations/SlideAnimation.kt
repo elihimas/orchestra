@@ -90,7 +90,6 @@ class SlideLeftStrategy : HorizontalSlideStrategy() {
         view.clipBounds = Rect(0, 0, right.toInt(), view.height)
         view.translationX = view.width - right + initialTranslationX
     }
-
 }
 
 class SlideRightStrategy : HorizontalSlideStrategy() {
@@ -109,7 +108,7 @@ class SlideRightStrategy : HorizontalSlideStrategy() {
  * @param direction the direction towards to the view should be animated
  * @param reverseAnimation if the animation is a slide out animation
  */
-open class SlideAnimation(var direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
+open class SlideAnimation(internal var direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
 
     private val slideStrategy: AnimationStrategy
 
