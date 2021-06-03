@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginRight
 import com.elihimas.orchestra.Orchestra
+import com.elihimas.orchestra.OrchestraContext
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.animations.Direction
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -17,7 +18,6 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
 
-//       addClick()
         longSplash()
     }
 
@@ -55,28 +55,6 @@ class SplashActivity : AppCompatActivity() {
                         .addAnimations(showAnimation)
 
                 parallel {
-                    on(leftSquare)
-                            .scale(5f)
-
-                    on(rightSquare)
-                            .scale(5f)
-                }
-
-                on(titleText)
-                        .scale(1f)
-
-                parallel {
-                    on(leftSquare)
-                            .scale(1f)
-                            .scale(2f)
-                            .scale(1f)
-
-                    on(rightSquare)
-                            .scale(1f)
-                }
-
-
-                parallel {
                     on(sqr1)
                             .rotate(180f) {
                                 duration = 300
@@ -85,7 +63,6 @@ class SplashActivity : AppCompatActivity() {
                                 duration = 400
                             }
 
-
                     on(sqr3)
                             .scale(2) {
                                 duration = 400
@@ -93,7 +70,6 @@ class SplashActivity : AppCompatActivity() {
                             .rotate(180f) {
                                 duration = 300
                             }
-
 
                     on(sqr5)
                             .scale(2) {
@@ -110,56 +86,11 @@ class SplashActivity : AppCompatActivity() {
                         }
 
 
-                on(titleText, leftSquare)
+                on(titleText)
                         .fadeIn {
                             duration = 800
                         }
-                        .fadeIn {
-                            duration = 800
-                        }
-                        .fadeIn {
-                            duration = 800
-                        }
-                        .scale(3) {
-                            duration = 2000
-                        }
-                        .rotate(180f) {
-                            duration = 700
-                        }
-                        .rotate(-360f) {
-                            duration = 900
-                        }
-                        .rotate(180f) {
-                            duration = 700
-                        }
-                on(rightSquare)
-                        .circularReveal()
-                        .delay(2000)
-                        .scale(4)
-                        .rotate(3600f) {
-                            duration = 5000
-                        }
-
-                parallel {
-                    on(leftSquare)
-                            .translate(300f, 0f)
-                            .translate(0f, 0f)
-
-                    on(rightSquare)
-                            .translate(-300f, 0f)
-                            .translate(0f, 0f)
-                }
-
-                parallel {
-                    on(titleText)
-                            .scale(3f)
-
-                    on(leftSquare)
-                            .scale(3f)
-
-                    on(rightSquare)
-                            .scale(3f)
-                }
+                        .scale(3f)
 
                 val pulseAnimation1 =
                         animations()

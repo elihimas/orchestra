@@ -20,26 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/leftSquare"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:layout_margin="10dp"
-        android:background="@android:color/holo_orange_light"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-
-    <View
-        android:id="@+id/rightSquare"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:layout_margin="10dp"
-        android:background="@android:color/holo_orange_dark"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <View
         android:id="@+id/sqr1"
         android:layout_width="48dp"
         android:layout_height="48dp"
