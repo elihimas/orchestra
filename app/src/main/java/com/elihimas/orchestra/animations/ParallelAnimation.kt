@@ -2,7 +2,7 @@ package com.elihimas.orchestra.animations
 
 import android.view.View
 import android.view.ViewPropertyAnimator
-import com.elihimas.orchestra.Animations
+import com.elihimas.orchestra.blocks.Animations
 
 class ParallelAnimation(private val reference: Animations) : Animation() {
 

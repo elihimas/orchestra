@@ -2,6 +2,8 @@ package com.elihimas.orchestra.animations
 
 import android.view.View
 
+//TODO: fix successive translations translation problem
+
 abstract class VerticalStrategy(var scaleY: Float) : AnimationStrategy {
     private var initialScaleY = 1f
     private var initialHeight = 0

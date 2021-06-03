@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ScaleExampleActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/ivExampleImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="60dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/butterfly" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration" />
+
+        <EditText
+            android:id="@+id/etDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2400" />
+
+
+        <EditText
+            android:id="@+id/etScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2.0" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Direction" />
+
+        <Spinner
+            android:id="@+id/spDirection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btScale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scale" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="on(view).scale(someValue)\non(view).scale(someValue, direction)\non(view).scale(someValue, direction){\n\t\tduration = millis\n}" />
+    </LinearLayout>
+</ScrollView>

@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
+import com.elihimas.orchestra.blocks.Block
 import java.util.*
 import kotlin.math.max
 

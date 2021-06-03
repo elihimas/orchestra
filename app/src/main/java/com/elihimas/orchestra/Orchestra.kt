@@ -11,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.animations.*
-import com.elihimas.orchestra.blocks.ViewReference
+import com.elihimas.orchestra.blocks.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -21,263 +21,6 @@ import java.util.concurrent.CountDownLatch
 import java.util.function.Consumer
 
 suspend fun coroutineDelay(millis: Long) = delay(millis)
-
-abstract class Block() {
-    internal var start = 0F
-    var end = 0F
-
-    abstract suspend fun runBlock(orchestra: Orchestra)
-
-    abstract fun calculateDuration(): Long
-    open fun updateAnimations(time: Float) {}
-    open fun updateAnimationTimeBounds() {}
-}
-
-//TODO review this class
-class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 2600)
-    : Block() {
-
-    override fun calculateDuration() = duration
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        val transition: Transition = ChangeBounds()
-        transition.interpolator = AnticipateOvershootInterpolator(0f)
-        transition.duration = duration
-
-        TransitionManager.beginDelayedTransition(root, transition)
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(root.context, layoutId)
-
-        (root.context as Activity).runOnUiThread {
-            constraintSet.applyTo(root)
-        }
-
-        coroutineDelay(transition.duration)
-    }
-
-}
-
-open class Animations : Block() {
-
-    val currentAnimations = LinkedList<Animation>()
-    var nextAnimationIndex = 0
-    val animations = mutableListOf<Animation>()
-
-
-    fun clone() = Animations().also { clone ->
-        this.animations.forEach { animation ->
-            clone.animations.add(animation.clone() as Animation)
-        }
-    }
-
-    override fun calculateDuration(): Long = animations.sumOf { animation ->
-        animation.calculateDuration()
-    }
-
-    open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
-        animations.add(animation)
-
-        config?.invoke(animation)
-
-        return this
-    }
-
-    fun addAnimations(animations: Animations): Animations {
-        this.animations.addAll(animations.animations)
-
-        return this
-    }
-
-    fun fadeIn(config: (FadeInAnimation.() -> Unit)?) = add(FadeInAnimation(), config)
-    fun fadeIn() = fadeIn(null)
-
-    fun fadeOut(config: (FadeOutAnimation.() -> Unit)?) = add(FadeOutAnimation(1f, 0f), config)
-    fun fadeOut() = fadeOut(null)
-
-    fun scale(scaleX: Float,
-              scaleY: Float,
-              config: (ScaleAnimation.() -> Unit)? = null) =
-            add(ScaleAnimation(scaleX, scaleY), config)
-
-    fun scale(scaleX: Int,
-              scaleY: Int,
-              config: (ScaleAnimation.() -> Unit)? = null) = scale(scaleX.toFloat(), scaleY.toFloat(), config)
-
-    fun scale(scale: Float,
-              direction: Direction,
-              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
-            add(DirectionalScaleAnimation(scale, direction), config)
-
-    fun scale(scale: Int,
-              direction: Direction,
-              config: (DirectionalScaleAnimation.() -> Unit)? = null) =
-            scale(scale.toFloat(), direction, config)
-
-    fun scaleX(scale: Float,
-               config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, 1f, config)
-
-    fun scaleY(scale: Float,
-               config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale, config)
-
-    fun scaleX(scale: Int,
-               config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), 1f, config)
-
-    fun scaleY(scale: Int,
-               config: (ScaleAnimation.() -> Unit)? = null) = scale(1f, scale.toFloat(), config)
-
-    fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale, scale, config)
-    fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) = scale(scale.toFloat(), config)
-
-    fun slide(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
-            add(SlideAnimation(direction), config)
-
-    fun slide(direction: Direction = Direction.Up) = slide(direction, null)
-
-    fun slideOut(direction: Direction = Direction.Up, config: (SlideOutAnimation.() -> Unit)? = null) =
-            add(SlideOutAnimation(direction), config)
-
-    fun slideOut(direction: Direction = Direction.Up) = slideOut(direction, null)
-
-    fun circularReveal(config: (CircularRevealAnimation.() -> Unit)? = null) =
-            add(CircularRevealAnimation(), config)
-
-    fun circularReveal() = circularReveal(null)
-
-    fun translate(x: Float, y: Float, config: (TranslateAnimation.() -> Unit)? = null) =
-            add(TranslateAnimation(x, y), config)
-
-    fun translate(x: Float, y: Float) = translate(x, y, null)
-
-    fun changeBackground(@ColorRes vararg colorResIds: Int,
-                         config: (ChangeBackgroundAnimation.() -> Unit)? = null): Animations {
-        val transitionsCount = colorResIds.size - 1
-        colorResIds.forEachIndexed { index, color ->
-            if (index != 0) {
-                val previousColor = colorResIds[index - 1]
-                val animation = ChangeBackgroundAnimation(previousColor, color)
-                config?.invoke(animation)
-
-                animation.duration = animation.duration / transitionsCount
-
-                animations.add(animation)
-            }
-        }
-
-        return this
-    }
-
-    fun changeBackground(@ColorRes vararg colorResIds: Int) = changeBackground(*colorResIds, config = null)
-
-    //TODO make available only to TextViews
-    fun changeTextColor(@ColorRes vararg colorResIds: Int,
-                        config: (ChangeTextColorAnimation.() -> Unit)? = null): Animations {
-        val transitionsCount = colorResIds.size - 1
-        colorResIds.forEachIndexed { index, color ->
-            if (index != 0) {
-                val previousColor = colorResIds[index - 1]
-                val animation = ChangeTextColorAnimation(previousColor, color)
-                config?.invoke(animation)
-
-                animation.duration = animation.duration / transitionsCount
-
-                animations.add(animation)
-            }
-        }
-
-        return this
-    }
-
-    //TODO make available only to TextViews
-    fun changeTextColor(@ColorRes vararg colorResIds: Int) = changeTextColor(*colorResIds, config = null)
-
-    fun rotate(angle: Float,
-               config: (RotateAnimation.() -> Unit)? = null) = add(RotateAnimation(angle), config)
-
-    fun rotate(angle: Float) = rotate(angle, config = null)
-
-
-    fun delay(duration: Long,
-              config: (DelayAnimation.() -> Unit)? = null) = add(DelayAnimation(duration), config)
-
-    fun delay(duration: Long) = delay(duration, config = null)
-
-    // TODO: create a data structure to hold the repeat times and store the animations
-    // the current implementation is just a facilitator
-    fun repeat(times: Int, animations: Animations): Animations {
-        for (index in 0..times) {
-            addAnimations(animations.clone())
-        }
-
-        return this
-    }
-
-    fun parallel(block: Consumer<Animations>): Animations {
-        Animations().also { insideReference ->
-            block.accept(insideReference)
-            add(ParallelAnimation(insideReference), null)//TODO: verify how to configure parallel actions
-        }
-
-        return this
-    }
-
-    fun parallel(block: Animations.() -> Unit): Animations {
-        Animations().also { insideReference ->
-            block.invoke(insideReference)
-            val animation = ParallelAnimation(insideReference)
-            animations.add(animation)
-        }
-
-        return this
-    }
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        TODO("Not yet implemented")
-    }
-}
-
-class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
-    override fun updateAnimationTimeBounds() {
-        orchestraContext.blocks.forEach { block ->
-            block.start = start
-            block.end = end
-
-            block.updateAnimationTimeBounds()
-        }
-
-        start = orchestraContext.blocks.minOf { block -> block.start }
-        end = orchestraContext.blocks.maxOf { block -> block.end }
-    }
-
-    override fun updateAnimations(time: Float) {
-        orchestraContext.blocks.forEach { block ->
-            block.updateAnimations(time)
-        }
-    }
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        orchestraContext.blocks.let { blocks ->
-            val parallelLatch = CountDownLatch(blocks.size)
-
-            orchestraContext.blocks.forEach { block ->
-                GlobalScope.launch {
-                    orchestraContext.doRunBlocks(listOf(block), parallelLatch)
-                }
-            }
-
-            parallelLatch.await()
-        }
-    }
-
-    override fun calculateDuration() = orchestraContext.blocks.maxOf { block -> block.calculateDuration() }
-}
-
-class DelayBlock(val duration: Long) : Block() {
-    override suspend fun runBlock(orchestra: Orchestra) {
-        coroutineDelay(duration)
-    }
-
-    override fun calculateDuration() = duration
-}
 
 interface ParallelContext
 
@@ -291,7 +34,7 @@ interface OrchestraContext {
     fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
-class Orchestra : OrchestraContext, ParallelContext {
+open class Orchestra : OrchestraContext, ParallelContext {
 
     private val ticker = AnimationTicker()
 
@@ -300,7 +43,7 @@ class Orchestra : OrchestraContext, ParallelContext {
     internal val blocks = LinkedList<Block>()
     private val executionLatch = CountDownLatch(1)
 
-    private fun runBlocks() {
+    internal fun runBlocks() {
         ticker.start(blocks)
     }
 
@@ -355,18 +98,21 @@ class Orchestra : OrchestraContext, ParallelContext {
         }
     }
 
+
     companion object {
 
         //TODO synchronize creation and disposing
         var orchestra: Orchestra? = null
 
-        private fun currentOrchestra(): Orchestra {
-            val current = orchestra ?: Orchestra()
+        internal fun currentOrchestra(): Orchestra {
+            val current = orchestra ?: createOrchestra()
 
             orchestra = current
 
             return current
         }
+
+        internal var createOrchestra = { Orchestra() }
 
         internal fun disposeCurrentOrchestra() {
             orchestra?.executionLatch?.countDown()
@@ -392,17 +138,6 @@ class Orchestra : OrchestraContext, ParallelContext {
             return orchestraContext
         }
 
-
-        @JvmStatic
-        fun setup(block: Consumer<SetupContext>): SetupContext {
-            val setupContext = SetupContext()
-            block.accept(setupContext)
-            setupContext.runSetup()
-
-            return setupContext
-        }
-
-        @JvmStatic
         fun launch(block: Consumer<Orchestra>): Orchestra {
             val orchestraContext = Orchestra()
             block.accept(orchestraContext)

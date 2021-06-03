@@ -10,11 +10,11 @@ import com.elihimas.orchestra.model.Examples
 import com.elihimas.orchestra.model.ResourcesMapper
 import kotlinx.android.synthetic.main.option_row.view.*
 
-class ClickListener(private val recyclerView: RecyclerView, private val itemSelectedListener: ItemSelectedListener) : View.OnClickListener {
+class ClickListener(private val itemSelectedListener: ItemSelectedListener) : View.OnClickListener {
 
     override fun onClick(clickSource: View) {
-        val position: Int = recyclerView.getChildLayoutPosition(clickSource)
-        itemSelectedListener.itemSelected(Examples.values()[position])
+        val example = clickSource.tag as Examples
+        itemSelectedListener.itemSelected(example)
     }
 }
 
@@ -22,15 +22,15 @@ interface ItemSelectedListener {
     fun itemSelected(examples: Examples)
 }
 
-class ExamplesAdapter(recyclerView: RecyclerView, itemSelectedListener: ItemSelectedListener) : RecyclerView.Adapter<ExamplesAdapter.ExamplesHolder>() {
+class ExamplesAdapter(itemSelectedListener: ItemSelectedListener) : RecyclerView.Adapter<ExamplesAdapter.ExamplesHolder>() {
 
     class ExamplesHolder(view: View, val nameText: TextView) : RecyclerView.ViewHolder(view)
 
-    private val listener = ClickListener(recyclerView, itemSelectedListener)
+    private val listener = ClickListener(itemSelectedListener)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             LayoutInflater.from(parent.context).inflate(R.layout.option_row, parent, false).let {
-                it.setOnClickListener(listener)
+                it.nameText.setOnClickListener(listener)
                 ExamplesHolder(it, it.nameText)
             }
 
@@ -39,6 +39,7 @@ class ExamplesAdapter(recyclerView: RecyclerView, itemSelectedListener: ItemSele
     override fun onBindViewHolder(holder: ExamplesHolder, position: Int) {
         val example = Examples.values()[position]
 
+        holder.nameText.tag = example
         holder.nameText.setText(ResourcesMapper.map(example))
     }
 

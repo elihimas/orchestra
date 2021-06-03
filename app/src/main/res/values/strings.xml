@@ -58,6 +58,8 @@
     <string name="edit">Edit</string>
     <string name="example_interpolator">Interpolators</string>
     <string name="example_extensions">Extensions</string>
+    <string name="example_scale">Scale</string>
+    <string name="example_fade">Fade</string>
     <!--    animate view-->
 
 

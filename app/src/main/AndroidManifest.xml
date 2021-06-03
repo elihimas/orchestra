@@ -19,6 +19,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.FadeExampleActivity"
+            android:label="@string/example_fade" />
+        <activity
+            android:name=".activities.ScaleExampleActivity"
+            android:label="@string/example_scale" />
+        <activity
             android:name=".activities.InterpolatorActivity"
             android:label="@string/example_interpolator" />
         <activity

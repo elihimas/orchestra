@@ -12,6 +12,8 @@ class ExampleStarter(private val context: Context) {
 
     fun execute(example: Examples) {
         val nextClass = when (example) {
+            Examples.Fade -> FadeExampleActivity::class.java
+            Examples.Scale -> ScaleExampleActivity::class.java
             Examples.Extensions -> ExtensionsExamplesActivity::class.java
             Examples.Interpolator -> InterpolatorActivity::class.java
             Examples.AnimateImage -> AnimateImageActivity::class.java
