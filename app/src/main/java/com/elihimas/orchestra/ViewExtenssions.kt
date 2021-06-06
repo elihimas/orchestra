@@ -4,20 +4,23 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.view.View
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.Interpolator
+import android.view.animation.*
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
-//TODO review interporlators
+//TODO review interpolators
 data class FadeOutInConfig(
         var fadeoutDuration: Long = 300,
-        var fadeoutInterpolator: Interpolator = DecelerateInterpolator(),
-        var inBetweenDelay: Long = 200,
+        var fadeoutInterpolator: Interpolator = AccelerateInterpolator(),
+        var inBetweenDelay: Long = 0,
         var fadeInDuration: Long = 300,
-        var fadeInInterpolator: Interpolator = FastOutSlowInInterpolator()
+        var fadeInInterpolator: Interpolator = DecelerateInterpolator()
 )
+
+fun TextView.setTextFading(textId: Int, createConfiguration: (FadeOutInConfig.() -> Unit) = { FadeOutInConfig() }) {
+    val text = context.getString(textId)
+    setTextFading(text, createConfiguration)
+}
 
 fun TextView.setTextFading(text: String, createConfiguration: (FadeOutInConfig.() -> Unit) = { FadeOutInConfig() }) {
     val tvRef = this
@@ -27,7 +30,7 @@ fun TextView.setTextFading(text: String, createConfiguration: (FadeOutInConfig.(
     Orchestra.launch {
         on(tvRef).fadeOut {
             duration = configuration.fadeoutDuration
-            interpolator = DecelerateInterpolator()
+            interpolator = configuration.fadeoutInterpolator
         }
     }.then {
         this.text = text
@@ -35,8 +38,8 @@ fun TextView.setTextFading(text: String, createConfiguration: (FadeOutInConfig.(
         Orchestra.launch {
             delay(configuration.inBetweenDelay)
             on(tvRef).fadeIn {
-                duration = configuration.fadeoutDuration
-                interpolator = configuration.fadeoutInterpolator
+                duration = configuration.fadeInDuration
+                interpolator = configuration.fadeInInterpolator
             }
         }
     }
@@ -44,9 +47,13 @@ fun TextView.setTextFading(text: String, createConfiguration: (FadeOutInConfig.(
 
 data class ScalingConfig(
         var scaleOutDuration: Long = 300,
-        var scaleIntDuration: Long = 300,
-        var delayDuration: Long = 90
-)
+        val scaleOutInterpolator: Interpolator = AccelerateInterpolator(),
+        var scaleInDuration: Long = 300,
+        val scaleInInterpolator: Interpolator = OvershootInterpolator(1.2f),
+        var inBetweenDelay: Long = 90
+) {
+
+}
 
 fun TextView.setTextScaling(text: String, createConfiguration: (ScalingConfig.() -> Unit) = { ScalingConfig() }) {
     scale(createConfiguration) {
@@ -90,13 +97,19 @@ fun View.scale(createConfiguration: (ScalingConfig.() -> Unit) = { ScalingConfig
     val configuration = ScalingConfig()
     createConfiguration.invoke(configuration)
     Orchestra.launch {
-        on(thisRef).scale(0) { duration = configuration.scaleOutDuration }
+        on(thisRef).scale(0) {
+            duration = configuration.scaleOutDuration
+            interpolator = configuration.scaleOutInterpolator
+        }
     }.then {
         operation()
 
         Orchestra.launch {
-            delay(configuration.delayDuration)
-            on(thisRef).scale(1) { duration = configuration.scaleIntDuration }
+            delay(configuration.inBetweenDelay)
+            on(thisRef).scale(1) {
+                duration = configuration.scaleInDuration
+                interpolator = configuration.scaleInInterpolator
+            }
         }
     }
 }

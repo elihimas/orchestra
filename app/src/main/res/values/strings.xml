@@ -98,6 +98,8 @@
         }
     </string>
     <string name="button_run">Run animation</string>
+    <string name="extension_initial_text">Initial Value</string>
+    <string name="extension_final_text">Modified text</string>
     <!--    animate view-->
 
 

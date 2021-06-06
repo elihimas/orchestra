@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.model.AnimateImageAnimations
 import com.elihimas.orchestra.model.ResourcesMapper
-import kotlinx.android.synthetic.main.option_row.view.nameText
 import kotlinx.android.synthetic.main.select_animation_row.view.*
 
 class SelectAnimationsAdapter(private val selectAnimationListener: (AnimateImageAnimations) -> Unit) :
@@ -26,7 +25,7 @@ class SelectAnimationsAdapter(private val selectAnimationListener: (AnimateImage
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimationHolder =
             LayoutInflater.from(parent.context).inflate(R.layout.select_animation_row, parent, false).let {
-                AnimationHolder(it, it.nameText, it.img1, it.img2, it.img3, it.img4)
+                AnimationHolder(it, it.tvName, it.img1, it.img2, it.img3, it.img4)
             }
 
     override fun onBindViewHolder(holder: AnimationHolder, position: Int) {
