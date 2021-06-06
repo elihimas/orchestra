@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case CoordinatorLayout:
                 break;
-            case Form:
+            case Slide:
                 break;
         }
 

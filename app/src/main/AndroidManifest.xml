@@ -35,19 +35,19 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.BackgroundAndTextColorExampleActivity"
-            android:label="@string/background_text_color" />
+            android:label="@string/example_background_text_color" />
         <activity
             android:name=".activities.BouncingButtonExampleActivity"
-            android:label="@string/bouncing" />
+            android:label="@string/example_bouncing" />
         <activity
             android:name=".activities.ConstrainsExampleActivity"
-            android:label="@string/constrains_layout" />
+            android:label="@string/example_constrains_layout" />
         <activity
             android:name=".activities.CoordinatorExampleActivity"
-            android:label="@string/coordinator_layout" />
+            android:label="@string/example_coordinator_layout" />
         <activity
-            android:name=".activities.FormExampleActivity"
-            android:label="@string/form"
+            android:name=".activities.SlideExampleActivity"
+            android:label="@string/example_slide"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ExtensionsExamplesActivity"

@@ -4,10 +4,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.blocks.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.function.Consumer
@@ -39,13 +36,6 @@ open class Orchestra : OrchestraContext, ParallelContext {
         ticker.start(blocks)
     }
 
-    internal suspend fun doRunBlocks(blocks: List<Block>, blocksLatch: CountDownLatch? = null) {
-        blocks.forEach { block ->
-            block.runBlock(this)
-            blocksLatch?.countDown()
-        }
-    }
-
     override fun animations() = AnimationsBlock()
 
     override fun on(vararg views: View) = ViewReference(*views).apply {
@@ -73,6 +63,9 @@ open class Orchestra : OrchestraContext, ParallelContext {
         return orchestraContext
     }
 
+    //TODO this should be a block for two reasons:
+    // if two then are called all blocks will be run together even if one of the blocks finishes first
+    // executionLatch will be unnecessary
     override fun then(block: () -> Unit) {
         GlobalScope.launch {
             executionLatch.await()
@@ -83,11 +76,13 @@ open class Orchestra : OrchestraContext, ParallelContext {
     }
 
     companion object {
-        //TODO synchronize creation and disposing
         var orchestra: Orchestra? = null
 
         internal fun currentOrchestra(): Orchestra {
-            val current = orchestra ?: createOrchestra()
+            val current: Orchestra
+            runBlocking {
+                current = orchestra ?: createOrchestra()
+            }
 
             orchestra = current
 
@@ -97,8 +92,10 @@ open class Orchestra : OrchestraContext, ParallelContext {
         internal var createOrchestra = { Orchestra() }
 
         internal fun disposeCurrentOrchestra() {
-            orchestra?.executionLatch?.countDown()
-            orchestra = null
+            runBlocking {
+                orchestra?.executionLatch?.countDown()
+                orchestra = null
+            }
         }
 
         @JvmStatic

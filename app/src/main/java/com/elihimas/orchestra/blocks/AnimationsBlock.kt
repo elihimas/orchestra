@@ -169,8 +169,4 @@ open class AnimationsBlock : Block() {
 
         return this
     }
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        TODO("Not yet implemented")
-    }
 }

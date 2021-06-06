@@ -21,7 +21,7 @@ class ExampleStarter(private val context: Context) {
             Examples.BackgroundAndTextColor -> BackgroundAndTextColorExampleActivity::class.java
             Examples.CoordinatorLayout -> CoordinatorExampleActivity::class.java
             Examples.ConstrainsLayout -> ConstrainsExampleActivity::class.java
-            Examples.Form -> FormExampleActivity::class.java
+            Examples.Slide -> SlideExampleActivity::class.java
         }
 
         context.startActivity(Intent(context, nextClass))

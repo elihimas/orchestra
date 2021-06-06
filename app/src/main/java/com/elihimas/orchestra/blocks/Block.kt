@@ -7,7 +7,7 @@ abstract class Block {
     var end = 0f
     var hasForeverAnimation = false
 
-    abstract suspend fun runBlock(orchestra: Orchestra)
+    open fun runBlock() {}
 
     abstract fun calculateDuration(): Long
     open fun updateAnimations(time: Float) {}

@@ -2,6 +2,8 @@ package com.elihimas.orchestra.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginRight
 import com.elihimas.orchestra.Orchestra
@@ -18,27 +20,11 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
 
-//        parallel()
 //        forever()
-//        longSplash()
+        longSplash()
 
 //        startActivity(Intent(this, MainActivity::class.java))
 //        finish()
-
-
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
-    }
-
-    private fun parallel() {
-        Orchestra.launch {
-            on(titleText).parallel {
-                fadeIn()
-                scale(2) {
-                    duration = 1000
-                }
-            }
-        }
     }
 
     private fun forever() {
@@ -75,7 +61,7 @@ class SplashActivity : AppCompatActivity() {
             it.setOnClickListener {
                 Orchestra.launch {
                     on(it).rotate(1080f) {
-                        duration = 120
+                        duration = 2000
                     }
                 }
             }
@@ -93,12 +79,19 @@ class SplashActivity : AppCompatActivity() {
                         .fadeIn() {
                             duration = 1200
                         }
-                        .scale(1.5f) {
-                            duration = 300
+                        .scale(2.5f) {
+                            duration = 400
+                            interpolator = OvershootInterpolator()
                         }
                         .delay(600)
-                        .scale(1f)
-                        .fadeOut()
+                        .parallel {
+                            scale(1f) {
+                                duration = 1100
+                            }
+                            fadeOut {
+                                duration = 1000
+                            }
+                        }
 
                 on(titleText)
                         .addAnimations(showAnimation)
@@ -139,7 +132,10 @@ class SplashActivity : AppCompatActivity() {
                         .fadeIn {
                             duration = 800
                         }
-                        .scale(3f)
+                        .scale(3f) {
+                            duration = 700
+                            interpolator = AccelerateInterpolator()
+                        }
 
                 val pulseAnimation1 =
                         animations()

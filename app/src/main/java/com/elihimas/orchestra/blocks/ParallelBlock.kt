@@ -24,19 +24,5 @@ class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
         }
     }
 
-    override suspend fun runBlock(orchestra: Orchestra) {
-        orchestraContext.blocks.let { blocks ->
-            val parallelLatch = CountDownLatch(blocks.size)
-
-            orchestraContext.blocks.forEach { block ->
-                GlobalScope.launch {
-                    orchestraContext.doRunBlocks(listOf(block), parallelLatch)
-                }
-            }
-
-            parallelLatch.await()
-        }
-    }
-
     override fun calculateDuration() = orchestraContext.blocks.maxOf { block -> block.calculateDuration() }
 }

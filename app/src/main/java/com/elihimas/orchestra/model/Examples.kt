@@ -10,5 +10,5 @@ enum class Examples {
     BackgroundAndTextColor,
     ConstrainsLayout,
     CoordinatorLayout,
-    Form,
+    Slide,
 }

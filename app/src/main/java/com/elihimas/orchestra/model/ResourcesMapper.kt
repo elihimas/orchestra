@@ -10,11 +10,11 @@ object ResourcesMapper {
         Examples.Extensions -> R.string.example_extensions
         Examples.Interpolator -> R.string.example_interpolator
         Examples.AnimateImage -> R.string.animate_image
-        Examples.Bouncing -> R.string.bouncing
-        Examples.BackgroundAndTextColor -> R.string.background_text_color
-        Examples.ConstrainsLayout -> R.string.constrains_layout
-        Examples.CoordinatorLayout -> R.string.coordinator_layout
-        Examples.Form -> R.string.form
+        Examples.Bouncing -> R.string.example_bouncing
+        Examples.BackgroundAndTextColor -> R.string.example_background_text_color
+        Examples.ConstrainsLayout -> R.string.example_constrains_layout
+        Examples.CoordinatorLayout -> R.string.example_coordinator_layout
+        Examples.Slide -> R.string.example_slide
     }
 
     fun map(animateImageAnimations: AnimateImageAnimations) = when (animateImageAnimations) {
@@ -27,5 +27,4 @@ object ResourcesMapper {
         AnimateImageAnimations.Rotate -> R.string.rotate
         AnimateImageAnimations.CircularReveal -> R.string.circular_reveal
     }
-
 }

@@ -1,13 +1,7 @@
 package com.elihimas.orchestra.blocks
 
 import android.view.View
-import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.Animation
-import com.elihimas.orchestra.coroutineDelay
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.concurrent.CountDownLatch
 
 open class ViewReference(private vararg val views: View) : AnimationsBlock() {
     override fun updateAnimationTimeBounds() {
@@ -63,28 +57,6 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
 
             currentAnimations.add(nextAnimation)
             nextAnimationIndex++
-        }
-    }
-
-    override suspend fun runBlock(orchestra: Orchestra) {
-        animations.forEach { action ->
-            val latch = CountDownLatch(views.size)
-            if (views.size > 1) {
-                views.forEach { view ->
-                    GlobalScope.launch(Dispatchers.Main) {
-                        action.runAnimation(view) { latch.countDown() }
-                    }
-
-                    coroutineDelay(action.spacing)
-                }
-            } else {
-                GlobalScope.launch(Dispatchers.Main) {
-                    views.forEach { view ->
-                        action.runAnimation(view) { latch.countDown() }
-                    }
-                }
-            }
-            latch.await()
         }
     }
 

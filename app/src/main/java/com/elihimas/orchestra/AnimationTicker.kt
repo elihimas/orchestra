@@ -1,6 +1,5 @@
 package com.elihimas.orchestra
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
@@ -11,9 +10,10 @@ import kotlin.math.max
 private fun LinkedList<Block>.removeStartedBlocks(time: Float): LinkedList<Block> {
     val removedBlocks = LinkedList<Block>()
 
-    while (this.peekFirst()?.let { it.start >= time } == true) {
+    while (this.peekFirst()?.let { time >= it.start } == true) {
         this.removeFirst().let {
             removedBlocks.addLast(it)
+            it.runBlock()
         }
     }
 
@@ -88,7 +88,7 @@ class AnimationTicker {
                 interpolator = LinearInterpolator()
 
                 addUpdateListener(updateListener)
-                doOnEnd(::doOnEnd)
+                doOnEnd { doOnEnd() }
             }.start()
         }
     }
@@ -98,7 +98,7 @@ class AnimationTicker {
         this.foreverBlocks.addAll(foreverBlocks)
     }
 
-    private fun doOnEnd(animator: Animator) {
+    private fun doOnEnd() {
         if (foreverBlocks.isNotEmpty()) {
             foreverBlocks.forEach {
                 updateInfiniteBlock(it, currentTime)
