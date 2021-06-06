@@ -1,6 +1,7 @@
 package com.elihimas.orchestra
 
 import android.view.View
+import com.elihimas.orchestra.actions.*
 
 class SetupContext {
 
@@ -36,6 +37,7 @@ class SetupReference(private vararg val views: View) {
     fun invisible() = add(InvisibleAction())
 
     fun bounce() = add(BounceAction())
+
     //TODO move this to extensions
     fun bounce(config: BounceAction.() -> Unit): SetupReference {
         with(BounceAction()) {

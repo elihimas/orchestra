@@ -2,12 +2,19 @@ package com.elihimas.orchestra.java
 
 import android.view.View
 import com.elihimas.orchestra.SetupContext
+import com.elihimas.orchestra.blocks.ParallelBlock
 import java.util.function.Consumer
 
 class Orchestra : com.elihimas.orchestra.Orchestra() {
 
     override fun on(vararg views: View): ViewReference = ViewReference(*views).apply {
         blocks.add(this)
+    }
+
+    fun parallel(block: Consumer<Orchestra>): Orchestra {
+        return parallel {
+            block.accept(this as Orchestra)
+        } as Orchestra
     }
 
     fun then(block: Runnable) {

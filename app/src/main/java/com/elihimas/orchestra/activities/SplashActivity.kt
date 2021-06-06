@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginRight
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.OrchestraContext
 import com.elihimas.orchestra.R
 import com.elihimas.orchestra.animations.Direction
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.Collections.rotate
 
 
 class SplashActivity : AppCompatActivity() {
@@ -18,7 +18,56 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_splash)
 
-        longSplash()
+//        parallel()
+//        forever()
+//        longSplash()
+
+//        startActivity(Intent(this, MainActivity::class.java))
+//        finish()
+
+
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun parallel() {
+        Orchestra.launch {
+            on(titleText).parallel {
+                fadeIn()
+                scale(2) {
+                    duration = 1000
+                }
+            }
+        }
+    }
+
+    private fun forever() {
+        val animationsDuration = 800L
+        val minAlpha = 0.5f
+        Orchestra.launch {
+            on(titleText)
+//                    .rotate(3600f)
+                    .forever {
+                        parallel {
+                            scale(0.7f) {
+                                duration = animationsDuration
+                            }
+                            fadeOut {
+                                finalAlpha = minAlpha
+                                duration = animationsDuration
+                            }
+                        }
+                        parallel {
+                            scale(1) {
+                                duration = animationsDuration
+                            }
+                            fadeIn {
+                                initialAlpha = minAlpha
+                                duration = animationsDuration
+                            }
+                        }
+                    }
+        }
     }
 
     private fun addClick() {

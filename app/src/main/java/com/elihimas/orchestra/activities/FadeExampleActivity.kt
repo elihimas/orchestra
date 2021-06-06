@@ -46,25 +46,12 @@ class FadeExampleActivity : AppCompatActivity() {
                         }
                     }
                     .delay(600)
-            val show = animations()
-                    .parallel {
-                        scale(1) {
-                            this.duration = duration
-                        }
-                        fadeIn {
-                            this.duration = duration
-                        }
-                    }
-            val animations = animations()
-                    .repeat(3, blink)
-                    .addAnimations(show)
 
             parallel {
-                on(squareLeft).addAnimations(animations)
-                on(squareCenter).delay(400).addAnimations(animations.clone())
-                on(squareRight).delay(800).addAnimations(animations.clone())
+                on(squareLeft).repeat(3, blink)
+                on(squareCenter).delay(400).repeat(3, blink)
+                on(squareRight).delay(800).repeat(3, blink)
             }
         }
     }
-
 }

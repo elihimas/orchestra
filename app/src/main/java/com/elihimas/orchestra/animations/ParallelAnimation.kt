@@ -2,9 +2,9 @@ package com.elihimas.orchestra.animations
 
 import android.view.View
 import android.view.ViewPropertyAnimator
-import com.elihimas.orchestra.blocks.Animations
+import com.elihimas.orchestra.blocks.AnimationsBlock
 
-class ParallelAnimation(private val reference: Animations) : Animation() {
+class ParallelAnimation(private val reference: AnimationsBlock) : Animation() {
 
     override fun init(vararg views: View) {
         reference.animations.forEach { animation ->

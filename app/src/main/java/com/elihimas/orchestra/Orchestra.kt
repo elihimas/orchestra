@@ -1,16 +1,8 @@
 package com.elihimas.orchestra
 
-import android.app.Activity
-import android.transition.ChangeBounds
-import android.transition.Transition
-import android.transition.TransitionManager
 import android.view.View
-import android.view.animation.AnticipateOvershootInterpolator
-import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
-import com.elihimas.orchestra.animations.*
 import com.elihimas.orchestra.blocks.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -30,7 +22,7 @@ interface OrchestraContext {
     fun on(vararg views: View): ViewReference
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
     fun then(block: () -> Unit)
-    fun animations(): Animations
+    fun animations(): AnimationsBlock
     fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
@@ -54,7 +46,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
         }
     }
 
-    override fun animations() = Animations()
+    override fun animations() = AnimationsBlock()
 
     override fun on(vararg views: View) = ViewReference(*views).apply {
         blocks.add(this)
@@ -72,19 +64,11 @@ open class Orchestra : OrchestraContext, ParallelContext {
     }
 
     override fun parallel(block: Orchestra.() -> Unit): Orchestra {
-        val orchestraContext = Orchestra()
+        val orchestraContext = createOrchestra()
         block.invoke(orchestraContext)
         blocks.add(ParallelBlock(orchestraContext).also {
             lastParallelBlock = it
         })
-
-        return orchestraContext
-    }
-
-    fun parallel(block: Consumer<Orchestra>): Orchestra {
-        val orchestraContext = Orchestra()
-        block.accept(orchestraContext)
-        blocks.add(ParallelBlock(orchestraContext))
 
         return orchestraContext
     }
@@ -98,9 +82,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
         }
     }
 
-
     companion object {
-
         //TODO synchronize creation and disposing
         var orchestra: Orchestra? = null
 
@@ -153,7 +135,5 @@ open class Orchestra : OrchestraContext, ParallelContext {
 
             short()
         }
-
     }
-
 }

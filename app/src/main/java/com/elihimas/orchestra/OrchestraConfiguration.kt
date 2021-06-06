@@ -1,5 +1,6 @@
 package com.elihimas.orchestra
 
+//TODO: add suppport to read configuration from xml
 object OrchestraConfiguration {
     object General {
         var spacing = 0L

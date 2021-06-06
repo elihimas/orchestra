@@ -9,13 +9,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
 
-open class ViewReference(private vararg val views: View) : Animations() {
+open class ViewReference(private vararg val views: View) : AnimationsBlock() {
     override fun updateAnimationTimeBounds() {
-        var animationStart = start
+        var previousAnimationStart = start
         animations.forEach { animation ->
-            animation.updateAnimationTimeBounds(baseTime = animationStart)
+            animation.updateAnimationTimeBounds(baseTime = previousAnimationStart)
 
-            animationStart = animation.end
+            previousAnimationStart = animation.end
         }
     }
 
@@ -31,12 +31,18 @@ open class ViewReference(private vararg val views: View) : Animations() {
         }
     }
 
+    //TODO jreview this
+    override fun resetForeverData() {
+        nextAnimationIndex--
+        (animations[nextAnimationIndex] as ForeverAnimation).animations.nextAnimationIndex = 0
+    }
+
     private fun removePastAnimations(time: Float) {
         while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
             val pastAnimation = currentAnimations.removeFirst()
 
             views.forEach { view ->
-                pastAnimation.updateAnimationByProportion(view, 1f)
+                pastAnimation.finishAnimation(view)
             }
         }
     }
@@ -80,5 +86,20 @@ open class ViewReference(private vararg val views: View) : Animations() {
             }
             latch.await()
         }
+    }
+
+    //TODO move this to AnimationsBlock
+    fun forever(block: AnimationsBlock.() -> Unit) {
+        hasForeverAnimation = true
+        ViewReference(*views).also { animations ->
+            block.invoke(animations)
+            val foreverAnimation = ForeverAnimation(animations)
+            this.animations.add(foreverAnimation)
+        }
+    }
+
+    //TODO move this to AnimationsBlock
+    fun forever(animationsBlock: AnimationsBlock) = forever {
+        addAnimations(animationsBlock)
     }
 }

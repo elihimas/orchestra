@@ -6,13 +6,13 @@ import com.elihimas.orchestra.animations.*
 import java.util.*
 import java.util.function.Consumer
 
-open class Animations : Block() {
+open class AnimationsBlock : Block() {
 
     val currentAnimations = LinkedList<Animation>()
     var nextAnimationIndex = 0
     val animations = mutableListOf<Animation>()
 
-    fun clone() = Animations().also { clone ->
+    fun clone() = AnimationsBlock().also { clone ->
         this.animations.forEach { animation ->
             clone.animations.add(animation.clone() as Animation)
         }
@@ -22,7 +22,7 @@ open class Animations : Block() {
         animation.calculateDuration()
     }
 
-    open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): Animations {
+    open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): AnimationsBlock {
         animations.add(animation)
 
         config?.invoke(animation)
@@ -30,8 +30,8 @@ open class Animations : Block() {
         return this
     }
 
-    fun addAnimations(animations: Animations): Animations {
-        this.animations.addAll(animations.animations)
+    fun addAnimations(animationsBlock: AnimationsBlock): AnimationsBlock {
+        this.animations.addAll(animationsBlock.animations)
 
         return this
     }
@@ -89,7 +89,7 @@ open class Animations : Block() {
             add(TranslateAnimation(x, y), config)
 
     fun changeBackground(@ColorRes vararg colorResIds: Int,
-                         config: (ChangeBackgroundAnimation.() -> Unit)? = null): Animations {
+                         config: (ChangeBackgroundAnimation.() -> Unit)? = null): AnimationsBlock {
         val transitionsCount = colorResIds.size - 1
         colorResIds.forEachIndexed { index, color ->
             if (index != 0) {
@@ -110,7 +110,7 @@ open class Animations : Block() {
 
     //TODO make available only to TextViews
     fun changeTextColor(@ColorRes vararg colorResIds: Int,
-                        config: (ChangeTextColorAnimation.() -> Unit)? = null): Animations {
+                        config: (ChangeTextColorAnimation.() -> Unit)? = null): AnimationsBlock {
         val transitionsCount = colorResIds.size - 1
         colorResIds.forEachIndexed { index, color ->
             if (index != 0) {
@@ -143,16 +143,16 @@ open class Animations : Block() {
 
     // TODO: create a data structure to hold the repeat times and store the animations
     // the current implementation is just a facilitator
-    fun repeat(times: Int, animations: Animations): Animations {
+    fun repeat(times: Int, animationsBlock: AnimationsBlock): AnimationsBlock {
         for (index in 0..times) {
-            addAnimations(animations.clone())
+            addAnimations(animationsBlock.clone())
         }
 
         return this
     }
 
-    fun parallel(block: Consumer<Animations>): Animations {
-        Animations().also { insideReference ->
+    fun parallel(block: Consumer<AnimationsBlock>): AnimationsBlock {
+        AnimationsBlock().also { insideReference ->
             block.accept(insideReference)
             add(ParallelAnimation(insideReference), null)//TODO: verify how to configure parallel actions
         }
@@ -160,11 +160,11 @@ open class Animations : Block() {
         return this
     }
 
-    fun parallel(block: Animations.() -> Unit): Animations {
-        Animations().also { insideReference ->
-            block.invoke(insideReference)
-            val animation = ParallelAnimation(insideReference)
-            animations.add(animation)
+    fun parallel(block: AnimationsBlock.() -> Unit): AnimationsBlock {
+        AnimationsBlock().also { animations ->
+            block.invoke(animations)
+            val parallelAnimation = ParallelAnimation(animations)
+            this.animations.add(parallelAnimation)
         }
 
         return this

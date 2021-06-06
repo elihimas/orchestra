@@ -10,12 +10,13 @@ import com.elihimas.orchestra.OrchestraConfiguration
 abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
         //TODO make spacing work (for instance for Form Example)
                          var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
-    internal var start = 0F
+    var isInfinite = false
+    internal var start = 0f
         set(value) {
             deltaTime = end - value
             field = value
         }
-    internal var end = 0F
+    internal var end = 0f
         set(value) {
             deltaTime = value - start
             field = value
@@ -23,7 +24,7 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
     var delay = 0L
     var interpolator: Interpolator = LinearInterpolator()
 
-    var deltaTime = 0F
+    var deltaTime = 0f
 
     //TODO: verify if this is being used
     open fun beforeAnimation(view: View) {}
@@ -70,5 +71,9 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
     open fun updateAnimationTimeBounds(baseTime: Float) {
         start = baseTime + delay
         end = start + duration
+    }
+
+    open fun finishAnimation(view: View) {
+        updateAnimationByProportion(view, 1f)
     }
 }

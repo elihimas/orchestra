@@ -1,4 +1,4 @@
-package com.elihimas.orchestra
+package com.elihimas.orchestra.actions
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -7,38 +7,7 @@ import android.view.animation.BaseInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
-
-abstract class SetupAction {
-    fun runSetup(views: Array<out View>) {
-        views.forEach {
-            runSetup(it)
-        }
-    }
-
-    abstract fun runSetup(view: View)
-}
-
-class AlphaAction(private val value: Float) : SetupAction() {
-    override fun runSetup(view: View) {
-        view.alpha = value
-    }
-}
-
-class SetupScaleAction(private val value: Float) : SetupAction() {
-    override fun runSetup(view: View) {
-        view.apply {
-            scaleX = value
-            scaleY = value
-        }
-    }
-}
-
-class InvisibleAction : SetupAction() {
-    override fun runSetup(view: View) {
-        view.visibility = View.INVISIBLE
-    }
-
-}
+import com.elihimas.orchestra.OrchestraConfiguration
 
 data class WaitAnimateDuration(val animationDuration: Long = OrchestraConfiguration.AnimateAndWaitDuration.animationDuration,
                                val waitDuration: Long = OrchestraConfiguration.AnimateAndWaitDuration.waitDuration)
@@ -81,12 +50,4 @@ class BounceAction(var duration: WaitAnimateDuration = WaitAnimateDuration(),
         }
 
     }
-
-}
-
-class OnClick(private val onClickListener: View.OnClickListener) : SetupAction() {
-    override fun runSetup(view: View) {
-        view.setOnClickListener(onClickListener)
-    }
-
 }

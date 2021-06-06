@@ -26,6 +26,7 @@ class AnimationTicker {
 
     //TODO synchronize
     private lateinit var nextBlocks: LinkedList<Block>
+    private val foreverBlocks = mutableSetOf<Block>()
 
     //TODO should be a list of blocks
     private var currentBlocks = LinkedList<Block>()
@@ -42,16 +43,25 @@ class AnimationTicker {
         addStartedBlocks(time)
     }
 
+    private fun updateBlocks(time: Float) {
+        currentBlocks.forEach {
+            it.updateAnimations(time)
+        }
+    }
+
     private fun removePastBlocks(time: Float) {
         while (currentBlocks.peekFirst()?.let { time >= it.end } == true) {
             currentBlocks.removeFirst()
         }
     }
 
-    private fun updateBlocks(time: Float) {
-        currentBlocks.forEach {
-            it.updateAnimations(time)
-        }
+    private fun updateInfiniteBlock(removedBlock: Block, time: Float) {
+        val blockDuration = removedBlock.calculateDuration()
+
+        removedBlock.start = time
+        removedBlock.end = removedBlock.start + blockDuration
+        removedBlock.updateAnimationTimeBounds()
+        removedBlock.resetForeverData()
     }
 
     private fun addStartedBlocks(time: Float) {
@@ -68,7 +78,9 @@ class AnimationTicker {
         nextBlocks = blocks
         val blocksEndTime = updateBlocksTimeBoundsAndCalculateEnd(nextBlocks, currentBlocks, baseTime)
 
-        currentBlocks.addAll(nextBlocks.removeStartedBlocks(baseTime))
+        addForeverBlocks(blocks)
+        val started = nextBlocks.removeStartedBlocks(baseTime)
+        currentBlocks.addAll(started)
 
         if (baseTime == 0f || forceAnimationStart) {
             ValueAnimator.ofFloat(baseTime, blocksEndTime).apply {
@@ -81,7 +93,18 @@ class AnimationTicker {
         }
     }
 
+    private fun addForeverBlocks(blocks: LinkedList<Block>) {
+        val foreverBlocks = blocks.filter { it.hasForeverAnimation }
+        this.foreverBlocks.addAll(foreverBlocks)
+    }
+
     private fun doOnEnd(animator: Animator) {
+        if (foreverBlocks.isNotEmpty()) {
+            foreverBlocks.forEach {
+                updateInfiniteBlock(it, currentTime)
+            }
+            nextBlocks.addAll(foreverBlocks)
+        }
         if (nextBlocks.isNotEmpty() || currentBlocks.isNotEmpty()) {
             start(nextBlocks, forceAnimationStart = true)
         } else {

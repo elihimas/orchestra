@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.R
-import com.elihimas.orchestra.WaitAnimateDuration
+import com.elihimas.orchestra.actions.WaitAnimateDuration
 import kotlinx.android.synthetic.main.activity_boucing_button_example.*
 
 class BouncingButtonExampleActivity : AppCompatActivity() {
