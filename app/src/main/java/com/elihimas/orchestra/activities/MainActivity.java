@@ -85,9 +85,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runAndOpen(Consumer<ViewReference> animation, Examples example) {
-        Orchestra
-                .launch(orchestra -> animation.accept(orchestra.on(optionsRecycler)))
-                .then(() -> exampleStarter.execute(example));
+        //TODO run the animation or remove unused code
+//        Orchestra
+//                .launch(orchestra -> animation.accept(orchestra.on(optionsRecycler)))
+//                .then(() -> exampleStarter.execute(example));
+        exampleStarter.execute(example);
     }
 
     private void animate() {

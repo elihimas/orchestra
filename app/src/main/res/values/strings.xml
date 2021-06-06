@@ -60,6 +60,44 @@
     <string name="example_extensions">Extensions</string>
     <string name="example_scale">Scale</string>
     <string name="example_fade">Fade</string>
+    <string name="code_fade">
+        val smallScale = 0.3f\n
+        val fullScale = 1\n
+\n
+        Orchestra.setup {\n
+            \ton(squareLeft, squareCenter, squareRight)\n
+            \t\t        .alpha(0)\n
+            \t\t        .scale(smallScale)\n
+        }\n
+        Orchestra.launch {\n
+            \tval duration = 600L\n
+            \tval blink = animations()\n
+            \t\t        .parallel {\n
+            \t\t\t          fadeIn {\n
+            \t\t\t\t            this.duration = duration\n
+            \t\t\t          }\n
+            \t\t\t          scale(fullScale) {\n
+            \t\t\t\t            this.duration = duration\n
+            \t\t\t          }\n
+            \t\t        }\n
+            \t\t        .parallel {\n
+            \t\t\t          fadeOut {\n
+            \t\t\t\t            this.duration = duration\n
+            \t\t\t          }\n
+            \t\t\t          scale(smallScale) {\n
+            \t\t\t\t            this.duration = duration\n
+            \t\t\t          }\n
+            \t\t        }\n
+            \t\t        .delay(600)\n
+\n
+            \tparallel {\n
+            \t    on(squareLeft).repeat(3, blink)\n
+            \t    on(squareCenter).delay(400).repeat(3, blink)\n
+            \t    on(squareRight).delay(800).repeat(3, blink)\n
+            \t}\n
+        }
+    </string>
+    <string name="button_run">Run animation</string>
     <!--    animate view-->
 
 

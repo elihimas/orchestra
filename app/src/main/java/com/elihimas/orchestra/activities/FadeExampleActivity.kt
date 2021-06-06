@@ -8,16 +8,20 @@ import com.elihimas.orchestra.R
 import kotlinx.android.synthetic.main.activity_fade_example.*
 import kotlinx.android.synthetic.main.activity_splash.*
 
-//TODO: implement this
 class FadeExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fade_example)
-
-        initAnimation()
+        init()
     }
 
-    private fun initAnimation() {
+    private fun init() {
+        btRun.setOnClickListener {
+            runAnimation()
+        }
+    }
+
+    private fun runAnimation() {
         val smallScale = 0.3f
         val fullScale = 1
 

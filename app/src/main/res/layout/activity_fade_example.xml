@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <View
             android:id="@+id/squareLeft"
@@ -38,4 +38,20 @@
             android:background="@android:color/holo_blue_dark"
             android:elevation="1dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btRun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_run" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/code_fade" />
+    </ScrollView>
 </LinearLayout>
