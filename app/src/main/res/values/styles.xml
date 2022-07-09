@@ -51,4 +51,8 @@
         <item name="android:layout_marginTop">40dp</item>
     </style>
 
+    <style name="InterpolatorName">
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
+
 </resources>

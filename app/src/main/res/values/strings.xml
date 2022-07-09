@@ -134,6 +134,15 @@ Orchestra.launch {\n
     </string>
     <string name="button_show_code">show code</string>
     <string name="button_hide_code">hide code</string>
+    <string name="accelerate_decelerate_interpolator">AccelerateDecelerateInterpolator</string>
+    <string name="accelerate_interpolator">AccelerateInterpolator</string>
+    <string name="anticipate_interpolator">AnticipateInterpolator</string>
+    <string name="bounce_interpolator">BounceInterpolator</string>
+    <string name="fast_out_linear_ininterpolator">FastOutLinearInInterpolator</string>
+    <string name="overshoot_interpolator">OvershootInterpolator</string>
+
+    <string name="label_run_slowly">Run slowly</string>
+    <string name="label_run">Run</string>
     <!--    animate view-->
 
 

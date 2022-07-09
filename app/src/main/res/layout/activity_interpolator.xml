@@ -1,39 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="15dp"
+    android:paddingStart="15dp"
     tools:context=".activities.InterpolatorActivity">
 
     <View
         android:id="@+id/square1"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_blue_dark" />
+        android:background="@android:color/holo_blue_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accelerate_decelerate_interpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square1"
+        app:layout_constraintStart_toEndOf="@id/square1"
+        app:layout_constraintTop_toTopOf="@id/square1" />
 
     <View
         android:id="@+id/square2"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_orange_dark" />
+        android:background="@android:color/holo_orange_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/square1" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accelerate_interpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square2"
+        app:layout_constraintStart_toEndOf="@id/square2"
+        app:layout_constraintTop_toTopOf="@id/square2" />
 
     <View
         android:id="@+id/square3"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_red_dark" />
+        android:background="@android:color/holo_red_dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/square2" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/anticipate_interpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square3"
+        app:layout_constraintStart_toEndOf="@id/square3"
+        app:layout_constraintTop_toTopOf="@id/square3" />
 
     <View
         android:id="@+id/square4"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_blue_bright" />
+        android:background="@android:color/holo_blue_bright"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/square3" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bounce_interpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square4"
+        app:layout_constraintStart_toEndOf="@id/square4"
+        app:layout_constraintTop_toTopOf="@id/square4" />
 
     <View
         android:id="@+id/square5"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_purple" />
+        android:background="@android:color/holo_purple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/square4" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fast_out_linear_ininterpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square5"
+        app:layout_constraintStart_toEndOf="@id/square5"
+        app:layout_constraintTop_toTopOf="@id/square5" />
 
     <View
         android:id="@+id/square6"
         style="@style/InterpolatorSquare"
-        android:background="@android:color/holo_red_light" />
-</LinearLayout>
+        android:background="@android:color/holo_red_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/square5" />
+
+    <TextView
+        style="@style/InterpolatorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/overshoot_interpolator"
+        app:layout_constraintBottom_toBottomOf="@id/square6"
+        app:layout_constraintStart_toEndOf="@id/square6"
+        app:layout_constraintTop_toTopOf="@id/square6" />
+
+    <Button
+        android:id="@+id/btRunSlowly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_run_slowly"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_run"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
