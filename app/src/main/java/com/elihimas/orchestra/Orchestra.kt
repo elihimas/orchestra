@@ -19,7 +19,7 @@ interface OrchestraContext {
     fun on(vararg views: View): ViewReference
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
     fun then(block: () -> Unit)
-    fun animations(): AnimationsBlock
+    fun createAnimation(): AnimationsBlock
     fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
@@ -36,7 +36,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
         ticker.start(blocks)
     }
 
-    override fun animations() = AnimationsBlock()
+    override fun createAnimation() = AnimationsBlock()
 
     override fun on(vararg views: View) = ViewReference(*views).apply {
         blocks.add(this)

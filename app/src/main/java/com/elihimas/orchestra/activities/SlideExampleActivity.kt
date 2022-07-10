@@ -31,20 +31,22 @@ class SlideExampleActivity : AppCompatActivity() {
         btHideCode.setOnClickListener {
             hideCode()
         }
+        btRun.setOnClickListener {
+            runAnimation()
+        }
     }
 
     private fun showCode() {
         Orchestra.launch {
-
             parallel {
                 on(tvCode).scale(1) {
-                    duration = 1200
+                    duration = 600
                     interpolator = OvershootInterpolator()
                 }
                 on(btHideCode).fadeIn {
                     finalAlpha = showButtonAlpha
                 }
-                on(btShowCode).fadeOut()
+                on(btShowCode, btRun).fadeOut()
             }
         }
     }
@@ -57,7 +59,7 @@ class SlideExampleActivity : AppCompatActivity() {
                     interpolator = AnticipateInterpolator()
                 }
                 on(btHideCode).fadeOut()
-                on(btShowCode).fadeIn {
+                on(btShowCode, btRun).fadeIn {
                     finalAlpha = showButtonAlpha
                 }
             }
@@ -65,11 +67,18 @@ class SlideExampleActivity : AppCompatActivity() {
     }
 
     private fun runAnimation() {
-        val slidingViews = arrayOf(titleText, loginText, loginEditText, passwordText, passwordEditText, loginButton)
+        val slidingViews = arrayOf(
+            titleText,
+            loginText,
+            loginEditText,
+            passwordText,
+            passwordEditText,
+            loginButton
+        )
 
         Orchestra.setup {
             on(form, *slidingViews).invisible()
-            on(btShowCode, btHideCode).alpha(.0f)
+            on(btShowCode, btHideCode, btRun).alpha(.0f)
         }
 
         Orchestra.launch {
@@ -89,16 +98,17 @@ class SlideExampleActivity : AppCompatActivity() {
                 }
 
                 on(*slidingViews)
-                        .delay(halfSlideDuration)
-                        .slide(Direction.Up) {
-                            duration = slideDuration
-                        }
+                    .delay(halfSlideDuration)
+                    .slide(Direction.Up) {
+                        duration = slideDuration
+                    }
             }
 
-            on(btShowCode)
-                    .fadeIn {
-                        finalAlpha = showButtonAlpha
-                    }
+            on(btShowCode, btRun)
+                .fadeIn {
+                    finalAlpha = showButtonAlpha
+                }
         }
     }
+
 }

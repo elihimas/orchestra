@@ -108,7 +108,7 @@
         android:id="@+id/btRunSlowly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_run_slowly"
+        android:text="@string/button_run_slowly"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -116,7 +116,7 @@
         android:id="@+id/btRun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_run"
+        android:text="@string/button_run"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

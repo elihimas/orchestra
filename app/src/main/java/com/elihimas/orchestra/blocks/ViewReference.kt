@@ -25,7 +25,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         }
     }
 
-    //TODO jreview this
+    //TODO review this
     override fun resetForeverData() {
         nextAnimationIndex--
         (animations[nextAnimationIndex] as ForeverAnimation).animations.nextAnimationIndex = 0

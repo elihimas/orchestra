@@ -19,7 +19,7 @@ class ForeverAnimation(val animations: ViewReference) : Animation() {
 
         start = baseTime
         end = previousAnimationStart
-        duration = (end - start).toLong()//TODO verifi if can be deleted
+        duration = (end - start).toLong()//TODO verify if can be deleted
     }
 
     override fun finishAnimation(view: View) {

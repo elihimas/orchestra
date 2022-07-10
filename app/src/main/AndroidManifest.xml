@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SplashExampleActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar.Full">
             <intent-filter>

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_scale_example.*
 
 class ScaleExampleActivity : AppCompatActivity() {
 
-    val directions = mutableListOf("all").apply {
+    private val directions = mutableListOf("all").apply {
         addAll(Direction.values().map { it.toString() }.toList())
     }
 
@@ -24,12 +24,6 @@ class ScaleExampleActivity : AppCompatActivity() {
     private fun init() {
         spDirection.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, directions)
 
-        Orchestra.launch {
-            on(ivExampleImage)
-                    .scale(4, Direction.Right)
-                    .scale(2, Direction.Down)
-                    .scale(1)
-        }
         btScale.setOnClickListener {
             scale()
         }

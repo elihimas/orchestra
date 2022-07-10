@@ -8,8 +8,11 @@ import android.view.animation.LinearInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 
-class ChangeConstrainsBlock(private val root: ConstraintLayout, private val layoutId: Int, var duration: Long = 1200)
-    : Block() {
+class ChangeConstrainsBlock(
+    private val root: ConstraintLayout,
+    private val layoutId: Int,
+    var duration: Long = 1200
+) : Block() {
 
     override fun calculateDuration() = duration
 

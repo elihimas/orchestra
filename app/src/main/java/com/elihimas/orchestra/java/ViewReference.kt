@@ -17,17 +17,11 @@ class ViewReference(vararg val views: View) : com.elihimas.orchestra.blocks.View
 
     fun scale(scale: Int) = scale(scale.toFloat(), null)
     fun scale(scale: Float) = scale(scale, scale, null)
-    fun scale(scale: Int, config: Consumer<ScaleAnimation>) = scale(scale, wrap(config))
-
 
     fun slideOut(direction: Direction = Direction.Up) = slideOut(direction, null)
     fun slideOut(direction: Direction = Direction.Up, config: Consumer<SlideAnimation>) = slideOut(direction, wrap(config))
 
-    fun fadeIn() = fadeIn(null)
-    fun fadeIn(config: Consumer<FadeInAnimation>) = fadeIn(wrap(config))
     fun fadeOut() = fadeOut(null)
-    fun fadeOut(config: Consumer<FadeOutAnimation>) = fadeOut(wrap(config))
-
 
     private fun <T> wrap(config: Consumer<T>): (T.() -> Unit) {
         return { config.accept(this) }

@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         optionsRecycler = findViewById(R.id.optionsRecycler);
         exampleStarter = new ExampleStarter(this);
 
-
         RecyclerView optionsRecycler = findViewById(R.id.optionsRecycler);
         ExamplesAdapter adapter = new ExamplesAdapter(this::exampleSelected);
         optionsRecycler.hasFixedSize();
@@ -47,13 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
     private Consumer<ViewReference> createAnimation(Examples example) {
         //TODO create proper animations to all cases
-        Consumer<ViewReference> animation = ViewReference::fadeOut;
+        Consumer<ViewReference> animation = createFadeAnimation(200);
         switch (example) {
+            case Splash:
+                break;
             case Scale:
                 animation = createScaleAnimation();
                 break;
             case Fade:
-                animation = ViewReference::fadeOut;
+                animation = createFadeAnimation(600);
                 break;
             case Extensions:
                 break;
@@ -76,27 +77,51 @@ public class MainActivity extends AppCompatActivity {
         return animation;
     }
 
-    private Consumer<ViewReference> createScaleAnimation() {
+    private Consumer<ViewReference> createFadeAnimation(int duration) {
         return viewReference -> {
-            viewReference.scale(0, scaleAnimation -> {
-                scaleAnimation.setDuration(400);
+            viewReference.fadeOut(fadeOutAnimation -> {
+                fadeOutAnimation.setDuration(duration);
             });
         };
     }
 
+    private Consumer<ViewReference> createScaleAnimation() {
+        return viewReference -> {
+            viewReference
+                    .parallel(parallel -> {
+                                parallel.scale(0.3f, scaleAnimation -> {
+                                    scaleAnimation.setDuration(200);
+                                });
+                                parallel.fadeOut(fadeOutAnimation -> {
+                                    fadeOutAnimation.setDuration(200);
+                                });
+                            }
+                    );
+        };
+    }
+
     private void runAndOpen(Consumer<ViewReference> animation, Examples example) {
-        //TODO run the animation or remove unused code
-//        Orchestra
-//                .launch(orchestra -> animation.accept(orchestra.on(optionsRecycler)))
-//                .then(() -> exampleStarter.execute(example));
-        exampleStarter.execute(example);
+        Orchestra
+                .launch(orchestra -> {
+                    ViewReference optionsRecycleReference = orchestra.on(optionsRecycler);
+                    animation.accept(optionsRecycleReference);
+                })
+                .then(() -> exampleStarter.execute(example));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Orchestra.setup(setupContext -> {
+            setupContext.on(optionsRecycler)
+                    .alpha(1)
+                    .scale(1);
+        });
     }
 
     private void animate() {
         Orchestra.onRecycler(optionsRecycler).slideAppear();
-        Orchestra.setup(setupContext -> {
-            setupContext.on(optionsRecycler).alpha(0);
-        });
 
         Orchestra.launch(orchestra -> {
             orchestra.delay(200);
