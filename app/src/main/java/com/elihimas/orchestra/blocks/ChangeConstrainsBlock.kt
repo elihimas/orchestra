@@ -14,6 +14,12 @@ class ChangeConstrainsBlock(
     var duration: Long = 1200
 ) : Block() {
 
+    override fun resetForeverData() {
+		// TODO: review this
+    }
+
+    override fun checkHasForeverAnimation(): Boolean = false
+
     override fun calculateDuration() = duration
 
     override fun runBlock() {

@@ -94,7 +94,11 @@ class AnimationTicker {
     }
 
     private fun addForeverBlocks(blocks: LinkedList<Block>) {
-        val foreverBlocks = blocks.filter { it.hasForeverAnimation }
+        val foreverBlocks = blocks.filter {
+			// TODO: review this
+			//it.hasForeverAnimation
+            it.checkHasForeverAnimation()
+        }
         this.foreverBlocks.addAll(foreverBlocks)
     }
 

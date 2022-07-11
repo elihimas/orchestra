@@ -13,10 +13,19 @@ open class AnimationsBlock : Block() {
     var nextAnimationIndex = 0
     val animations = mutableListOf<Animation>()
 
+    override fun resetForeverData() {
+		// TODO: review this
+    }
+
     fun clone() = AnimationsBlock().also { clone ->
         this.animations.forEach { animation ->
             clone.animations.add(animation.clone() as Animation)
         }
+    }
+
+    override fun checkHasForeverAnimation(): Boolean {
+		// TODO: review this
+        return animations.any { it.isInfinite }
     }
 
     override fun calculateDuration(): Long = animations.sumOf { animation ->
@@ -232,4 +241,13 @@ open class AnimationsBlock : Block() {
         return this
     }
 
+    // TODO: review this
+    open fun forever(block: AnimationsBlock.() -> Unit) {
+
+    }
+
+    // TODO: review this
+    open fun forever(animationsBlock: AnimationsBlock) {
+
+    }
 }

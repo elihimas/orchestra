@@ -6,6 +6,12 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
 
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
+
+    override fun checkHasForeverAnimation(): Boolean {
+		// TODO: review this
+        return orchestraContext.blocks.any { it.checkHasForeverAnimation() }
+    }
+
     override fun updateAnimationTimeBounds() {
         orchestraContext.blocks.forEach { block ->
             block.start = start
@@ -24,5 +30,14 @@ class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
         }
     }
 
-    override fun calculateDuration() = orchestraContext.blocks.maxOf { block -> block.calculateDuration() }
+    override fun resetForeverData() {
+		// TODO: review this
+        orchestraContext.blocks.forEach { block ->
+            block.resetForeverData()
+        }
+        updateAnimationTimeBounds()
+    }
+
+    override fun calculateDuration() =
+        orchestraContext.blocks.maxOf { block -> block.calculateDuration() }
 }

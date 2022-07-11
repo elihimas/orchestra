@@ -7,9 +7,10 @@ import android.view.animation.LinearInterpolator
 import com.elihimas.orchestra.OrchestraConfiguration
 
 
-abstract class Animation(var duration: Long = OrchestraConfiguration.General.duration,
-        //TODO make spacing work (for instance for Form Example)
-                         var spacing: Long = OrchestraConfiguration.General.spacing) : Cloneable {
+abstract class Animation(
+    var duration: Long = OrchestraConfiguration.General.duration,
+    var spacing: Long = OrchestraConfiguration.General.spacing
+) : Cloneable {
     var isInfinite = false
     internal var start = 0f
         set(value) {
@@ -34,8 +35,8 @@ abstract class Animation(var duration: Long = OrchestraConfiguration.General.dur
 
         addAnimation(view, view.animate().also {
             it.withEndAction(endAction)
-                    .setDuration(duration)
-                    .setListener(null)
+                .setDuration(duration)
+                .setListener(null)
         })
     }
 

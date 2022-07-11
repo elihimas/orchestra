@@ -47,12 +47,12 @@ class FadeExampleActivity : AppCompatActivity() {
                         this.duration = duration
                     }
                 }
-
-
+                .rotate(180f)
+            
             parallel {
-                on(squareLeft).repeat(3, blinkAnimation)
-                on(squareCenter).delay(400).repeat(3, blinkAnimation)
-                on(squareRight).delay(800).repeat(3, blinkAnimation)
+                on(squareLeft).forever(blinkAnimation)
+                on(squareCenter).delay(400).forever(blinkAnimation.clone())
+                on(squareRight).delay(800).forever(blinkAnimation.clone())
             }
         }
     }

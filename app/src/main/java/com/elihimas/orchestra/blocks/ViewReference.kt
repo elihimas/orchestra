@@ -4,6 +4,7 @@ import android.view.View
 import com.elihimas.orchestra.animations.Animation
 
 open class ViewReference(private vararg val views: View) : AnimationsBlock() {
+
     override fun updateAnimationTimeBounds() {
         var previousAnimationStart = start
         animations.forEach { animation ->
@@ -49,7 +50,8 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
 
     private fun addStartedAnimations(time: Float) {
         while (nextAnimationIndex < animations.size &&
-                time >= animations[nextAnimationIndex].start) {
+            time >= animations[nextAnimationIndex].start
+        ) {
             val nextAnimation = animations[nextAnimationIndex]
             nextAnimation.init(*views)
 
@@ -60,8 +62,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         }
     }
 
-    //TODO move this to AnimationsBlock
-    fun forever(block: AnimationsBlock.() -> Unit) {
+    override fun forever(block: AnimationsBlock.() -> Unit) {
         hasForeverAnimation = true
         ViewReference(*views).also { animations ->
             block.invoke(animations)
@@ -70,8 +71,8 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         }
     }
 
-    //TODO move this to AnimationsBlock
-    fun forever(animationsBlock: AnimationsBlock) = forever {
-        addAnimations(animationsBlock)
-    }
+    override fun forever(animationsBlock: AnimationsBlock) =
+        forever {
+            addAnimations(animationsBlock)
+        }
 }

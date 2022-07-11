@@ -1,11 +1,11 @@
 package com.elihimas.orchestra.blocks
 
-import com.elihimas.orchestra.Orchestra
-
 abstract class Block {
     internal var start = 0f
     var end = 0f
     var hasForeverAnimation = false
+
+    abstract fun checkHasForeverAnimation(): Boolean
 
     open fun runBlock() {}
 
@@ -13,5 +13,5 @@ abstract class Block {
     open fun updateAnimations(time: Float) {}
     open fun updateAnimationTimeBounds() {}
 
-    open fun resetForeverData() {}
+    abstract fun resetForeverData()
 }
