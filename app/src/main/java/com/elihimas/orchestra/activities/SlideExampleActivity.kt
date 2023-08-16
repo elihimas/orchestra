@@ -5,23 +5,24 @@ import android.view.animation.AnticipateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
 import com.elihimas.orchestra.animations.Direction
-import kotlinx.android.synthetic.main.activity_slide_example.*
+import com.elihimas.orchestra.databinding.ActivitySlideExampleBinding
 
 class SlideExampleActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivitySlideExampleBinding.inflate(layoutInflater) }
 
     private val showButtonAlpha = .5f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_slide_example)
+        setContentView(binding.root)
 
         init()
         runAnimation()
     }
 
-    private fun init() {
+    private fun init() = with(binding) {
         Orchestra.setup {
             on(tvCode).scale(0f)
         }
@@ -36,7 +37,7 @@ class SlideExampleActivity : AppCompatActivity() {
         }
     }
 
-    private fun showCode() {
+    private fun showCode() = with(binding) {
         Orchestra.launch {
             parallel {
                 on(tvCode).scale(1) {
@@ -51,7 +52,7 @@ class SlideExampleActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideCode() {
+    private fun hideCode() = with(binding) {
         Orchestra.launch {
             parallel {
                 on(tvCode).scale(0) {
@@ -66,7 +67,7 @@ class SlideExampleActivity : AppCompatActivity() {
         }
     }
 
-    private fun runAnimation() {
+    private fun runAnimation() =with(binding) {
         val slidingViews = arrayOf(
             titleText,
             loginText,

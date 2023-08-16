@@ -1,57 +1,115 @@
 package com.elihimas.orchestra.activities
 
-import android.R
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
+import com.elihimas.orchestra.databinding.ActivityBackgroundAndTextColorExampleBinding
 
 data class BackgroundAndTextColors(val backgrounds: List<Int>, val textColors: List<Int>? = null)
 
 class BackgroundAndTextColorExampleActivity : AppCompatActivity() {
 
-    private val rootColors = BackgroundAndTextColors(listOf(
-            R.color.holo_red_light,
-            R.color.holo_red_dark,
-            R.color.holo_orange_dark,
-            R.color.holo_orange_light,
-            R.color.holo_green_light,
-            R.color.holo_green_dark,
-            R.color.holo_purple,
-            R.color.holo_blue_dark,
-            R.color.holo_blue_light,
-            R.color.holo_blue_bright,
-    ))
+    private val binding by lazy {
+        ActivityBackgroundAndTextColorExampleBinding.inflate(
+            layoutInflater
+        )
+    }
+
+    private val rootColors = BackgroundAndTextColors(
+        listOf(
+            android.R.color.holo_red_light,
+            android.R.color.holo_red_dark,
+            android.R.color.holo_orange_dark,
+            android.R.color.holo_orange_light,
+            android.R.color.holo_green_light,
+            android.R.color.holo_green_dark,
+            android.R.color.holo_purple,
+            android.R.color.holo_blue_dark,
+            android.R.color.holo_blue_light,
+            android.R.color.holo_blue_bright,
+        )
+    )
 
     private val colors =
-            listOf(
-                    BackgroundAndTextColors(
-                            listOf(R.color.holo_red_light, R.color.holo_orange_dark, R.color.holo_red_dark, R.color.holo_green_light, R.color.holo_blue_dark, R.color.holo_green_dark),
-                            listOf(R.color.holo_blue_bright, R.color.holo_purple, R.color.holo_blue_dark, R.color.white)),
-                    BackgroundAndTextColors(
-                            listOf(R.color.holo_blue_bright, R.color.holo_red_dark, R.color.darker_gray, R.color.black, R.color.holo_green_light),
-                            listOf(R.color.holo_red_light, R.color.holo_red_dark, R.color.holo_red_light, R.color.white)),
-                    BackgroundAndTextColors(
-                            listOf(R.color.holo_red_dark, R.color.holo_green_light, R.color.holo_blue_dark),
-                            listOf(R.color.holo_red_light, R.color.white)),
-                    BackgroundAndTextColors(listOf(R.color.holo_purple, R.color.holo_blue_light)),
-                    BackgroundAndTextColors(
-                            listOf(R.color.holo_red_dark, R.color.holo_blue_bright),
-                            listOf(R.color.holo_blue_bright, R.color.white)),
-                    BackgroundAndTextColors(listOf(R.color.holo_orange_light, R.color.holo_green_dark, R.color.holo_purple)),
-                    BackgroundAndTextColors(listOf(R.color.holo_green_light, R.color.holo_red_light),
-                            listOf(R.color.holo_blue_dark, R.color.white)),
-                    BackgroundAndTextColors(listOf(R.color.holo_green_dark, R.color.holo_red_dark),
-                            listOf(R.color.holo_blue_dark, R.color.white)),
-                    BackgroundAndTextColors(listOf(R.color.holo_orange_light),
-                            listOf(R.color.holo_blue_dark, R.color.white)),
-                    BackgroundAndTextColors(listOf(R.color.holo_orange_dark),
-                            listOf(R.color.holo_blue_dark, R.color.white)),
-            )
+        listOf(
+            BackgroundAndTextColors(
+                listOf(
+                    android.R.color.holo_red_light,
+                    android.R.color.holo_orange_dark,
+                    android.R.color.holo_red_dark,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_blue_dark,
+                    android.R.color.holo_green_dark
+                ),
+                listOf(
+                    android.R.color.holo_blue_bright,
+                    android.R.color.holo_purple,
+                    android.R.color.holo_blue_dark,
+                    android.R.color.white
+                )
+            ),
+            BackgroundAndTextColors(
+                listOf(
+                    android.R.color.holo_blue_bright,
+                    android.R.color.holo_red_dark,
+                    android.R.color.darker_gray,
+                    android.R.color.black,
+                    android.R.color.holo_green_light
+                ),
+                listOf(
+                    android.R.color.holo_red_light,
+                    android.R.color.holo_red_dark,
+                    android.R.color.holo_red_light,
+                    android.R.color.white
+                )
+            ),
+            BackgroundAndTextColors(
+                listOf(
+                    android.R.color.holo_red_dark,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_blue_dark
+                ),
+                listOf(android.R.color.holo_red_light, android.R.color.white)
+            ),
+            BackgroundAndTextColors(
+                listOf(
+                    android.R.color.holo_purple,
+                    android.R.color.holo_blue_light
+                )
+            ),
+            BackgroundAndTextColors(
+                listOf(android.R.color.holo_red_dark, android.R.color.holo_blue_bright),
+                listOf(android.R.color.holo_blue_bright, android.R.color.white)
+            ),
+            BackgroundAndTextColors(
+                listOf(
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_green_dark,
+                    android.R.color.holo_purple
+                )
+            ),
+            BackgroundAndTextColors(
+                listOf(android.R.color.holo_green_light, android.R.color.holo_red_light),
+                listOf(android.R.color.holo_blue_dark, android.R.color.white)
+            ),
+            BackgroundAndTextColors(
+                listOf(android.R.color.holo_green_dark, android.R.color.holo_red_dark),
+                listOf(android.R.color.holo_blue_dark, android.R.color.white)
+            ),
+            BackgroundAndTextColors(
+                listOf(android.R.color.holo_orange_light),
+                listOf(android.R.color.holo_blue_dark, android.R.color.white)
+            ),
+            BackgroundAndTextColors(
+                listOf(android.R.color.holo_orange_dark),
+                listOf(android.R.color.holo_blue_dark, android.R.color.white)
+            ),
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.elihimas.orchestra.R.layout.activity_background_and_text_color_example)
+        setContentView(binding.root)
 
         init()
     }
@@ -88,14 +146,14 @@ class BackgroundAndTextColorExampleActivity : AppCompatActivity() {
                 duration = backgrounds.size * colorDuration
             }
 
-//            on(view).parallel {
-//
-//                textColors?.let {
-//                    changeTextColor(*textColors) {
-//                        duration = (textColors.size * colorDuration) - foregroundEndAnticipation
-//                    }
-//                }
-//            }
+            on(view).parallel {
+
+                textColors?.let {
+                    changeTextColor(*textColors) {
+                        duration = (textColors.size * colorDuration) - foregroundEndAnticipation
+                    }
+                }
+            }
         }
     }
 

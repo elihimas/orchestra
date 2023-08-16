@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         //TODO create proper animations to all cases
         Consumer<ViewReference> animation = createFadeAnimation(200);
         switch (example) {
-            case Splash:
-                break;
+//            case Splash:
+//                break;
             case Scale:
                 animation = createScaleAnimation();
                 break;
@@ -60,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case Interpolator:
                 break;
-            case AnimateImage:
-                break;
+//            case AnimateImage:
+//                break;
             case Bouncing:
                 break;
             case BackgroundAndTextColor:
                 break;
             case ConstrainsLayout:
                 break;
-            case CoordinatorLayout:
-                break;
+//            case CoordinatorLayout:
+//                break;
             case Slide:
                 break;
         }
@@ -78,26 +78,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Consumer<ViewReference> createFadeAnimation(int duration) {
-        return viewReference -> {
-            viewReference.fadeOut(fadeOutAnimation -> {
-                fadeOutAnimation.setDuration(duration);
-            });
-        };
+        return viewReference -> viewReference.fadeOut(fadeOutAnimation -> {
+            fadeOutAnimation.setDuration(duration);
+        });
     }
 
     private Consumer<ViewReference> createScaleAnimation() {
-        return viewReference -> {
-            viewReference
-                    .parallel(parallel -> {
-                                parallel.scale(0.3f, scaleAnimation -> {
-                                    scaleAnimation.setDuration(200);
-                                });
-                                parallel.fadeOut(fadeOutAnimation -> {
-                                    fadeOutAnimation.setDuration(200);
-                                });
-                            }
-                    );
-        };
+        return viewReference -> viewReference
+                .parallel(parallel -> {
+                            parallel.scale(0.3f, scaleAnimation -> {
+                                scaleAnimation.setDuration(200);
+                            });
+                            parallel.fadeOut(fadeOutAnimation -> {
+                                fadeOutAnimation.setDuration(200);
+                            });
+                        }
+                );
     }
 
     private void runAndOpen(Consumer<ViewReference> animation, Examples example) {
@@ -113,11 +109,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
 
-        Orchestra.setup(setupContext -> {
-            setupContext.on(optionsRecycler)
-                    .alpha(1)
-                    .scale(1);
-        });
+        Orchestra.setup(setupContext ->
+                setupContext.on(optionsRecycler)
+                        .alpha(1)
+                        .scale(1));
     }
 
     private void animate() {

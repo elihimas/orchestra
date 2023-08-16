@@ -7,18 +7,18 @@ import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginRight
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
 import com.elihimas.orchestra.animations.Direction
-import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.Collections.rotate
+import com.elihimas.orchestra.databinding.ActivitySplashBinding
 
 
 class SplashActivity : AppCompatActivity() {
 
+    private val binding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_splash)
+        setContentView(binding.root)
 
 //        forever()
         longSplash()
@@ -27,36 +27,36 @@ class SplashActivity : AppCompatActivity() {
 //        finish()
     }
 
-    private fun forever() {
+    private fun forever() = with(binding) {
         val animationsDuration = 800L
         val minAlpha = 0.5f
         Orchestra.launch {
             on(titleText)
 //                    .rotate(3600f)
-                    .forever {
-                        parallel {
-                            scale(0.7f) {
-                                duration = animationsDuration
-                            }
-                            fadeOut {
-                                finalAlpha = minAlpha
-                                duration = animationsDuration
-                            }
+                .forever {
+                    parallel {
+                        scale(0.7f) {
+                            duration = animationsDuration
                         }
-                        parallel {
-                            scale(1) {
-                                duration = animationsDuration
-                            }
-                            fadeIn {
-                                initialAlpha = minAlpha
-                                duration = animationsDuration
-                            }
+                        fadeOut {
+                            finalAlpha = minAlpha
+                            duration = animationsDuration
                         }
                     }
+                    parallel {
+                        scale(1) {
+                            duration = animationsDuration
+                        }
+                        fadeIn {
+                            initialAlpha = minAlpha
+                            duration = animationsDuration
+                        }
+                    }
+                }
         }
     }
 
-    private fun addClick() {
+    private fun addClick() = with(binding) {
         listOf(sqr1, sqr2, sqr3, sqr4, sqr5, sqr6, sqr7, sqr8, sqr9, sqr10).forEach {
             it.setOnClickListener {
                 Orchestra.launch {
@@ -68,147 +68,147 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun longSplash() {
+    private fun longSplash() = with(binding) {
         Orchestra.setup {
             on(titleText).alpha(0)
         }
         root.post {
             Orchestra.launch {
-                val showAnimation = animations()
-                        .delay(200)
-                        .fadeIn() {
-                            duration = 1200
+                val showAnimation = createAnimation()
+                    .delay(200)
+                    .fadeIn() {
+                        duration = 1200
+                    }
+                    .scale(2.5f) {
+                        duration = 400
+                        interpolator = OvershootInterpolator()
+                    }
+                    .delay(600)
+                    .parallel {
+                        scale(1f) {
+                            duration = 1100
                         }
-                        .scale(2.5f) {
-                            duration = 400
-                            interpolator = OvershootInterpolator()
+                        fadeOut {
+                            duration = 1000
                         }
-                        .delay(600)
-                        .parallel {
-                            scale(1f) {
-                                duration = 1100
-                            }
-                            fadeOut {
-                                duration = 1000
-                            }
-                        }
+                    }
 
                 on(titleText)
-                        .addAnimations(showAnimation)
+                    .addAnimations(showAnimation)
 
                 parallel {
                     on(sqr1)
-                            .rotate(180f) {
-                                duration = 300
-                            }
-                            .scale(2) {
-                                duration = 400
-                            }
+                        .rotate(180f) {
+                            duration = 300
+                        }
+                        .scale(2) {
+                            duration = 400
+                        }
 
                     on(sqr3)
-                            .scale(2) {
-                                duration = 400
-                            }
-                            .rotate(180f) {
-                                duration = 300
-                            }
+                        .scale(2) {
+                            duration = 400
+                        }
+                        .rotate(180f) {
+                            duration = 300
+                        }
 
                     on(sqr5)
-                            .scale(2) {
-                                duration = 600
-                            }
-                            .rotate(720f) {
-                                duration = 800
-                            }
+                        .scale(2) {
+                            duration = 600
+                        }
+                        .rotate(720f) {
+                            duration = 800
+                        }
                 }
 
                 on(sqr1, sqr3, sqr5)
-                        .scale(1) {
-                            duration = 300
-                        }
+                    .scale(1) {
+                        duration = 300
+                    }
 
 
                 on(titleText)
-                        .fadeIn {
-                            duration = 800
-                        }
-                        .scale(3f) {
-                            duration = 700
-                            interpolator = AccelerateInterpolator()
-                        }
+                    .fadeIn {
+                        duration = 800
+                    }
+                    .scale(3f) {
+                        duration = 700
+                        interpolator = AccelerateInterpolator()
+                    }
 
                 val pulseAnimation1 =
-                        animations()
-                                .scale(12, Direction.Up) {
-                                    duration = 300
-                                }
-                                .delay(100)
-                                .scale(2, Direction.Up) {
-                                    duration = 300
-                                }
-                                .delay(250)
-                                .scale(6, Direction.Up) {
-                                    duration = 320
-                                }
-                                .delay(100)
-                                .scale(0.5f, Direction.Up) {
-                                    duration = 300
-                                }
+                    createAnimation()
+                        .scale(12, Direction.Up) {
+                            duration = 300
+                        }
+                        .delay(100)
+                        .scale(2, Direction.Up) {
+                            duration = 300
+                        }
+                        .delay(250)
+                        .scale(6, Direction.Up) {
+                            duration = 320
+                        }
+                        .delay(100)
+                        .scale(0.5f, Direction.Up) {
+                            duration = 300
+                        }
 
-                val pulseAnimation2 = animations()
-                        .scale(8, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(1, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(8, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(1, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(8, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(1, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(8, Direction.Up) {
-                            duration = 200
-                        }
-                        .scale(1, Direction.Up) {
-                            duration = 200
-                        }
-                val pulseAnimation3 = animations()
-                        .scale(7, Direction.Up) {
-                            duration = 350
-                        }
-                        .scale(0.8f, Direction.Up) {
-                            duration = 450
-                        }
-                        .scale(7, Direction.Up) {
-                            duration = 300
-                        }
-                        .scale(1.2f, Direction.Up) {
-                            duration = 400
-                        }
-                        .scale(7, Direction.Up) {
-                            duration = 300
-                        }
-                        .scale(1.6f, Direction.Up) {
-                            duration = 400
-                        }
+                val pulseAnimation2 = createAnimation()
+                    .scale(8, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(1, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(8, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(1, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(8, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(1, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(8, Direction.Up) {
+                        duration = 200
+                    }
+                    .scale(1, Direction.Up) {
+                        duration = 200
+                    }
+                val pulseAnimation3 = createAnimation()
+                    .scale(7, Direction.Up) {
+                        duration = 350
+                    }
+                    .scale(0.8f, Direction.Up) {
+                        duration = 450
+                    }
+                    .scale(7, Direction.Up) {
+                        duration = 300
+                    }
+                    .scale(1.2f, Direction.Up) {
+                        duration = 400
+                    }
+                    .scale(7, Direction.Up) {
+                        duration = 300
+                    }
+                    .scale(1.6f, Direction.Up) {
+                        duration = 400
+                    }
 
                 delay(600)
 
                 parallel {
                     on(bottomSquareLeft)
-                            .addAnimations(pulseAnimation1)
+                        .addAnimations(pulseAnimation1)
                     on(bottomSquareCenter)
-                            .addAnimations(pulseAnimation2)
+                        .addAnimations(pulseAnimation2)
                     on(bottomSquareRight)
-                            .addAnimations(pulseAnimation3)
+                        .addAnimations(pulseAnimation3)
                 }
 
                 val sqr1Translation = bottomSquareLeft.marginRight + bottomSquareLeft.width
@@ -226,17 +226,19 @@ class SplashActivity : AppCompatActivity() {
 
                 delay(300)
 
-                on(bottomSquareLeft,
-                        bottomSquareCenter,
-                        bottomSquareRight)
-                        .fadeOut() {
-                            duration = 800
-                        }
-            }
-                    .then {
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
+                on(
+                    bottomSquareLeft,
+                    bottomSquareCenter,
+                    bottomSquareRight
+                )
+                    .fadeOut() {
+                        duration = 800
                     }
+            }
+                .then {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    finish()
+                }
         }
     }
 

@@ -2,24 +2,29 @@ package com.elihimas.orchestra.activities
 
 import android.os.Bundle
 import android.view.View
-import android.view.animation.*
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.AnticipateInterpolator
+import android.view.animation.BounceInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.OrchestraContext
-import com.elihimas.orchestra.R
-import kotlinx.android.synthetic.main.activity_interpolator.*
+import com.elihimas.orchestra.databinding.ActivityInterpolatorBinding
 
 class InterpolatorActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityInterpolatorBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_interpolator)
+        setContentView(binding.root)
 
         init()
     }
 
-    private fun init() {
+    private fun init() = with(binding) {
         btRun.setOnClickListener { runAnimations(slowly = false) }
         btRunSlowly.setOnClickListener { runAnimations(slowly = true) }
         setupSquaresClicks()
@@ -27,7 +32,7 @@ class InterpolatorActivity : AppCompatActivity() {
         runAnimations(slowly = false)
     }
 
-    private fun setupSquaresClicks() {
+    private fun setupSquaresClicks() = with(binding) {
         val viewsAndInterpolators = listOf(
             Pair(square1, AccelerateDecelerateInterpolator()),
             Pair(square2, AccelerateInterpolator()),
@@ -46,7 +51,7 @@ class InterpolatorActivity : AppCompatActivity() {
         }
     }
 
-    private fun runAnimations(slowly: Boolean) {
+    private fun runAnimations(slowly: Boolean) = with(binding) {
         val viewsAndInterpolators = listOf(
             Pair(square1, AccelerateDecelerateInterpolator()),
             Pair(square2, AccelerateInterpolator()),

@@ -1,15 +1,15 @@
 package com.elihimas.orchestra.model
 
 enum class Examples {
-    Splash,
+//    Splash,
     Scale,
     Fade,
     Extensions,
     Interpolator,
-    AnimateImage,
+//    AnimateImage,
     Bouncing,
     BackgroundAndTextColor,
     ConstrainsLayout,
-    CoordinatorLayout,
+//    CoordinatorLayout,
     Slide,
 }

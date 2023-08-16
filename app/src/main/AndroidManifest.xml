@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.elihimas.orchestra">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -10,10 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashExampleActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.SplashActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar.Full">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,9 +31,6 @@
             android:name=".activities.MainActivity"
             android:label="@string/examples_title" />
         <activity
-            android:name=".ui.animateimage.AnimateImageActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activities.BackgroundAndTextColorExampleActivity"
             android:label="@string/example_background_text_color" />
         <activity
@@ -45,9 +39,6 @@
         <activity
             android:name=".activities.ConstrainsExampleActivity"
             android:label="@string/example_constrains_layout" />
-        <activity
-            android:name=".activities.CoordinatorExampleActivity"
-            android:label="@string/example_coordinator_layout" />
         <activity
             android:name=".activities.SlideExampleActivity"
             android:label="@string/example_slide"

@@ -1,20 +1,20 @@
 package com.elihimas.orchestra.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.R
-import kotlinx.android.synthetic.main.activity_fade_example.*
+import com.elihimas.orchestra.databinding.ActivityFadeExampleBinding
 
 class FadeExampleActivity : AppCompatActivity() {
+    private val binding by lazy { ActivityFadeExampleBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fade_example)
+        setContentView(binding.root)
         init()
     }
 
-    private fun init() {
+    private fun init() = with(binding) {
         btStart.setOnClickListener {
             runAnimation()
         }
@@ -23,7 +23,7 @@ class FadeExampleActivity : AppCompatActivity() {
         }
     }
 
-    private fun runAnimation() {
+    private fun runAnimation() = with(binding) {
         val smallScale = 0.3f
         val fullScale = 1
 
@@ -48,7 +48,7 @@ class FadeExampleActivity : AppCompatActivity() {
                     }
                 }
                 .rotate(180f)
-            
+
             parallel {
                 on(squareLeft).forever(blinkAnimation)
                 on(squareCenter).delay(400).forever(blinkAnimation.clone())
