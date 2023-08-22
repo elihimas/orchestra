@@ -1,13 +1,15 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins{
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'maven-publish'
+}
 
 android {
     namespace 'com.elihimas.orchestra'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.elihimas.orchestra"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -33,7 +35,29 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.elihimas'
+            artifactId = 'orchestra'
+            version = '0.0.0'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
