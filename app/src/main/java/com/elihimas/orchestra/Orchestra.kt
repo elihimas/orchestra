@@ -1,8 +1,6 @@
 package com.elihimas.orchestra
 
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.blocks.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -20,7 +18,6 @@ interface OrchestraContext {
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
     fun then(block: () -> Unit)
     fun createAnimation(): AnimationsBlock
-    fun changeConstrains(root: ConstraintLayout, layoutId: Int): ChangeConstrainsBlock
 }
 
 open class Orchestra : OrchestraContext, ParallelContext {
@@ -47,11 +44,6 @@ open class Orchestra : OrchestraContext, ParallelContext {
     }
 
     override fun delay(duration: Int) = delay(duration.toLong())
-
-    //TODO review this
-    override fun changeConstrains(root: ConstraintLayout, layoutId: Int) = ChangeConstrainsBlock(root, layoutId).apply {
-        blocks.add(this)
-    }
 
     override fun parallel(block: Orchestra.() -> Unit): Orchestra {
         val orchestraContext = createOrchestra()
@@ -97,9 +89,6 @@ open class Orchestra : OrchestraContext, ParallelContext {
                 orchestra = null
             }
         }
-
-        @JvmStatic
-        fun onRecycler(recyclerView: RecyclerView) = RecyclerConfiguration(recyclerView)
 
         fun setup(block: SetupContext.() -> Unit): SetupContext {
             val setupContext = SetupContext()
