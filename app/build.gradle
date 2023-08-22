@@ -1,7 +1,6 @@
 plugins{
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'maven-publish'
 }
 
@@ -31,9 +30,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-    buildFeatures {
-        viewBinding true
     }
 
     publishing {
