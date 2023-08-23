@@ -33,6 +33,8 @@ class SetupReference(private vararg val views: View) {
     fun alpha(value: Int) = alpha(value.toFloat())
 
     fun scale(value: Float) = add(SetupScaleAction(value))
+    fun scaleX(value: Float) = add(SetupScaleXAction(value))
+    fun scaleY(value: Float) = add(SetupScaleYAction(value))
 
     fun invisible() = add(InvisibleAction())
 

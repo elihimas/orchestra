@@ -1,7 +1,6 @@
 package com.elihimas.orchestra.actions
 
 import android.view.View
-import com.elihimas.orchestra.OrchestraConfiguration
 
 abstract class SetupAction {
     fun runSetup(views: Array<out View>) {
@@ -23,6 +22,22 @@ class SetupScaleAction(private val value: Float) : SetupAction() {
     override fun runSetup(view: View) {
         view.apply {
             scaleX = value
+            scaleY = value
+        }
+    }
+}
+
+class SetupScaleXAction(private val value: Float) : SetupAction() {
+    override fun runSetup(view: View) {
+        view.apply {
+            scaleX = value
+        }
+    }
+}
+
+class SetupScaleYAction(private val value: Float) : SetupAction() {
+    override fun runSetup(view: View) {
+        view.apply {
             scaleY = value
         }
     }
