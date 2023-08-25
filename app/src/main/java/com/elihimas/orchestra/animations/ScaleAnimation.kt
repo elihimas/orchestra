@@ -1,10 +1,9 @@
 package com.elihimas.orchestra.animations
 
 import android.view.View
+import com.elihimas.orchestra.constrains.deeffectors.ScaleAnimationDeEffector
 
 open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
-
-    constructor(scale: Float) : this(scale, scale)
 
     var initialScaleX = 1f
     var initialScaleY = 1f
@@ -30,4 +29,6 @@ open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
             cloneFromTo(this, clone)
         }
     }
+
+    override fun getDeEffector() = ScaleAnimationDeEffector()
 }

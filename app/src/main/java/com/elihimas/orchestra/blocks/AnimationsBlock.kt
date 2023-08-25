@@ -1,9 +1,22 @@
 package com.elihimas.orchestra.blocks
 
 import androidx.annotation.ColorRes
-import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.animations.*
-import java.util.*
+import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.animations.ChangeBackgroundAnimation
+import com.elihimas.orchestra.animations.ChangeTextColorAnimation
+import com.elihimas.orchestra.animations.CircularRevealAnimation
+import com.elihimas.orchestra.animations.DelayAnimation
+import com.elihimas.orchestra.animations.Direction
+import com.elihimas.orchestra.animations.DirectionalScaleAnimation
+import com.elihimas.orchestra.animations.FadeInAnimation
+import com.elihimas.orchestra.animations.FadeOutAnimation
+import com.elihimas.orchestra.animations.ParallelAnimation
+import com.elihimas.orchestra.animations.RotateAnimation
+import com.elihimas.orchestra.animations.ScaleAnimation
+import com.elihimas.orchestra.animations.SlideAnimation
+import com.elihimas.orchestra.animations.SlideOutAnimation
+import com.elihimas.orchestra.animations.TranslateAnimation
+import java.util.LinkedList
 import java.util.function.Consumer
 
 open class AnimationsBlock : Block() {
@@ -61,8 +74,8 @@ open class AnimationsBlock : Block() {
         add(FadeOutAnimation(), config::accept)
 
     fun scale(
-        scaleX: Float,
-        scaleY: Float,
+        scaleX: Float = 1f,
+        scaleY: Float = 1f,
         config: (ScaleAnimation.() -> Unit)? = null
     ) =
         add(ScaleAnimation(scaleX, scaleY), config)
@@ -87,20 +100,10 @@ open class AnimationsBlock : Block() {
     ) =
         scale(scale.toFloat(), direction, config)
 
-    fun scaleX(
-        scale: Float,
-        config: (ScaleAnimation.() -> Unit)? = null
-    ) = scale(scale, 1f, config)
-
     fun scaleY(
         scale: Float,
         config: (ScaleAnimation.() -> Unit)? = null
     ) = scale(1f, scale, config)
-
-    fun scaleX(
-        scale: Int,
-        config: (ScaleAnimation.() -> Unit)? = null
-    ) = scale(scale.toFloat(), 1f, config)
 
     fun scaleY(
         scale: Int,
@@ -110,18 +113,8 @@ open class AnimationsBlock : Block() {
     fun scale(scale: Float, config: (ScaleAnimation.() -> Unit)? = null) =
         scale(scale, scale, config)
 
-    fun scale(scale: Int, config: (ScaleAnimation.() -> Unit)? = null) =
-        scale(scale.toFloat(), config)
-
-
     fun scale(scale: Float, config: Consumer<ScaleAnimation>) =
         scale(scale, config::accept)
-
-    fun scale(scale: Int, config: Consumer<ScaleAnimation>) =
-        scale(scale.toFloat()) { config.accept(this) }
-
-    fun scaleX(scale: Float, config: Consumer<ScaleAnimation>) =
-        scale(scale, 1f) { config.accept(this) }
 
     fun scaleY(scale: Float, config: Consumer<ScaleAnimation>) =
         scale(1f, scale) { config.accept(this) }

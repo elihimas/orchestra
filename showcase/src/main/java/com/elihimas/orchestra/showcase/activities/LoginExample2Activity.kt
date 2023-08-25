@@ -1,6 +1,7 @@
 package com.elihimas.orchestra.showcase.activities
 
 import android.os.Bundle
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.AnticipateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
@@ -25,32 +26,35 @@ class LoginExample2Activity : AppCompatActivity() {
 
     private fun setupOrchestra() = with(binding) {
         Orchestra.setup {
-            on(tvTitle).scale(2.0f)
-            on(form).scaleY(0.0f)
-            on(tvCode).scale(0f)
+            on(tvTitle)
+                .scale(2f)
+                .bottomToTopOf(form)
 
             on(container).alpha(0)
+            on(tvCode).scale(0f)
+            on(form).scale(scaleY = 0f)
         }
     }
 
     private fun runAnimation() = with(binding) {
         Orchestra.launch {
             delay(1_000)
-            on(tvTitle).scaleX(1.0f) {
-                duration = 2_000
+            on(tvTitle).scale(1f) {
+                duration = 1_000
+                interpolator = AccelerateInterpolator()
             }
 
-            delay(600)
+            delay(200)
 
             parallel {
-                on(form).scale(1) {
-                    duration = 600
+                on(form).scale(1f) {
+                    duration = 300
                 }
 
                 on(container)
-                    .delay(300)
-                    .fadeIn() {
-                        duration = 300
+                    .delay(200)
+                    .fadeIn {
+                        duration = 500
                     }
             }
         }
@@ -64,6 +68,7 @@ class LoginExample2Activity : AppCompatActivity() {
             hideCode()
         }
         btRun.setOnClickListener {
+            setupOrchestra()
             runAnimation()
         }
     }
@@ -71,7 +76,7 @@ class LoginExample2Activity : AppCompatActivity() {
     private fun showCode() = with(binding) {
         Orchestra.launch {
             parallel {
-                on(tvCode).scale(1) {
+                on(tvCode).scale(1f) {
                     duration = 600
                     interpolator = OvershootInterpolator()
                 }
@@ -86,7 +91,7 @@ class LoginExample2Activity : AppCompatActivity() {
     private fun hideCode() = with(binding) {
         Orchestra.launch {
             parallel {
-                on(tvCode).scale(0) {
+                on(tvCode).scale(0f) {
                     duration = 600
                     interpolator = AnticipateInterpolator()
                 }

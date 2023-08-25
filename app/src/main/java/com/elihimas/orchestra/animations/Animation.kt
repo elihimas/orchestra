@@ -5,7 +5,7 @@ import android.view.ViewPropertyAnimator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import com.elihimas.orchestra.OrchestraConfiguration
-
+import com.elihimas.orchestra.constrains.DeEffector
 
 abstract class Animation(
     var duration: Long = OrchestraConfiguration.General.duration,
@@ -77,4 +77,6 @@ abstract class Animation(
     open fun finishAnimation(view: View) {
         updateAnimationByProportion(view, 1f)
     }
+
+    open fun getDeEffector(): DeEffector? = null
 }

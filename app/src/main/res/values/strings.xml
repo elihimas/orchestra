@@ -112,22 +112,19 @@ Orchestra.launch {\n
 \t  delay(500)\n
 \n
 \t  parallel {\n
-\t\t  val slideDuration = 600L\n
-\t\t  val halfSlideDuration = slideDuration / 2\n
-\n
 \t\t  on(form).parallel {\n
 \t\t\t  slide(Direction.Up) {\n
-\t\t\t\t  duration = slideDuration\n
+\t\t\t\t  duration = 600\n
 \t\t\t  }\n
 \t\t\t  fadeIn {\n
-\t\t\t\t  duration = halfSlideDuration\n
+\t\t\t\t  duration = 300\n
 \t\t\t  }\n
 \t\t  }\n
 \n
 \t\t  on(*slidingViews)\n
-\t\t\t\t  .delay(halfSlideDuration)\n
+\t\t\t\t  .delay(300)\n
 \t\t\t\t  .slide(Direction.Up) {\n
-\t\t\t\t\t  duration = slideDuration\n
+\t\t\t\t\t  duration = 600\n
 \t\t\t\t  }\n
 \t  }\n
 }

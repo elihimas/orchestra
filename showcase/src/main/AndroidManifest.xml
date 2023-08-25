@@ -9,9 +9,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Orchestra">
         <activity
-            android:name=".activities.TestActivity"
-            android:exported="false" />
-        <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -22,13 +19,16 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.LoginExample1Activity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.LoginExample2Activity"
-            android:exported="false" />
+            android:exported="true" />
+        <activity
+            android:name=".activities.TestActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

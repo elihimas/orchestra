@@ -1,13 +1,14 @@
 package com.elihimas.orchestra.animations
 
 import android.view.View
+import com.elihimas.orchestra.constrains.deeffectors.DirectionalScaleAnimationDeEffector
 
 //TODO: fix successive translations translation problem
 
-abstract class VerticalStrategy(var scaleY: Float) : AnimationStrategy {
+abstract class VerticalStrategy(private var scaleY: Float) : AnimationStrategy {
     private var initialScaleY = 1f
     private var initialHeight = 0
-    private var deltaY: Float = 0.0f
+    private var deltaY: Float = 0f
     private var valueDeltaY = 0f
 
     override fun init(vararg views: View) {
@@ -36,7 +37,7 @@ abstract class VerticalStrategy(var scaleY: Float) : AnimationStrategy {
 abstract class HorizontalStrategy(var scaleX: Float) : AnimationStrategy {
     private var initialScaleX = 1f
     private var initialWidth = 0
-    private var deltaX: Float = 0.0f
+    private var deltaX: Float = 0f
     private var valueDeltaX = 0f
 
     override fun init(vararg views: View) {
@@ -65,7 +66,6 @@ abstract class HorizontalStrategy(var scaleX: Float) : AnimationStrategy {
 class UpStrategy(scaleY: Float) : VerticalStrategy(scaleY) {
 
     override fun translate(view: View, translation: Float) {
-
         view.translationY = -translation
     }
 }
@@ -94,6 +94,8 @@ class RightStrategy(scaleY: Float) : HorizontalStrategy(scaleY) {
 //TODO: handle all directions
 class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : Animation() {
 
+    override fun getDeEffector() = DirectionalScaleAnimationDeEffector()
+
     private val animationStrategy: AnimationStrategy = when (direction) {
         Direction.Up -> UpStrategy(scale)
         Direction.Down -> DownStrategy(scale)
@@ -106,7 +108,7 @@ class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : An
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) =
-            animationStrategy.update(view, proportion)
+        animationStrategy.update(view, proportion)
 
 
     override fun clone() = DirectionalScaleAnimation(scale, direction).also { clone ->

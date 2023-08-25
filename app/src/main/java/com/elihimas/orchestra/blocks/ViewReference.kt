@@ -2,6 +2,7 @@ package com.elihimas.orchestra.blocks
 
 import android.view.View
 import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.constrains.References
 
 open class ViewReference(private vararg val views: View) : AnimationsBlock() {
 
@@ -45,6 +46,18 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
     private fun updateAnimation(animation: Animation, time: Float) {
         views.forEach { view ->
             animation.updateAnimationByTime(view, time)
+
+            view.updateAffectedViewsIfNecessary(animation)
+        }
+    }
+
+    // TODO: move this to a proper location
+    private fun View.updateAffectedViewsIfNecessary(animation: Animation) {
+        val deEffector = animation.getDeEffector()
+        val affectedViews = References.map[this]
+
+        if (affectedViews?.views?.isNotEmpty() == true) {
+            deEffector?.applyEffect(this, affectedViews)
         }
     }
 

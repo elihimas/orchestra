@@ -54,12 +54,12 @@ class SplashActivity : AppCompatActivity() {
                         .rotate(180f) {
                             duration = 300
                         }
-                        .scale(2) {
+                        .scale(2f) {
                             duration = 400
                         }
 
                     on(sqr3)
-                        .scale(2) {
+                        .scale(2f) {
                             duration = 400
                         }
                         .rotate(180f) {
@@ -67,7 +67,7 @@ class SplashActivity : AppCompatActivity() {
                         }
 
                     on(sqr5)
-                        .scale(2) {
+                        .scale(2f) {
                             duration = 600
                         }
                         .rotate(720f) {
@@ -76,7 +76,7 @@ class SplashActivity : AppCompatActivity() {
                 }
 
                 on(sqr1, sqr3, sqr5)
-                    .scale(1) {
+                    .scale(1f) {
                         duration = 300
                     }
 
@@ -168,11 +168,11 @@ class SplashActivity : AppCompatActivity() {
                 val sqr3Translation = (bottomSquareRight.marginRight + bottomSquareRight.width) * -1
 
                 parallel {
-                    on(bottomSquareLeft).translate(sqr1Translation.toFloat(), 0.0f) {
+                    on(bottomSquareLeft).translate(sqr1Translation.toFloat(), 0f) {
                         duration = 800
                     }
 
-                    on(bottomSquareRight).translate(sqr3Translation.toFloat(), 0.0f) {
+                    on(bottomSquareRight).translate(sqr3Translation.toFloat(), 0f) {
                         duration = 800
                     }
                 }
