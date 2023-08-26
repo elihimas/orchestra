@@ -74,12 +74,12 @@ class LoginExample1Activity : AppCompatActivity() {
 
     private fun runAnimation() = with(binding) {
         val slidingViews = arrayOf(
-            titleText,
+            tvTitle,
             loginText,
-            loginEditText,
-            passwordText,
-            passwordEditText,
-            loginButton
+            etLogin,
+            tvPassword,
+            etPassword,
+            btLogin
         )
 
         Orchestra.setup {

@@ -2,6 +2,7 @@ package com.elihimas.orchestra.animations
 
 import android.view.View
 import android.view.ViewPropertyAnimator
+import androidx.core.view.isVisible
 
 open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
 
@@ -9,6 +10,7 @@ open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float =
 
     override fun init(vararg views: View) {
         valueDelta = finalAlpha - initialAlpha
+        views.forEach { view -> view.isVisible = true }
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) {

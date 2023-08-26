@@ -12,6 +12,7 @@ suspend fun coroutineDelay(millis: Long) = delay(millis)
 interface ParallelContext
 
 interface OrchestraContext {
+    fun changeSpeed(targetSpeed: Float)
     fun delay(duration: Long)
     fun delay(duration: Int)
     fun on(vararg views: View): ViewReference
@@ -28,6 +29,10 @@ open class Orchestra : OrchestraContext, ParallelContext {
 
     internal val blocks = LinkedList<Block>()
     private val executionLatch = CountDownLatch(1)
+
+    override fun changeSpeed(targetSpeed: Float) {
+        TODO("Not yet implemented")
+    }
 
     internal fun runBlocks() {
         ticker.start(blocks)

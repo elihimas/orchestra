@@ -3,6 +3,7 @@ package com.elihimas.orchestra.showcase.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.elihimas.orchestra.showcase.ButtonExample1Activity
 import com.elihimas.orchestra.showcase.adapters.ExamplesAdapter
 import com.elihimas.orchestra.showcase.databinding.ActivityMainBinding
 import com.elihimas.orchestra.showcase.examples.Examples
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         val selectedActivity = when (example) {
             Examples.LoginExample1 -> LoginExample1Activity::class.java
             Examples.LoginExample2 -> LoginExample2Activity::class.java
+            Examples.ButtonExample1 -> ButtonExample1Activity::class.java
             Examples.Example -> TestActivity::class.java
         }
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         return when (example) {
             Examples.LoginExample1 -> "Login 1"
             Examples.LoginExample2 -> "Login 2"
+            Examples.ButtonExample1 -> "Button 1"
             Examples.Example -> "Test"
         }
     }

@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun longSplash() = with(binding) {
         Orchestra.setup {
-            on(titleText).alpha(0)
+            on(tvTitle).alpha(0)
         }
         root.post {
             Orchestra.launch {
@@ -46,7 +46,7 @@ class SplashActivity : AppCompatActivity() {
                         }
                     }
 
-                on(titleText)
+                on(tvTitle)
                     .addAnimations(showAnimation)
 
                 parallel {
@@ -81,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
                     }
 
 
-                on(titleText)
+                on(tvTitle)
                     .fadeIn {
                         duration = 800
                     }
