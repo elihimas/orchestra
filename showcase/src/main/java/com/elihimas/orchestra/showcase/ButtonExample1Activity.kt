@@ -45,24 +45,23 @@ class ButtonExample1Activity : AppCompatActivity() {
             view.isEnabled = false
         }
         btLogin.text = ""
-
-
+        
         Orchestra.launch {
-            on(btLogin)
+            parallel {
+                on(btLogin)
                 .scale(scaleX = 0.1f) {
                     duration = 300
                     interpolator = AccelerateInterpolator()
                 }
 
-            parallel {
                 on(btLogin).fadeOut {
-                    duration = 100
+                    duration = 200
+                    delay = 100
                 }
+            }
 
-                on(progressBar).fadeIn {
-                    delay = 50
-                    duration = 100
-                }
+            on(progressBar).fadeIn {
+                duration = 100
             }
         }
 
@@ -78,18 +77,21 @@ class ButtonExample1Activity : AppCompatActivity() {
 
     private fun reverseAnimation() = with(binding) {
         Orchestra.launch {
-            parallel {
-                on(progressBar).fadeOut {
-                    duration = 100
-                }
-
-                on(btLogin).fadeIn {
-                    duration = 100
-                }
+            on(progressBar).fadeOut {
+                duration = 100
             }
 
-            on(btLogin).scale(scaleX = 1f) {
-                duration = 300
+            parallel {
+                on(btLogin).fadeIn {
+                    duration = 300
+                }
+
+                on(btLogin)
+                    .scale(scaleX = 1f) {
+                        delay = 100
+                        duration = 200
+                        interpolator = AccelerateInterpolator()
+                    }
             }
         }.then {
             enableDisableView.forEach { view ->
