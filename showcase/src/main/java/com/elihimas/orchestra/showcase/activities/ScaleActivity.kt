@@ -4,12 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.Direction
-import com.elihimas.orchestra.showcase.databinding.ActivityTestBinding
+import com.elihimas.orchestra.showcase.databinding.ActivityScaleBinding
 
-// TODO: remove this. This activity is intended to help developing setup operations like topToBottomOf
-class TestActivity : AppCompatActivity() {
+class ScaleActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityTestBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityScaleBinding.inflate(layoutInflater) }
 
     private val collapsedScale = 0f
 
@@ -29,11 +28,11 @@ class TestActivity : AppCompatActivity() {
                 on(horizontalScalingView1).scale(collapsedScale, Direction.Right)
                 on(horizontalScalingView2).scale(collapsedScale, Direction.Left)
 
-                on(affectedView1).topToBottomOf(scalingView1)
-                on(affectedView2).bottomToTopOf(scalingView2)
+                on(affectedView1).followsVertically(scalingView1)
+                on(affectedView2).followsVertically(scalingView2)
 
-                on(horizontalAffectedView1).rightToLeftOf(horizontalScalingView1)
-                on(horizontalAffectedView2).leftToRightOf(horizontalScalingView2)
+                on(horizontalAffectedView1).followsHorizontally(horizontalScalingView1)
+                on(horizontalAffectedView2).followsHorizontally(horizontalScalingView2)
             }
         }
     }

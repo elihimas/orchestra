@@ -4,7 +4,7 @@ enum class Examples {
     LoginExample1,
     LoginExample2,
     ButtonExample1,
-    Example,
+    Escale,
 
 ////    Splash,
 //    Scale,

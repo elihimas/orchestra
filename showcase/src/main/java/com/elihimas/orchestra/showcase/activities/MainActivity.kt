@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.elihimas.orchestra.showcase.ButtonExample1Activity
+import com.elihimas.orchestra.showcase.R
 import com.elihimas.orchestra.showcase.adapters.ExamplesAdapter
 import com.elihimas.orchestra.showcase.databinding.ActivityMainBinding
 import com.elihimas.orchestra.showcase.examples.Examples
@@ -29,18 +30,20 @@ class MainActivity : AppCompatActivity() {
             Examples.LoginExample1 -> LoginExample1Activity::class.java
             Examples.LoginExample2 -> LoginExample2Activity::class.java
             Examples.ButtonExample1 -> ButtonExample1Activity::class.java
-            Examples.Example -> TestActivity::class.java
+            Examples.Escale -> ScaleActivity::class.java
         }
 
         startActivity(Intent(this, selectedActivity))
     }
 
     private fun exampleToName(example: Examples): String {
-        return when (example) {
-            Examples.LoginExample1 -> "Login 1"
-            Examples.LoginExample2 -> "Login 2"
-            Examples.ButtonExample1 -> "Button 1"
-            Examples.Example -> "Test"
+        val exampleStringId = when (example) {
+            Examples.LoginExample1 -> R.string.example_login1
+            Examples.LoginExample2 -> R.string.example_login2
+            Examples.ButtonExample1 -> R.string.example_button1
+            Examples.Escale -> R.string.example_scale
         }
+
+        return getString(exampleStringId)
     }
 }
