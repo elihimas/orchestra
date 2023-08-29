@@ -2,13 +2,15 @@ package com.elihimas.orchestra.animations
 
 import android.graphics.Rect
 import android.view.View
+import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 
 abstract class HorizontalSlideStrategy : AnimationStrategy {
 
     var initialTranslationX = 0f
 
     override fun init(vararg views: View) {
-        initialTranslationX = views[0].translationX
+        // TODO: verify if this makes sense in some scenario
+        // initialTranslationX = views[0].translationX
     }
 }
 
@@ -17,7 +19,8 @@ abstract class VerticalSlideStrategy : AnimationStrategy {
     var initialTranslationY = 0f
 
     override fun init(vararg views: View) {
-        initialTranslationY = views[0].translationY
+        // TODO: verify if this makes sense in some scenario
+        // initialTranslationY = views[0].translationY
     }
 }
 
@@ -108,7 +111,10 @@ class SlideRightStrategy : HorizontalSlideStrategy() {
  * @param direction the direction towards to the view should be animated
  * @param reverseAnimation if the animation is a slide out animation
  */
-open class SlideAnimation(internal var direction: Direction, private val reverseAnimation: Boolean = false) : Animation() {
+open class SlideAnimation(
+    internal var direction: Direction,
+    private val reverseAnimation: Boolean = false
+) : Animation() {
 
     private val slideStrategy: AnimationStrategy
 
@@ -136,18 +142,29 @@ open class SlideAnimation(internal var direction: Direction, private val reverse
         }
     }
 
-    override fun clone(): Any {
-        return SlideAnimation(direction, reverseAnimation).also {clone ->
-            cloneFromTo(this, clone)
-        }
-    }
-
     //TODO create variables for each view
-    override fun init(vararg views: View) {
-        views.forEach { view -> view.visibility = View.VISIBLE }
+    override fun beforeAnimation(vararg views: View) {
+        if (!reverseAnimation) {
+            views.forEach { view -> view.visibility = View.VISIBLE }
+        }
 
         slideStrategy.init(*views)
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) = slideStrategy.update(view, proportion)
+    override fun afterAnimation(vararg views: View) {
+        if (reverseAnimation) {
+            views.forEach { view -> view.visibility = View.INVISIBLE }
+        }
+    }
+
+    override fun updateAnimationByProportion(view: View, proportion: Float) =
+        slideStrategy.update(view, proportion)
+
+    override fun getDeEffector() = TranslationDeEffector
+
+    override fun clone(): Any {
+        return SlideAnimation(direction, reverseAnimation).also { clone ->
+            cloneFromTo(this, clone)
+        }
+    }
 }

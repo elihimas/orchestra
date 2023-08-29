@@ -22,17 +22,13 @@ class ForeverAnimation(val animations: ViewReference) : Animation() {
         duration = (end - start).toLong()//TODO verify if can be deleted
     }
 
-    override fun finishAnimation(view: View) {
-        //nothing to do
-    }
-
     override fun calculateDuration(): Long {
         return animations.calculateDuration()
     }
 
-    override fun init(vararg views: View) {
+    override fun beforeAnimation(vararg views: View) {
         animations.animations.forEach { animation ->
-            animation.init(*views)
+            animation.beforeAnimation(*views)
         }
     }
 

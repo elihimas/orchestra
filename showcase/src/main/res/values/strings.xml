@@ -3,4 +3,9 @@
     <string name="orchestra">Orchestra</string>
 
     <string name="title_select_example">Select an example</string>
+    <string name="example_login1">Login 1</string>
+    <string name="example_login2">Login 2</string>
+    <string name="example_button1">Button 1</string>
+    <string name="example_translation">Translation</string>
+    <string name="example_scale">Scale</string>
 </resources>

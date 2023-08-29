@@ -7,7 +7,7 @@ class RotateAnimation(var angle: Float) : Animation() {
     private var initialRotation = 0f
     private var valueDelta = 0f
 
-    override fun init(vararg views: View) {
+    override fun beforeAnimation(vararg views: View) {
         //TODO: add data to all views not only one
         initialRotation = views[0].rotation
         valueDelta = angle

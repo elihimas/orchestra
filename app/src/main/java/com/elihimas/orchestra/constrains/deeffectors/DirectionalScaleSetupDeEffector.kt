@@ -11,25 +11,13 @@ class DirectionalScaleSetupDeEffector(val direction: Direction) : DeEffector {
     override fun applyEffect(source: View, affectedViews: AffectedViews) {
         val targetViews = affectedViews.views
 
-        if (affectedViews.constrain == Constrain.RightToLeftOf) {
+        if (affectedViews.constrain == Constrain.FollowHorizontally) {
             targetViews.forEach { targetView ->
                 source.post {
                     targetView.get()?.translationX = source.translationX * 2
                 }
             }
-        } else if (affectedViews.constrain == Constrain.LeftToRightOf) {
-            targetViews.forEach { targetView ->
-                source.post {
-                    targetView.get()?.translationX = source.translationX * 2
-                }
-            }
-        } else if (affectedViews.constrain == Constrain.TopToBottomOf) {
-            targetViews.forEach { targetView ->
-                source.post {
-                    targetView.get()?.translationY = source.translationY * 2
-                }
-            }
-        } else if (affectedViews.constrain == Constrain.BottomToTopOf) {
+        } else if (affectedViews.constrain == Constrain.FollowVertically) {
             targetViews.forEach { targetView ->
                 source.post {
                     targetView.get()?.translationY = source.translationY * 2

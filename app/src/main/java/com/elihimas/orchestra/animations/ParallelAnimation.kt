@@ -6,9 +6,9 @@ import com.elihimas.orchestra.blocks.AnimationsBlock
 
 class ParallelAnimation(private val reference: AnimationsBlock) : Animation() {
 
-    override fun init(vararg views: View) {
+    override fun beforeAnimation(vararg views: View) {
         reference.animations.forEach { animation ->
-            animation.init(*views)
+            animation.beforeAnimation(*views)
         }
     }
 

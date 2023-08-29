@@ -27,12 +27,14 @@ abstract class Animation(
 
     var deltaTime = 0f
 
-    //TODO: verify if this is being used
-    open fun beforeAnimation(view: View) {}
+    //TODO: review all init implementations to add support
+    // to animate on multiple views
+    // if an animation needs an view initialization the animation need to store each view data
+    open fun beforeAnimation(vararg views: View) {}
+
+    open fun afterAnimation(vararg views: View) {}
 
     open fun runAnimation(view: View, endAction: Runnable?) {
-        beforeAnimation(view)
-
         addAnimation(view, view.animate().also {
             it.withEndAction(endAction)
                 .setDuration(duration)
@@ -62,11 +64,6 @@ abstract class Animation(
         TODO("Not yet implemented")
     }
 
-    //TODO: review all init implementations to add support
-    // to animate on multiple views
-    // if an animation needs an view initialization the animation need to store each view data
-    open fun init(vararg views: View) {}
-
     open fun calculateDuration(): Long = duration + delay
 
     open fun updateAnimationTimeBounds(baseTime: Float) {
@@ -74,8 +71,11 @@ abstract class Animation(
         end = start + duration
     }
 
-    open fun finishAnimation(view: View) {
-        updateAnimationByProportion(view, 1f)
+    open fun finishAnimation(vararg views: View) {
+        views.forEach { view ->
+            updateAnimationByProportion(view, 1f)
+        }
+        afterAnimation(*views)
     }
 
     open fun getDeEffector(): DeEffector? = null

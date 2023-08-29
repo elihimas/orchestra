@@ -93,13 +93,6 @@ open class AnimationsBlock : Block() {
     ) =
         add(DirectionalScaleAnimation(scale, direction), config)
 
-    fun scale(
-        scale: Int,
-        direction: Direction,
-        config: (DirectionalScaleAnimation.() -> Unit)? = null
-    ) =
-        scale(scale.toFloat(), direction, config)
-
     fun scaleY(
         scale: Float,
         config: (ScaleAnimation.() -> Unit)? = null

@@ -92,15 +92,15 @@ class SplashActivity : AppCompatActivity() {
 
                 val pulseAnimation1 =
                     createAnimation()
-                        .scale(12, Direction.Up) {
+                        .scale(12f, Direction.Up) {
                             duration = 300
                         }
                         .delay(100)
-                        .scale(2, Direction.Up) {
+                        .scale(2f, Direction.Up) {
                             duration = 300
                         }
                         .delay(250)
-                        .scale(6, Direction.Up) {
+                        .scale(6f, Direction.Up) {
                             duration = 320
                         }
                         .delay(100)
@@ -109,44 +109,44 @@ class SplashActivity : AppCompatActivity() {
                         }
 
                 val pulseAnimation2 = createAnimation()
-                    .scale(8, Direction.Up) {
+                    .scale(8f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(1, Direction.Up) {
+                    .scale(1f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(8, Direction.Up) {
+                    .scale(8f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(1, Direction.Up) {
+                    .scale(1f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(8, Direction.Up) {
+                    .scale(8f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(1, Direction.Up) {
+                    .scale(1f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(8, Direction.Up) {
+                    .scale(8f, Direction.Up) {
                         duration = 200
                     }
-                    .scale(1, Direction.Up) {
+                    .scale(1f, Direction.Up) {
                         duration = 200
                     }
                 val pulseAnimation3 = createAnimation()
-                    .scale(7, Direction.Up) {
+                    .scale(7f, Direction.Up) {
                         duration = 350
                     }
                     .scale(0.8f, Direction.Up) {
                         duration = 450
                     }
-                    .scale(7, Direction.Up) {
+                    .scale(7f, Direction.Up) {
                         duration = 300
                     }
                     .scale(1.2f, Direction.Up) {
                         duration = 400
                     }
-                    .scale(7, Direction.Up) {
+                    .scale(7f, Direction.Up) {
                         duration = 300
                     }
                     .scale(1.6f, Direction.Up) {

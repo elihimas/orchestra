@@ -10,7 +10,9 @@ class ScaleAnimationDeEffector : DeEffector {
         val targetViews = affectedViews.views
 
         // TODO: implement and test other constrains
-        if (affectedViews.constrain == Constrain.BottomToTopOf) {
+        if (affectedViews.constrain == Constrain.BottomToTopOf
+            || affectedViews.constrain == Constrain.FollowVertically
+        ) {
             targetViews.forEach { targetView ->
                 source.post {
                     targetView.get()?.translationY = source.height * (1 - source.scaleY) / 2

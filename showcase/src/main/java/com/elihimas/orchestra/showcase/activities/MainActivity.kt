@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             Examples.LoginExample1 -> LoginExample1Activity::class.java
             Examples.LoginExample2 -> LoginExample2Activity::class.java
             Examples.ButtonExample1 -> ButtonExample1Activity::class.java
+            Examples.Translation -> TranslateActivity::class.java
             Examples.Escale -> ScaleActivity::class.java
         }
 
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             Examples.LoginExample1 -> R.string.example_login1
             Examples.LoginExample2 -> R.string.example_login2
             Examples.ButtonExample1 -> R.string.example_button1
+            Examples.Translation -> R.string.example_translation
             Examples.Escale -> R.string.example_scale
         }
 

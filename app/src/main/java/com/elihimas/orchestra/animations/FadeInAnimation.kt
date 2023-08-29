@@ -8,7 +8,7 @@ open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float =
 
     private var valueDelta = 0f
 
-    override fun init(vararg views: View) {
+    override fun beforeAnimation(vararg views: View) {
         valueDelta = finalAlpha - initialAlpha
         views.forEach { view -> view.isVisible = true }
     }
@@ -21,10 +21,6 @@ open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float =
         return FadeInAnimation(initialAlpha, finalAlpha).also { clone ->
             cloneFromTo(this, clone)
         }
-    }
-
-    override fun beforeAnimation(view: View) {
-        view.alpha = initialAlpha
     }
 
     override fun addAnimation(view: View, animation: ViewPropertyAnimator) {

@@ -37,9 +37,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
             val pastAnimation = currentAnimations.removeFirst()
 
-            views.forEach { view ->
-                pastAnimation.finishAnimation(view)
-            }
+            pastAnimation.finishAnimation(*views)
         }
     }
 
@@ -66,7 +64,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
             time >= animations[nextAnimationIndex].start
         ) {
             val nextAnimation = animations[nextAnimationIndex]
-            nextAnimation.init(*views)
+            nextAnimation.beforeAnimation(*views)
 
             updateAnimation(nextAnimation, time)
 

@@ -94,8 +94,6 @@ class RightStrategy(scaleY: Float) : HorizontalStrategy(scaleY) {
 //TODO: handle all directions
 class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : Animation() {
 
-    override fun getDeEffector() = DirectionalScaleAnimationDeEffector()
-
     private val animationStrategy: AnimationStrategy = when (direction) {
         Direction.Up -> UpStrategy(scale)
         Direction.Down -> DownStrategy(scale)
@@ -103,13 +101,14 @@ class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : An
         Direction.Right -> RightStrategy(scale)
     }
 
-    override fun init(vararg views: View) {
+    override fun beforeAnimation(vararg views: View) {
         animationStrategy.init(*views)
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) =
         animationStrategy.update(view, proportion)
 
+    override fun getDeEffector() = DirectionalScaleAnimationDeEffector
 
     override fun clone() = DirectionalScaleAnimation(scale, direction).also { clone ->
         cloneFromTo(this, clone)

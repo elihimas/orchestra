@@ -97,4 +97,24 @@ class SetupReference(private vararg val views: View) {
         return this
     }
 
+    fun followsHorizontally(targetView: View): SetupReference {
+        References.map[targetView] =
+            AffectedViews(Constrain.FollowHorizontally, views.map { WeakReference(it) })
+
+        return this
+    }
+
+    fun followsVertically(targetView: View): SetupReference {
+        References.map[targetView] =
+            AffectedViews(Constrain.FollowVertically, views.map { WeakReference(it) })
+
+        return this
+    }
+
+    fun follows(targetView: View): SetupReference {
+        References.map[targetView] =
+            AffectedViews(Constrain.Follow, views.map { WeakReference(it) })
+
+        return this
+    }
 }
