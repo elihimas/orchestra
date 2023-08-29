@@ -63,7 +63,7 @@ class TranslateActivity : AppCompatActivity() {
         }
     }
 
-    private fun onApplyClicked() = with(binding) {
+    private fun onApplyClicked() {
         toggleSettings().then {
             updateShowConstrainedElement()
             updateInterpolator()
@@ -141,7 +141,7 @@ class TranslateActivity : AppCompatActivity() {
 
     private fun hideSettings(): OrchestraContext {
         return Orchestra.launch {
-            on(binding.settingsContainer).slideOut(Direction.Up) {
+            on(binding.settingsContainer).slideOut(Direction.Right) {
                 duration = 300
             }
         }
@@ -153,7 +153,7 @@ class TranslateActivity : AppCompatActivity() {
         return Orchestra.launch {
 
             on(binding.settingsContainer)
-                .slide(Direction.Down) {
+                .slide(Direction.Left) {
                     duration = 300
                 }
         }
