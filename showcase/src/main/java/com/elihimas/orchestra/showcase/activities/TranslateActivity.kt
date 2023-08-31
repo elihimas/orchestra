@@ -35,6 +35,14 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
+        root.setOnTouchListener { source, event ->
+            val x = event.x
+            val y = event.y
+
+            translateTo(x, y)
+            true
+        }
+
         btUp.setOnClickListener {
             translateUp()
         }
@@ -60,6 +68,14 @@ class TranslateActivity : AppCompatActivity() {
     private fun initOrchestra() = with(binding) {
         Orchestra.setup {
             on(constrainedView).follows(targetView)
+        }
+
+        Orchestra.launch {
+            on(tvHint)
+                .delay(2_000)
+                .fadeIn()
+                .delay(5_000)
+                .fadeOut()
         }
     }
 
@@ -125,6 +141,17 @@ class TranslateActivity : AppCompatActivity() {
             on(binding.targetView).translate(x, y) {
                 interpolator = data.interpolator
                 duration = 1000
+            }
+        }
+    }
+
+    private fun translateTo(x: Float, y: Float) {
+        Orchestra.launch {
+            on(binding.targetView).translateTo(x, y) {
+                interpolator = data.interpolator
+                duration = 900
+
+                areCoordinatesCenter = true
             }
         }
     }

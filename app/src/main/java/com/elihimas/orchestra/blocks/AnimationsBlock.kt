@@ -15,7 +15,8 @@ import com.elihimas.orchestra.animations.RotateAnimation
 import com.elihimas.orchestra.animations.ScaleAnimation
 import com.elihimas.orchestra.animations.SlideAnimation
 import com.elihimas.orchestra.animations.SlideOutAnimation
-import com.elihimas.orchestra.animations.TranslateAnimation
+import com.elihimas.orchestra.animations.TranslateByAnimation
+import com.elihimas.orchestra.animations.TranslateToAnimation
 import java.util.LinkedList
 import java.util.function.Consumer
 
@@ -129,8 +130,11 @@ open class AnimationsBlock : Block() {
         add(CircularRevealAnimation(), config)
 
 
-    fun translate(x: Float, y: Float, config: (TranslateAnimation.() -> Unit)? = null) =
-        add(TranslateAnimation(x, y), config)
+    fun translate(x: Float, y: Float, config: (TranslateByAnimation.() -> Unit)? = null) =
+        add(TranslateByAnimation(x, y), config)
+
+    fun translateTo(x: Float, y: Float, config: (TranslateToAnimation.() -> Unit)? = null) =
+        add(TranslateToAnimation(x, y), config)
 
     fun changeBackground(
         @ColorRes vararg colorResIds: Int,

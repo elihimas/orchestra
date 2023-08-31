@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activities.TranslateActivity">
 
+    <TextView
+        android:id="@+id/tvHint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/hint_translate"
+        android:textSize="30sp"
+        android:padding="20dp"
+        android:alpha="0.0"
+        android:textColor="@color/gray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <View
         android:id="@+id/targetView"
         android:layout_width="80dp"
@@ -86,8 +99,7 @@
         android:padding="20dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btSettings"
-        tools:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@id/btSettings">
 
         <CheckBox
             android:id="@+id/cbShowConstrainedElement"
@@ -107,40 +119,40 @@
 
             <RadioButton
                 android:id="@+id/rbLinear"
-                android:text="Linear"
-                android:checked="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Linear" />
 
             <RadioButton
                 android:id="@+id/rbAccelerate"
-                android:text="Accelerate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Accelerate" />
 
             <RadioButton
                 android:id="@+id/rbBounce"
-                android:text="Bounce"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Bounce" />
 
             <RadioButton
                 android:id="@+id/rbAnticipate"
-                android:text="Anticipate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Anticipate" />
 
             <RadioButton
                 android:id="@+id/rbOvershoot"
-                android:text="Overshoot"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Overshoot" />
 
             <RadioButton
                 android:id="@+id/rbAnticipateOvershoot"
-                android:text="Anticipate overshoot"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Anticipate overshoot" />
         </RadioGroup>
 
         <Button

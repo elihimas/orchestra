@@ -7,7 +7,7 @@ import java.util.function.Consumer
 class ViewReference(vararg val views: View) : com.elihimas.orchestra.blocks.ViewReference(*views) {
 
     fun translate(x: Float, y: Float) = translate(x, y, null)
-    fun translate(x: Float, y: Float, config: Consumer<TranslateAnimation>) = translate(x, y, wrap(config))
+    fun translate(x: Float, y: Float, config: Consumer<TranslateByAnimation>) = translate(x, y, wrap(config))
 
     fun circularReveal() = circularReveal(null)
     fun circularReveal(config: Consumer<CircularRevealAnimation>) = circularReveal(wrap(config))
