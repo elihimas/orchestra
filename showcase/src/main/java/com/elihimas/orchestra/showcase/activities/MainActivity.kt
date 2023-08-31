@@ -3,7 +3,6 @@ package com.elihimas.orchestra.showcase.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.elihimas.orchestra.showcase.ButtonExample1Activity
 import com.elihimas.orchestra.showcase.R
 import com.elihimas.orchestra.showcase.adapters.ExamplesAdapter
 import com.elihimas.orchestra.showcase.databinding.ActivityMainBinding
@@ -17,19 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupViews()
+        initViews()
     }
 
-    private fun setupViews() = with(binding) {
+    private fun initViews() = with(binding) {
         val examples = Examples.values().toList()
         examplesRecycler.adapter = ExamplesAdapter(examples, ::onExampleSelected, ::exampleToName)
     }
 
     private fun onExampleSelected(example: Examples) {
         val selectedActivity = when (example) {
-            Examples.LoginExample1 -> LoginExample1Activity::class.java
-            Examples.LoginExample2 -> LoginExample2Activity::class.java
-            Examples.ButtonExample1 -> ButtonExample1Activity::class.java
+            Examples.SlidingLogin -> SlidingLoginActivity::class.java
+            Examples.ScalingLogin -> ScalingLoginActivity::class.java
+            Examples.AnimatedButton -> AnimatedButtonActivity::class.java
             Examples.Translation -> TranslateActivity::class.java
             Examples.Escale -> ScaleActivity::class.java
         }
@@ -39,9 +38,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun exampleToName(example: Examples): String {
         val exampleStringId = when (example) {
-            Examples.LoginExample1 -> R.string.example_login1
-            Examples.LoginExample2 -> R.string.example_login2
-            Examples.ButtonExample1 -> R.string.example_button1
+            Examples.SlidingLogin -> R.string.example_sliding_login
+            Examples.ScalingLogin -> R.string.example_scaling_login
+            Examples.AnimatedButton -> R.string.example_animated_button
             Examples.Translation -> R.string.example_translation
             Examples.Escale -> R.string.example_scale
         }

@@ -1,4 +1,5 @@
 <resources>
+    <!-- TODO: remove these strings -->
     <string name="app_name">Orchestra</string>
 
     <!--    examples and animations-->
@@ -98,37 +99,9 @@
             \t}\n
         }
     </string>
-    <string name="button_run">Run animation</string>
+    <string name="buttonRun">Run animation</string>
     <string name="extension_initial_text">Initial Value</string>
     <string name="extension_final_text">Modified text</string>
-    <string name="code_slide">
-val slidingViews = arrayOf(titleText, loginText, loginEditText, passwordText, passwordEditText, loginButton)\n
-\n
-Orchestra.setup {\n
-\t  on(form, *slidingViews).invisible()\n
-}\n
-\n
-Orchestra.launch {\n
-\t  delay(500)\n
-\n
-\t  parallel {\n
-\t\t  on(form).parallel {\n
-\t\t\t  slide(Direction.Up) {\n
-\t\t\t\t  duration = 600\n
-\t\t\t  }\n
-\t\t\t  fadeIn {\n
-\t\t\t\t  duration = 300\n
-\t\t\t  }\n
-\t\t  }\n
-\n
-\t\t  on(*slidingViews)\n
-\t\t\t\t  .delay(300)\n
-\t\t\t\t  .slide(Direction.Up) {\n
-\t\t\t\t\t  duration = 600\n
-\t\t\t\t  }\n
-\t  }\n
-}
-    </string>
     <string name="button_show_code">show code</string>
     <string name="button_hide_code">hide code</string>
     <string name="button_run_slowly">Run slowly</string>

@@ -1,17 +1,20 @@
-package com.elihimas.orchestra.showcase
+package com.elihimas.orchestra.showcase.activities
 
 import android.os.Bundle
 import android.view.animation.AccelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.elihimas.orchestra.Orchestra
-import com.elihimas.orchestra.showcase.databinding.ActivityButtonExample1Binding
+import com.elihimas.orchestra.showcase.R
+import com.elihimas.orchestra.showcase.databinding.ActivityAnimatedButtonBinding
+import com.elihimas.orchestra.showcase.databinding.TvCodeAndRunningControlsBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ButtonExample1Activity : AppCompatActivity() {
+class AnimatedButtonActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityButtonExample1Binding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityAnimatedButtonBinding.inflate(layoutInflater) }
+    private val runControlsBinding by lazy { TvCodeAndRunningControlsBinding.bind(binding.root) }
 
     private val enableDisableView by lazy {
         with(binding) {
@@ -30,13 +33,21 @@ class ButtonExample1Activity : AppCompatActivity() {
     private fun initOrchestra() = with(binding) {
         Orchestra.setup {
             on(progressBar).invisible()
-            on(tvCode).scale(0f)
+        }
+
+        Orchestra.launch {
+            runControlsBinding.runAndCodeControls.fadeInWithContext(this)
         }
     }
 
     private fun initViews() = with(binding) {
         btLogin.setOnClickListener {
             runButtonAnimation()
+        }
+
+        with(runControlsBinding.runAndCodeControls){
+            hideRunAnimationButton()
+            setCodeText(R.string.code_animated_button)
         }
     }
 
@@ -49,10 +60,10 @@ class ButtonExample1Activity : AppCompatActivity() {
         Orchestra.launch {
             parallel {
                 on(btLogin)
-                .scale(scaleX = 0.1f) {
-                    duration = 300
-                    interpolator = AccelerateInterpolator()
-                }
+                    .scale(scaleX = 0.1f) {
+                        duration = 300
+                        interpolator = AccelerateInterpolator()
+                    }
 
                 on(btLogin).fadeOut {
                     duration = 200
@@ -97,7 +108,7 @@ class ButtonExample1Activity : AppCompatActivity() {
             enableDisableView.forEach { view ->
                 view.isEnabled = true
             }
-            btLogin.text = "Login"
+            btLogin.setText(R.string.login)
         }
     }
 }

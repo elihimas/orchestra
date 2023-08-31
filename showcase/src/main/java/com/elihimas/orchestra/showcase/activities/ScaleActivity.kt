@@ -16,11 +16,11 @@ class ScaleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupOrchestra()
-        setupViews()
+        initOrchestra()
+        initViews()
     }
 
-    private fun setupOrchestra() {
+    private fun initOrchestra() {
         with(binding) {
             Orchestra.setup {
                 on(scalingView1).scale(collapsedScale, Direction.Down)
@@ -37,7 +37,7 @@ class ScaleActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupViews() = with(binding) {
+    private fun initViews() = with(binding) {
         btExpand.setOnClickListener {
             Orchestra.launch {
                 parallel {

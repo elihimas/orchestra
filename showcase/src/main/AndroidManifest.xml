@@ -21,13 +21,13 @@
             android:name=".activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.LoginExample1Activity"
+            android:name=".activities.SlidingLoginActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.LoginExample2Activity"
+            android:name=".activities.ScalingLoginActivity"
             android:exported="true" />
         <activity
-            android:name=".ButtonExample1Activity"
+            android:name=".activities.AnimatedButtonActivity"
             android:exported="true" />
         <activity
             android:name=".activities.TranslateActivity"

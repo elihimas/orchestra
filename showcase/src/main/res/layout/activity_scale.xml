@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="20dp"
-        android:text="right thing"
+        android:text="Leonardo"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/horizontalScalingView1"
@@ -34,26 +34,28 @@
 
     <TextView
         android:id="@+id/scalingView1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/orange"
         android:padding="20dp"
-        android:text="top thing (reference)"
+        android:text="top (reference)"
         android:textColor="@color/white"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontalScalingView1" />
+        app:layout_constraintTop_toBottomOf="@id/horizontalScalingView2" />
 
     <TextView
         android:id="@+id/affectedView1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="20dp"
-        android:text="bottom thing"
+        android:text="Donatello"
         android:textColor="@color/white"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scalingView1" />
 
@@ -61,13 +63,14 @@
         android:id="@+id/horizontalScalingView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/orange"
         android:padding="20dp"
         android:text="right (reference)"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/bt_expand"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScalingView1" />
 
     <TextView
         android:id="@+id/horizontalAffectedView2"
@@ -75,7 +78,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="20dp"
-        android:text="left thing"
+        android:text="Raphael"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@id/horizontalScalingView2"
@@ -83,31 +86,33 @@
 
     <TextView
         android:id="@+id/scalingView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="@color/orange"
         android:padding="20dp"
-        android:text="bottom Thing (reference)"
+        android:text="bottom (reference)"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/horizontalScalingView2"
+        app:layout_constraintBottom_toTopOf="@id/btExpand"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/affectedView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:padding="20dp"
-        android:text="top thing"
+        android:text="Michelangelo"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/scalingView2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/bt_expand"
+        android:id="@+id/btExpand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -122,7 +127,7 @@
         android:layout_margin="10dp"
         android:text="contract"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bt_expand" />
+        app:layout_constraintStart_toEndOf="@id/btExpand" />
 
     <Button
         android:id="@+id/btX2"

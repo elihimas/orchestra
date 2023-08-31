@@ -3,9 +3,128 @@
     <string name="orchestra">Orchestra</string>
 
     <string name="title_select_example">Select an example</string>
-    <string name="example_login1">Login 1</string>
-    <string name="example_login2">Login 2</string>
-    <string name="example_button1">Button 1</string>
+
+    <string name="example_sliding_login">Sliding login </string>
+    <string name="example_scaling_login">Scaling login </string>
+    <string name="example_animated_button">Animated button</string>
     <string name="example_translation">Translation</string>
     <string name="example_scale">Scale</string>
+
+
+    <string name="login">Login</string>
+
+    <string name="code_animated_button">
+// Animation\n
+listOf(etLogin, etPassword, btLogin).forEach { view ->\n
+\t  view.isEnabled = false\n
+}\n
+btLogin.text = \"\"\n
+\n
+Orchestra.launch {\n
+\t  parallel {\n
+\t\t  on(btLogin)\n
+\t\t\t  .scale(scaleX = 0.1f) {\n
+\t\t\t\t  duration = 300\n
+\t\t\t\t  interpolator = AccelerateInterpolator()\n
+\t\t\t  }\n
+\n
+\t\t  on(btLogin).fadeOut {\n
+\t\t\t  duration = 200\n
+\t\t\t  delay = 100\n
+\t\t  }\n
+\t  }\n
+\n
+\t  on(progressBar).fadeIn {\n
+\t\t  duration = 100\n
+\t  }\n
+}\n
+\n
+// Reversed animation\n
+Orchestra.launch {\n
+\t  on(progressBar).fadeOut {\n
+\t\t  duration = 100\n
+\t  }\n
+\n
+\t  parallel {\n
+\t\t  on(btLogin).fadeIn {\n
+\t\t\t  duration = 300\n
+\t\t  }\n
+\n
+\t  on(btLogin)\n
+\t\t  .scale(scaleX = 1f) {\n
+\t\t\t  delay = 100\n
+\t\t\t  duration = 200\n
+\t\t\t  interpolator = AccelerateInterpolator()\n
+\t\t  }\n
+\t  }\n
+}.then {\n
+\t  enableDisableView.forEach { view ->\n
+\t\t  view.isEnabled = true\n
+\t  }\n
+\t  btLogin.setText(R.string.login)
+}
+    </string>
+
+    <string name="code_slide">
+val slidingViews = arrayOf(titleText, loginText,\n
+\t  loginEditText, passwordText, passwordEditText,\n
+\t  loginButton)\n
+\n
+Orchestra.setup {\n
+\t  on(form, *slidingViews).invisible()\n
+}\n
+\n
+Orchestra.launch {\n
+\t  delay(500)\n
+\n
+\t  parallel {\n
+\t\t  on(form).parallel {\n
+\t\t\t  slide(Direction.Up) {\n
+\t\t\t\t  duration = 600\n
+\t\t\t  }\n
+\t\t\t  fadeIn {\n
+\t\t\t\t  duration = 300\n
+\t\t\t  }\n
+\t\t  }\n
+\n
+\t\t  on(*slidingViews)\n
+\t\t\t\t  .delay(300)\n
+\t\t\t\t  .slide(Direction.Up) {\n
+\t\t\t\t\t  duration = 600\n
+\t\t\t\t  }\n
+\t  }\n
+}
+    </string>
+    <string name="code_scale">
+Orchestra.setup {\n
+\t  on(tvTitle)\n
+\t\t  .scale(2f)\n
+\t\t  .bottomToTopOf(form)\n
+\n
+\t  on(container).alpha(0)\n
+\t  on(form).scale(scaleY = 0f)\n
+}\n
+\n
+Orchestra.launch {\n
+\t  delay(1_000)\n
+\t  on(tvTitle).scale(1f) {\n
+\t\t  duration = 1_000\n
+\t\t  interpolator = AccelerateInterpolator()\n
+\t  }\n
+\n
+\t  delay(200)\n
+\n
+\t  parallel {\n
+\t\t  on(form).scale(1f) {\n
+\t\t  duration = 300\n
+\t  }\n
+\n
+\t  on(container)\n
+\t\t  .delay(200)\n
+\t\t  .fadeIn {\n
+\t\t\t  duration = 500\n
+\t\t  }\n
+\t  }\n
+}
+    </string>
 </resources>
