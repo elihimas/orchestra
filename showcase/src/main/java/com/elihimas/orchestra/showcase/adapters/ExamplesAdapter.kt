@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.elihimas.orchestra.showcase.databinding.RowExampleBinding
-import com.elihimas.orchestra.showcase.examples.Examples
+import com.elihimas.orchestra.showcase.examples.Example
 
 class ExamplesAdapter(
-    val examples: List<Examples>,
-    val onExampleSelected: (Examples) -> Unit,
-    val exampleToName: (Examples) -> String
+    private val examples: List<Example>,
+    private val onExampleSelected: (Example) -> Unit
 ) :
     RecyclerView.Adapter<ExamplesAdapter.ExampleHolder>() {
 
@@ -19,7 +18,7 @@ class ExamplesAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = RowExampleBinding.inflate(inflater, parent, false).apply {
             root.setOnClickListener { root ->
-                onExampleSelected(root.tag as Examples)
+                onExampleSelected(root.tag as Example)
             }
         }
 
@@ -33,8 +32,7 @@ class ExamplesAdapter(
 
         with(holder.binding) {
             root.tag = example
-            tvName.text = exampleToName(example)
+            tvName.text = root.context.getString(example.exampleStringId)
         }
     }
-
 }
