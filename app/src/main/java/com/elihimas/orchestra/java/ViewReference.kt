@@ -12,8 +12,9 @@ class ViewReference(vararg val views: View) : com.elihimas.orchestra.blocks.View
     fun circularReveal() = circularReveal(null)
     fun circularReveal(config: Consumer<CircularRevealAnimation>) = circularReveal(wrap(config))
 
-    fun slide(direction: Direction = Direction.Up) = slide(direction, null)
-    fun slide(direction: Direction = Direction.Up, config: Consumer<SlideAnimation>) = slide(direction, wrap(config))
+    fun slideIn(direction: Direction = Direction.Up) = slideIn(direction, null)
+    fun slideIn(direction: Direction = Direction.Up, config: Consumer<SlideAnimation>) =
+        slideIn(direction, wrap(config))
 
     fun scale(scale: Int) = scale(scale.toFloat(), null)
     fun scale(scale: Float) = scale(scale, scale, null)

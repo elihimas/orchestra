@@ -24,7 +24,7 @@ abstract class VerticalSlideStrategy : AnimationStrategy {
     }
 }
 
-class SlideUpReverseStrategy : VerticalSlideStrategy() {
+class SlideOutUpStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val down = view.height * proportion
@@ -34,7 +34,7 @@ class SlideUpReverseStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideDownReverseStrategy : VerticalSlideStrategy() {
+class SlideOutDownStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val top = view.height * proportion
@@ -44,7 +44,7 @@ class SlideDownReverseStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideLeftReverseStrategy : HorizontalSlideStrategy() {
+class SlideOutLeftStrategy : HorizontalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val right = view.width * proportion
@@ -54,17 +54,19 @@ class SlideLeftReverseStrategy : HorizontalSlideStrategy() {
     }
 }
 
-class SlideRightReverseStrategy : HorizontalSlideStrategy() {
+class SlideOutRightStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val left = view.width * proportion
+        val remainingWidthProportion = remainingWidth * proportion
 
-        view.clipBounds = Rect(left.toInt(), 0, view.width, view.height)
-        view.translationX = -left + initialTranslationX
+        view.clipBounds =
+            Rect((left - remainingWidthProportion).toInt(), 0, view.width, view.height)
+        view.translationX = -left + initialTranslationX + remainingWidthProportion
     }
 }
 
-class SlideUpStrategy : VerticalSlideStrategy() {
+class SlideInUpStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val down = view.height * proportion
@@ -74,7 +76,7 @@ class SlideUpStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideDownStrategy : VerticalSlideStrategy() {
+class SlideInDownStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val top = view.height * proportion
@@ -85,7 +87,7 @@ class SlideDownStrategy : VerticalSlideStrategy() {
 
 }
 
-class SlideLeftStrategy : HorizontalSlideStrategy() {
+class SlideInLeftStrategy : HorizontalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val right = view.width * proportion
@@ -95,12 +97,20 @@ class SlideLeftStrategy : HorizontalSlideStrategy() {
     }
 }
 
-class SlideRightStrategy : HorizontalSlideStrategy() {
+class SlideInRightStrategy : HorizontalSlideStrategy() {
+
+    private var initialLeft = 0f
+    override fun init(vararg views: View) {
+        super.init(*views)
+
+        initialLeft = views[0].width + views[0].translationX
+    }
 
     override fun update(view: View, proportion: Float) {
-        val left = view.width * proportion
+        val left = (view.width - initialLeft) * proportion + initialLeft
 
-        view.clipBounds = Rect(view.width - left.toInt(), 0, view.width, view.height)
+        view.clipBounds =
+            Rect(view.width - (left.toInt()), 0, view.width, view.height)
         view.translationX = -view.width + left + initialTranslationX
     }
 }
@@ -116,9 +126,11 @@ open class SlideAnimation(
     private val reverseAnimation: Boolean = false
 ) : Animation() {
 
-    private val slideStrategy: AnimationStrategy
+    private lateinit var slideStrategy: AnimationStrategy
+    var remainingWidth: Float = 0f
 
-    init {
+    //TODO create variables for each view
+    override fun beforeAnimation(vararg views: View) {
         val actualDirection = if (reverseAnimation) {
             direction.reverse()
         } else {
@@ -127,23 +139,20 @@ open class SlideAnimation(
 
         slideStrategy = if (reverseAnimation) {
             when (actualDirection) {
-                Direction.Up -> SlideUpReverseStrategy()
-                Direction.Down -> SlideDownReverseStrategy()
-                Direction.Left -> SlideLeftReverseStrategy()
-                Direction.Right -> SlideRightReverseStrategy()
+                Direction.Up -> SlideOutUpStrategy()
+                Direction.Down -> SlideOutDownStrategy()
+                Direction.Left -> SlideOutLeftStrategy()
+                Direction.Right -> SlideOutRightStrategy(remainingWidth)
             }
         } else {
             when (actualDirection) {
-                Direction.Up -> SlideUpStrategy()
-                Direction.Down -> SlideDownStrategy()
-                Direction.Left -> SlideLeftStrategy()
-                Direction.Right -> SlideRightStrategy()
+                Direction.Up -> SlideInUpStrategy()
+                Direction.Down -> SlideInDownStrategy()
+                Direction.Left -> SlideInLeftStrategy()
+                Direction.Right -> SlideInRightStrategy()
             }
         }
-    }
 
-    //TODO create variables for each view
-    override fun beforeAnimation(vararg views: View) {
         if (!reverseAnimation) {
             views.forEach { view -> view.visibility = View.VISIBLE }
         }
@@ -152,7 +161,8 @@ open class SlideAnimation(
     }
 
     override fun afterAnimation(vararg views: View) {
-        if (reverseAnimation) {
+        // TODO review. maybe there is a better way to verify if there is something visible or not
+        if (reverseAnimation && remainingWidth == 0f) {
             views.forEach { view -> view.visibility = View.INVISIBLE }
         }
     }

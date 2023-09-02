@@ -4,6 +4,7 @@
 
     <string name="title_select_example">Select an example</string>
 
+    <string name="example_login_with_register">Login with register</string>
     <string name="example_sliding_login">Sliding login </string>
     <string name="example_scaling_login">Scaling login </string>
     <string name="example_animated_button">Animated button</string>

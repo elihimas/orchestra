@@ -180,7 +180,7 @@ class TranslateActivity : AppCompatActivity() {
         return Orchestra.launch {
 
             on(binding.settingsContainer)
-                .slide(Direction.Left) {
+                .slideIn(Direction.Left) {
                     duration = 300
                 }
         }

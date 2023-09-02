@@ -48,7 +48,7 @@ class SlidingLoginActivity : AppCompatActivity() {
 
             parallel {
                 on(form).parallel {
-                    slide(Direction.Up) {
+                    slideIn(Direction.Up) {
                         duration = 600
                     }
                     fadeIn {
@@ -58,7 +58,7 @@ class SlidingLoginActivity : AppCompatActivity() {
 
                 on(*slidingViews)
                     .delay(300)
-                    .slide(Direction.Up) {
+                    .slideIn(Direction.Up) {
                         duration = 600
                     }
             }
