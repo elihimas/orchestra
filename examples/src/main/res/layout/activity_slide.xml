@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.SlideActivity">
+
+    <TextView
+        android:id="@+id/slide_target"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:text="This is the target of the animation"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
+        android:background="@color/orange" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context=".activities.SlideActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Remaing"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/etRemaining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="number"
+                android:textSize="20sp" />
+
+
+            <com.elihimas.orchestra.examples.views.DirectionsSelector
+                android:id="@+id/directionSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.elihimas.orchestra.examples.views.InterpolatorSelector
+                android:id="@+id/interpolatorSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btSlideIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_slide_in" />
+
+    <Button
+        android:id="@+id/btSlideOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_slide_out" />
+</LinearLayout>
+

@@ -1,4 +1,4 @@
-package com.elihimas.orchestra.showcase
+package com.elihimas.orchestra.examples
 
 import org.junit.Test
 
