@@ -1,10 +1,9 @@
-package com.elihimas.orchestra.showcase.adapters
+package com.elihimas.orchestra.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.elihimas.orchestra.showcase.databinding.RowExampleBinding
-import com.elihimas.orchestra.showcase.examples.Example
+import com.elihimas.orchestra.adapter.databinding.RowExampleBinding
 
 class ExamplesAdapter(
     private val examples: List<Example>,
