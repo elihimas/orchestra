@@ -24,7 +24,7 @@ abstract class VerticalSlideStrategy : AnimationStrategy {
     }
 }
 
-class SlideOutUpStrategy : VerticalSlideStrategy() {
+class SlideOutDownStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val down = view.height * proportion
@@ -34,7 +34,7 @@ class SlideOutUpStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideOutDownStrategy : VerticalSlideStrategy() {
+class SlideOutUpStrategy : VerticalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val top = view.height * proportion
@@ -44,7 +44,7 @@ class SlideOutDownStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideOutLeftStrategy : HorizontalSlideStrategy() {
+class SlideOutRightStrategy : HorizontalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val right = view.width * proportion
@@ -54,7 +54,7 @@ class SlideOutLeftStrategy : HorizontalSlideStrategy() {
     }
 }
 
-class SlideOutRightStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
+class SlideOutLeftStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
 
     override fun update(view: View, proportion: Float) {
         val left = view.width * proportion
@@ -103,6 +103,8 @@ class SlideInRightStrategy : HorizontalSlideStrategy() {
     override fun init(vararg views: View) {
         super.init(*views)
 
+        // TODO: fix this:
+        // this line is necessary for the login with register example but breaks slide in
         initialLeft = views[0].width + views[0].translationX
     }
 
@@ -119,52 +121,28 @@ class SlideInRightStrategy : HorizontalSlideStrategy() {
  * Slide in and out animation implementation
  *
  * @param direction the direction towards to the view should be animated
- * @param reverseAnimation if the animation is a slide out animation
  */
 open class SlideAnimation(
-    internal var direction: Direction,
-    private val reverseAnimation: Boolean = false
+    protected var direction: Direction, var remainingWidth: Float = 0f
 ) : Animation() {
 
     private lateinit var slideStrategy: AnimationStrategy
-    var remainingWidth: Float = 0f
 
-    //TODO create variables for each view
-    override fun beforeAnimation(vararg views: View) {
-        val actualDirection = if (reverseAnimation) {
-            direction.reverse()
-        } else {
-            direction
+    open fun createSlideStrategy(): AnimationStrategy {
+        return when (direction) {
+            Direction.Up -> SlideInUpStrategy()
+            Direction.Down -> SlideInDownStrategy()
+            Direction.Left -> SlideInLeftStrategy()
+            Direction.Right -> SlideInRightStrategy()
         }
-
-        slideStrategy = if (reverseAnimation) {
-            when (actualDirection) {
-                Direction.Up -> SlideOutUpStrategy()
-                Direction.Down -> SlideOutDownStrategy()
-                Direction.Left -> SlideOutLeftStrategy()
-                Direction.Right -> SlideOutRightStrategy(remainingWidth)
-            }
-        } else {
-            when (actualDirection) {
-                Direction.Up -> SlideInUpStrategy()
-                Direction.Down -> SlideInDownStrategy()
-                Direction.Left -> SlideInLeftStrategy()
-                Direction.Right -> SlideInRightStrategy()
-            }
-        }
-
-        if (!reverseAnimation) {
-            views.forEach { view -> view.visibility = View.VISIBLE }
-        }
-
-        slideStrategy.init(*views)
     }
 
-    override fun afterAnimation(vararg views: View) {
-        // TODO review. maybe there is a better way to verify if there is something visible or not
-        if (reverseAnimation && remainingWidth == 0f) {
-            views.forEach { view -> view.visibility = View.INVISIBLE }
-        }
+    override fun beforeAnimation(vararg views: View) {
+        slideStrategy = createSlideStrategy()
+
+        views.forEach { view -> view.visibility = View.VISIBLE }
+
+        slideStrategy.init(*views)
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) =
@@ -173,7 +151,7 @@ open class SlideAnimation(
     override fun getDeEffector() = TranslationDeEffector
 
     override fun clone(): Any {
-        return SlideAnimation(direction, reverseAnimation).also { clone ->
+        return SlideAnimation(direction, remainingWidth).also { clone ->
             cloneFromTo(this, clone)
         }
     }

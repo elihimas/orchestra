@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 rootProject.name='Orchestra'
 include ':app'
 include ':showcase'
+include ':examples'
+include ':ExamplesAdapter'
+include ':adapter'

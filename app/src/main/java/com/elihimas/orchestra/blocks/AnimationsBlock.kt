@@ -119,7 +119,6 @@ open class AnimationsBlock : Block() {
     fun slideIn(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
         add(SlideAnimation(direction), config)
 
-
     fun slideOut(
         direction: Direction = Direction.Up,
         config: (SlideOutAnimation.() -> Unit)? = null

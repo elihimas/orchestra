@@ -118,13 +118,5 @@ open class Orchestra : OrchestraContext, ParallelContext {
 
             return orchestraContext
         }
-
-        //TODO implement shot or long functionality
-        fun shortOrLong(short: () -> Unit, long: () -> Unit) {
-            val stacktrace = Thread.currentThread().stackTrace
-            val callerClassName = stacktrace[3].className
-
-            short()
-        }
     }
 }

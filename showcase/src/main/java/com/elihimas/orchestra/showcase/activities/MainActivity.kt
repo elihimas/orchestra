@@ -3,9 +3,10 @@ package com.elihimas.orchestra.showcase.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.elihimas.orchestra.showcase.adapters.ExamplesAdapter
+import com.elihimas.orchestra.adapter.Example
+import com.elihimas.orchestra.adapter.ExamplesAdapter
 import com.elihimas.orchestra.showcase.databinding.ActivityMainBinding
-import com.elihimas.orchestra.showcase.examples.Example
+import com.elihimas.orchestra.showcase.examples.Examples
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
-        val examples = Example.getExamples()
+        val examples = Examples.getExamples()
         examplesRecycler.adapter = ExamplesAdapter(examples, ::onExampleSelected)
     }
 
