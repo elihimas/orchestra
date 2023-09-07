@@ -10,7 +10,7 @@ abstract class HorizontalSlideStrategy : AnimationStrategy {
 
     override fun init(vararg views: View) {
         // TODO: verify if this makes sense in some scenario
-        // initialTranslationX = views[0].translationX
+         initialTranslationX = views[0].translationX
     }
 }
 
@@ -21,48 +21,6 @@ abstract class VerticalSlideStrategy : AnimationStrategy {
     override fun init(vararg views: View) {
         // TODO: verify if this makes sense in some scenario
         // initialTranslationY = views[0].translationY
-    }
-}
-
-class SlideOutDownStrategy : VerticalSlideStrategy() {
-
-    override fun update(view: View, proportion: Float) {
-        val down = view.height * proportion
-
-        view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
-        view.translationY = down + initialTranslationY
-    }
-}
-
-class SlideOutUpStrategy : VerticalSlideStrategy() {
-
-    override fun update(view: View, proportion: Float) {
-        val top = view.height * proportion
-
-        view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
-        view.translationY = -top + initialTranslationY
-    }
-}
-
-class SlideOutRightStrategy : HorizontalSlideStrategy() {
-
-    override fun update(view: View, proportion: Float) {
-        val right = view.width * proportion
-
-        view.clipBounds = Rect(0, 0, (view.width - right).toInt(), view.height)
-        view.translationX = right + initialTranslationX
-    }
-}
-
-class SlideOutLeftStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
-
-    override fun update(view: View, proportion: Float) {
-        val left = view.width * proportion
-        val remainingWidthProportion = remainingWidth * proportion
-
-        view.clipBounds =
-            Rect((left - remainingWidthProportion).toInt(), 0, view.width, view.height)
-        view.translationX = -left + initialTranslationX + remainingWidthProportion
     }
 }
 
@@ -99,21 +57,26 @@ class SlideInLeftStrategy : HorizontalSlideStrategy() {
 
 class SlideInRightStrategy : HorizontalSlideStrategy() {
 
-    private var initialLeft = 0f
     override fun init(vararg views: View) {
         super.init(*views)
 
         // TODO: fix this:
         // this line is necessary for the login with register example but breaks slide in
-        initialLeft = views[0].width + views[0].translationX
+        val isViewOnLeft = views[0].translationX < 0f
+
+        initialTranslationX = if (isViewOnLeft) {
+            views[0].width + views[0].translationX
+        } else {
+            0f
+        }
     }
 
     override fun update(view: View, proportion: Float) {
-        val left = (view.width - initialLeft) * proportion + initialLeft
+        val left = (view.width - initialTranslationX) * proportion + initialTranslationX
 
         view.clipBounds =
             Rect(view.width - (left.toInt()), 0, view.width, view.height)
-        view.translationX = -view.width + left + initialTranslationX
+        view.translationX = -view.width + left
     }
 }
 
