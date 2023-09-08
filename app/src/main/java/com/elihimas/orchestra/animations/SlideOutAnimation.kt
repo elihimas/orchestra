@@ -23,10 +23,18 @@ class SlideOutUpStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideOutRightStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
+class SlideOutRightStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
+    HorizontalSlideStrategy(
+        remainingWidth,
+        startFromCurrentPosition
+    ) {
 
     override fun init(vararg views: View) {
-        initialTranslationX = views[0].translationX
+        initialTranslationX = if (startFromCurrentPosition) {
+            views[0].translationX
+        } else {
+            0f
+        }
     }
 
     override fun update(view: View, proportion: Float) {
@@ -38,10 +46,18 @@ class SlideOutRightStrategy(remainingWidth: Float) : HorizontalSlideStrategy(rem
     }
 }
 
-class SlideOutLeftStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
+class SlideOutLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
+    HorizontalSlideStrategy(
+        remainingWidth,
+        startFromCurrentPosition
+    ) {
 
     override fun init(vararg views: View) {
-        initialTranslationX = -views[0].translationX
+        initialTranslationX = if (startFromCurrentPosition) {
+            -views[0].translationX
+        } else {
+            0f
+        }
     }
 
     var initial = 0f
@@ -66,8 +82,8 @@ class SlideOutAnimation(direction: Direction) : SlideAnimation(direction) {
         return when (direction) {
             Direction.Up -> SlideOutUpStrategy()
             Direction.Down -> SlideOutDownStrategy()
-            Direction.Left -> SlideOutLeftStrategy(remainingWidth)
-            Direction.Right -> SlideOutRightStrategy(remainingWidth)
+            Direction.Left -> SlideOutLeftStrategy(remainingWidth, startFromCurrentPosition)
+            Direction.Right -> SlideOutRightStrategy(remainingWidth, startFromCurrentPosition)
         }
     }
 

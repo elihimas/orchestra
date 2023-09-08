@@ -4,7 +4,9 @@ import android.graphics.Rect
 import android.view.View
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 
-abstract class HorizontalSlideStrategy(val remainingWidth: Float) : AnimationStrategy {
+abstract class HorizontalSlideStrategy(
+    val remainingWidth: Float, val startFromCurrentPosition: Boolean
+) : AnimationStrategy {
 
     var initialTranslationX = 0f
 }
@@ -40,9 +42,14 @@ class SlideInDownStrategy : VerticalSlideStrategy() {
 
 }
 
-class SlideInLeftStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
+class SlideInLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
+    HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
     override fun init(vararg views: View) {
-        initialTranslationX = views[0].translationX
+        initialTranslationX = if (startFromCurrentPosition) {
+            views[0].translationX
+        } else {
+            views[0].width.toFloat()
+        }
     }
 
     override fun update(view: View, proportion: Float) {
@@ -55,25 +62,22 @@ class SlideInLeftStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remai
     }
 }
 
-class SlideInRightStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
+class SlideInRightStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
+    HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
     override fun init(vararg views: View) {
-        // TODO: fix this:
-        // this line is necessary for the login with register example but breaks slide in
-        val isViewOnLeft = views[0].translationX < 0f
-
-        initialTranslationX = if (isViewOnLeft) {
-            views[0].width + views[0].translationX
+        initialTranslationX = if (startFromCurrentPosition) {
+            views[0].translationX
         } else {
-            0f
+            -views[0].width.toFloat()
         }
     }
 
     override fun update(view: View, proportion: Float) {
         val targetLeftPush = view.width - remainingWidth
-        val leftPush = initialTranslationX + (targetLeftPush - initialTranslationX) * proportion
+        val leftPush =
+            view.width + initialTranslationX + (targetLeftPush - (view.width + initialTranslationX)) * proportion
 
-        view.clipBounds =
-            Rect(view.width - (leftPush.toInt()), 0, view.width, view.height)
+        view.clipBounds = Rect(view.width - (leftPush.toInt()), 0, view.width, view.height)
         view.translationX = -view.width + leftPush
     }
 }
@@ -84,7 +88,9 @@ class SlideInRightStrategy(remainingWidth: Float) : HorizontalSlideStrategy(rema
  * @param direction the direction towards to the view should be animated
  */
 open class SlideAnimation(
-    protected var direction: Direction, var remainingWidth: Float = 0f
+    protected var direction: Direction,
+    var remainingWidth: Float = 0f,
+    var startFromCurrentPosition: Boolean = false
 ) : Animation() {
 
     private lateinit var slideStrategy: AnimationStrategy
@@ -93,8 +99,8 @@ open class SlideAnimation(
         return when (direction) {
             Direction.Up -> SlideInUpStrategy()
             Direction.Down -> SlideInDownStrategy()
-            Direction.Left -> SlideInLeftStrategy(remainingWidth)
-            Direction.Right -> SlideInRightStrategy(remainingWidth)
+            Direction.Left -> SlideInLeftStrategy(remainingWidth, startFromCurrentPosition)
+            Direction.Right -> SlideInRightStrategy(remainingWidth, startFromCurrentPosition)
         }
     }
 

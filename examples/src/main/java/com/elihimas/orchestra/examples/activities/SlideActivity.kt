@@ -62,33 +62,42 @@ class SlideActivity : AppCompatActivity() {
 
     private fun onSlideInClicked() = with(binding) {
         val direction = directionSelector.getSelectedDirection()
+        val remainingWidth = getRemainingWidth()
         val interpolator = interpolatorSelector.getSelectedInterpolator()
+        val startFromCurrentPosition = getStartFromCurrentPosition()
 
         Orchestra.launch {
             on(exampleTargetBinding.exampleTarget).slideIn(direction) {
-                this.duration = 2_000
-                this.remainingWidth = getRemainingWidth()
+                duration = 2_000
+                this.remainingWidth = remainingWidth
                 this.interpolator = interpolator
+                this.startFromCurrentPosition = startFromCurrentPosition
             }
         }
+    }
+
+    private fun onSlideOutClicked() = with(binding) {
+        val direction = directionSelector.getSelectedDirection()
+        val remainingWidth = getRemainingWidth()
+        val interpolator = interpolatorSelector.getSelectedInterpolator()
+        val startFromCurrentPosition = getStartFromCurrentPosition()
+
+        Orchestra.launch {
+            on(exampleTargetBinding.exampleTarget).slideOut(direction) {
+                duration = 2_000
+                this.remainingWidth = remainingWidth
+                this.interpolator = interpolator
+                this.startFromCurrentPosition = startFromCurrentPosition
+            }
+        }
+    }
+
+    private fun getStartFromCurrentPosition(): Boolean {
+        return binding.cbStartFromCurrentPosition.isChecked
     }
 
     private fun getRemainingWidth(): Float {
         return binding.etRemaining.text.toString().toFloatOrNull() ?: 0f
     }
-
-    private fun onSlideOutClicked() = with(binding) {
-        val direction = directionSelector.getSelectedDirection()
-        val interpolator = interpolatorSelector.getSelectedInterpolator()
-
-        Orchestra.launch {
-            on(exampleTargetBinding.exampleTarget).slideOut(direction) {
-                duration = 2_000
-                remainingWidth = getRemainingWidth()
-                this.interpolator = interpolator
-            }
-        }
-    }
-
 
 }

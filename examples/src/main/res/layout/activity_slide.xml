@@ -41,6 +41,11 @@
                 android:inputType="number"
                 android:textSize="20sp" />
 
+            <CheckBox
+                android:id="@+id/cbStartFromCurrentPosition"
+                android:text="Start from current position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <com.elihimas.orchestra.examples.views.DirectionsSelector
                 android:id="@+id/directionSelector"
