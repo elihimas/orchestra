@@ -4,11 +4,13 @@
     <string name="example_fade">Fade</string>
     <string name="example_slide">Slide</string>
 
+    <string name="bt_reset">Reset</string>
     <string name="bt_fadein">Fade in</string>
     <string name="bt_fadeout">Fade out</string>
     <string name="bt_slide_in">Slide in</string>
     <string name="bt_slide_out">Slide out</string>
 
+    <string name="label_target">This is the target of the animation</string>
     <string name="label_direction_selector">Direction selection</string>
     <string name="label_Interpolator_selector">Interpolator selection</string>
 

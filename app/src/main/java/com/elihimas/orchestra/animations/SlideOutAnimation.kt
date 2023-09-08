@@ -23,25 +23,41 @@ class SlideOutUpStrategy : VerticalSlideStrategy() {
     }
 }
 
-class SlideOutRightStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
+class SlideOutRightStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
+
+    override fun init(vararg views: View) {
+        initialTranslationX = views[0].translationX
+    }
 
     override fun update(view: View, proportion: Float) {
-        val rightPush = initialTranslationX + (view.width - remainingWidth - initialTranslationX) * proportion
+        val targetTranslation = view.width - remainingWidth
+        val rightPush = initialTranslationX + (targetTranslation - initialTranslationX) * proportion
 
         view.clipBounds = Rect(0, 0, (view.width - rightPush).toInt(), view.height)
         view.translationX = rightPush
     }
 }
 
-class SlideOutLeftStrategy(private val remainingWidth: Float) : HorizontalSlideStrategy() {
+class SlideOutLeftStrategy(remainingWidth: Float) : HorizontalSlideStrategy(remainingWidth) {
 
+    override fun init(vararg views: View) {
+        initialTranslationX = -views[0].translationX
+    }
+
+    var initial = 0f
     override fun update(view: View, proportion: Float) {
-        val left = view.width * proportion
-        val remainingWidthProportion = remainingWidth * proportion
+        val targetTranslation = view.width - remainingWidth
+        val leftPush = initialTranslationX + (targetTranslation - initialTranslationX) * proportion
 
-        view.clipBounds =
-            Rect((left - remainingWidthProportion).toInt(), 0, view.width, view.height)
-        view.translationX = -left + remainingWidthProportion
+        view.clipBounds = Rect(leftPush.toInt(), 0, view.width, view.height)
+        view.translationX = -leftPush
+
+        if (proportion == 0f) {
+            initial = leftPush
+        }
+        if (proportion == 1f) {
+            println(leftPush)
+        }
     }
 }
 

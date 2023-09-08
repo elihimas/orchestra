@@ -29,5 +29,4 @@ class DirectionsSelector(context: Context, attrs: AttributeSet? = null) :
         else -> Direction.Right
     }
 
-
 }

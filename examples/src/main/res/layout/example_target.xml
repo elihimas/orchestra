@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/targetShadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/targetViewHeight"
+            android:layout_margin="@dimen/targetViewMargin"
+            android:alpha="0.2"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:text="@string/label_target"
+            android:textColor="@color/white"
+            android:textSize="@dimen/targetViewTextSize"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/exampleTarget"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/targetViewHeight"
+            android:layout_margin="@dimen/targetViewMargin"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:text="@string/label_target"
+            android:textColor="@color/white"
+            android:textSize="@dimen/targetViewTextSize" />
+    </FrameLayout>
+</merge>
