@@ -116,9 +116,8 @@ open class AnimationsBlock : Block() {
     fun scale(scaleX: Float, scaleY: Float, config: Consumer<ScaleAnimation>) =
         scale(scaleX, scaleY) { config.accept(this) }
 
-    fun slide(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
+    fun slideIn(direction: Direction = Direction.Up, config: (SlideAnimation.() -> Unit)? = null) =
         add(SlideAnimation(direction), config)
-
 
     fun slideOut(
         direction: Direction = Direction.Up,

@@ -35,7 +35,7 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun initViews() = with(binding) {
-        root.setOnTouchListener { source, event ->
+        root.setOnTouchListener { _, event ->
             val x = event.x
             val y = event.y
 
@@ -180,7 +180,7 @@ class TranslateActivity : AppCompatActivity() {
         return Orchestra.launch {
 
             on(binding.settingsContainer)
-                .slide(Direction.Left) {
+                .slideIn(Direction.Left) {
                     duration = 300
                 }
         }

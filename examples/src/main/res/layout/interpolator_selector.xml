@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:text="@string/label_Interpolator_selector"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbLinear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/interpolator_linear" />
+
+        <RadioButton
+            android:id="@+id/rbAccelerate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_accelerate" />
+
+        <RadioButton
+            android:id="@+id/rbAccelerateDecelerate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_accelerate_decelerate" />
+
+        <RadioButton
+            android:id="@+id/rbAnticipate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_anticipate" />
+
+        <RadioButton
+            android:id="@+id/rbAnticipateOvershoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_anticipate_overshoot" />
+
+        <RadioButton
+            android:id="@+id/rbBounce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_bounce" />
+
+        <RadioButton
+            android:id="@+id/rbDecelerate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_decelerate" />
+
+        <RadioButton
+            android:id="@+id/rbFastOutLinearIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_fast_out_linear_in" />
+
+        <RadioButton
+            android:id="@+id/rbFastOutSlowIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_fast_out_slow_in" />
+
+        <RadioButton
+            android:id="@+id/rbFastOutSlowInInterpolator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_fast_out_slow_in_interpolator" />
+
+        <RadioButton
+            android:id="@+id/rbLinearOutSlowIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_linear_out_slow_in" />
+
+        <RadioButton
+            android:id="@+id/rbOvershoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator_overshoot" />
+
+    </RadioGroup>
+</LinearLayout>

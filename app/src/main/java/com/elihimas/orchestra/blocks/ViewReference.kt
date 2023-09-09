@@ -50,6 +50,16 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
     }
 
     // TODO: move this to a proper location
+    private fun View.initAffectedViewsIfNecessary(animation: Animation) {
+        val deEffector = animation.getDeEffector()
+        val affectedViews = References.map[this]
+
+        if (affectedViews?.views?.isNotEmpty() == true) {
+            deEffector?.beforeAnimation(this, affectedViews)
+        }
+    }
+
+    // TODO: move this to a proper location
     private fun View.updateAffectedViewsIfNecessary(animation: Animation) {
         val deEffector = animation.getDeEffector()
         val affectedViews = References.map[this]
@@ -65,6 +75,10 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         ) {
             val nextAnimation = animations[nextAnimationIndex]
             nextAnimation.beforeAnimation(*views)
+
+            views.forEach {view->
+                view.initAffectedViewsIfNecessary(nextAnimation)
+            }
 
             updateAnimation(nextAnimation, time)
 

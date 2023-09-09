@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.FadeActivity">
+
+    <include layout="@layout/example_target" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <com.elihimas.orchestra.examples.views.InterpolatorSelector
+                android:id="@+id/interpolatorSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bt_fadein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_fadein" />
+
+    <Button
+        android:id="@+id/btFadeout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_fadeout" />
+
+
+</LinearLayout>
