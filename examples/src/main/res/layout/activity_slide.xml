@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remaing"
+                android:text="@string/label_remaining"
                 android:textSize="20sp" />
 
             <EditText
@@ -43,7 +43,7 @@
 
             <CheckBox
                 android:id="@+id/cbStartFromCurrentPosition"
-                android:text="Start from current position"
+                android:text="@string/label_start_from_current_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

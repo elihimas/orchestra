@@ -62,14 +62,14 @@ class SlideActivity : AppCompatActivity() {
 
     private fun onSlideInClicked() = with(binding) {
         val direction = directionSelector.getSelectedDirection()
-        val remainingWidth = getRemainingWidth()
+        val remainingSpace = getRemainingSpace()
         val interpolator = interpolatorSelector.getSelectedInterpolator()
         val startFromCurrentPosition = getStartFromCurrentPosition()
 
         Orchestra.launch {
             on(exampleTargetBinding.exampleTarget).slideIn(direction) {
                 duration = 2_000
-                this.remainingWidth = remainingWidth
+                this.remainingSpace = remainingSpace
                 this.interpolator = interpolator
                 this.startFromCurrentPosition = startFromCurrentPosition
             }
@@ -78,14 +78,14 @@ class SlideActivity : AppCompatActivity() {
 
     private fun onSlideOutClicked() = with(binding) {
         val direction = directionSelector.getSelectedDirection()
-        val remainingWidth = getRemainingWidth()
+        val remainingWidth = getRemainingSpace()
         val interpolator = interpolatorSelector.getSelectedInterpolator()
         val startFromCurrentPosition = getStartFromCurrentPosition()
 
         Orchestra.launch {
             on(exampleTargetBinding.exampleTarget).slideOut(direction) {
                 duration = 2_000
-                this.remainingWidth = remainingWidth
+                this.remainingSpace = remainingWidth
                 this.interpolator = interpolator
                 this.startFromCurrentPosition = startFromCurrentPosition
             }
@@ -96,7 +96,7 @@ class SlideActivity : AppCompatActivity() {
         return binding.cbStartFromCurrentPosition.isChecked
     }
 
-    private fun getRemainingWidth(): Float {
+    private fun getRemainingSpace(): Float {
         return binding.etRemaining.text.toString().toFloatOrNull() ?: 0f
     }
 

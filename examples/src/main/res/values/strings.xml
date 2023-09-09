@@ -13,6 +13,8 @@
     <string name="label_target">This is the target of the animation</string>
     <string name="label_direction_selector">Direction selection</string>
     <string name="label_Interpolator_selector">Interpolator selection</string>
+    <string name="label_remaining">Remaining</string>
+    <string name="label_start_from_current_position">Start from current position</string>
 
     <string name="direction_up">Up</string>
     <string name="direction_down">Down</string>

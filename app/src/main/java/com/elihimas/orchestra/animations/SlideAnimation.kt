@@ -3,7 +3,9 @@ package com.elihimas.orchestra.animations
 import android.graphics.Rect
 import android.view.View
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
+import kotlin.math.absoluteValue
 
+// TODO: simplify horizontal strategies based on vertical slides
 abstract class HorizontalSlideStrategy(
     val remainingWidth: Float, val startFromCurrentPosition: Boolean
 ) : AnimationStrategy {
@@ -11,33 +13,46 @@ abstract class HorizontalSlideStrategy(
     var initialTranslationX = 0f
 }
 
-abstract class VerticalSlideStrategy : AnimationStrategy {
+abstract class VerticalSlideStrategy(
+    private val remainingHeight: Float,
+    private val startFromCurrentPosition: Boolean
+) : AnimationStrategy {
 
-    var initialTranslationY = 0f
+    var initialVisibleHeight = 0f
 
     override fun init(vararg views: View) {
-        // TODO: verify if this makes sense in some scenario
-        // initialTranslationY = views[0].translationY
+        initialVisibleHeight = if (startFromCurrentPosition) {
+            views[0].height - views[0].translationY.absoluteValue
+        } else {
+            0f
+        }
+    }
+
+    override fun update(view: View, proportion: Float) {
+        val visibleHeight =
+            initialVisibleHeight + (view.height - remainingHeight - initialVisibleHeight) * proportion
+
+        updateVisibleHeight(view, visibleHeight)
+    }
+
+    abstract fun updateVisibleHeight(view: View, visibleHeight: Float)
+}
+
+class SlideInUpStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
+    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
+
+    override fun updateVisibleHeight(view: View, visibleHeight: Float) {
+        view.clipBounds = Rect(0, 0, view.width, visibleHeight.toInt())
+        view.translationY = view.height - visibleHeight
     }
 }
 
-class SlideInUpStrategy : VerticalSlideStrategy() {
+class SlideInDownStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
+    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
 
-    override fun update(view: View, proportion: Float) {
-        val down = view.height * proportion
-
-        view.clipBounds = Rect(0, 0, view.width, down.toInt())
-        view.translationY = view.height - down + initialTranslationY
-    }
-}
-
-class SlideInDownStrategy : VerticalSlideStrategy() {
-
-    override fun update(view: View, proportion: Float) {
-        val top = view.height * proportion
-
-        view.clipBounds = Rect(0, view.height - top.toInt(), view.width, view.height)
-        view.translationY = -view.height + top + initialTranslationY
+    override fun updateVisibleHeight(view: View, visibleHeight: Float) {
+        view.clipBounds = Rect(0, view.height - visibleHeight.toInt(), view.width, view.height)
+        view.translationY = visibleHeight - view.height
     }
 
 }
@@ -89,7 +104,7 @@ class SlideInRightStrategy(remainingWidth: Float, startFromCurrentPosition: Bool
  */
 open class SlideAnimation(
     protected var direction: Direction,
-    var remainingWidth: Float = 0f,
+    var remainingSpace: Float = 0f,
     var startFromCurrentPosition: Boolean = false
 ) : Animation() {
 
@@ -97,10 +112,10 @@ open class SlideAnimation(
 
     open fun createSlideStrategy(): AnimationStrategy {
         return when (direction) {
-            Direction.Up -> SlideInUpStrategy()
-            Direction.Down -> SlideInDownStrategy()
-            Direction.Left -> SlideInLeftStrategy(remainingWidth, startFromCurrentPosition)
-            Direction.Right -> SlideInRightStrategy(remainingWidth, startFromCurrentPosition)
+            Direction.Up -> SlideInUpStrategy(remainingSpace, startFromCurrentPosition)
+            Direction.Down -> SlideInDownStrategy(remainingSpace, startFromCurrentPosition)
+            Direction.Left -> SlideInLeftStrategy(remainingSpace, startFromCurrentPosition)
+            Direction.Right -> SlideInRightStrategy(remainingSpace, startFromCurrentPosition)
         }
     }
 
@@ -118,7 +133,7 @@ open class SlideAnimation(
     override fun getDeEffector() = TranslationDeEffector
 
     override fun clone(): Any {
-        return SlideAnimation(direction, remainingWidth).also { clone ->
+        return SlideAnimation(direction, remainingSpace).also { clone ->
             cloneFromTo(this, clone)
         }
     }

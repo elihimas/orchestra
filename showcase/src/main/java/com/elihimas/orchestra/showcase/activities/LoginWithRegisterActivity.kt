@@ -54,7 +54,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
         Orchestra.launch {
             on(loginContainer).slideOut(Direction.Left) {
                 duration = 600
-                remainingWidth = resources.getDimension(R.dimen.margin50)
+                remainingSpace = resources.getDimension(R.dimen.margin50)
             }
         }
     }
