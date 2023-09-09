@@ -13,7 +13,7 @@ abstract class HorizontalSlideStrategy(
     var initialTranslationX = 0f
 }
 
-abstract class VerticalSlideStrategy(
+abstract class VerticalSlideInStrategy(
     private val remainingHeight: Float,
     private val startFromCurrentPosition: Boolean
 ) : AnimationStrategy {
@@ -39,7 +39,7 @@ abstract class VerticalSlideStrategy(
 }
 
 class SlideInUpStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
-    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
+    VerticalSlideInStrategy(remainingHeight, startFromCurrentPosition) {
 
     override fun updateVisibleHeight(view: View, visibleHeight: Float) {
         view.clipBounds = Rect(0, 0, view.width, visibleHeight.toInt())
@@ -48,7 +48,7 @@ class SlideInUpStrategy(remainingHeight: Float, startFromCurrentPosition: Boolea
 }
 
 class SlideInDownStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
-    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
+    VerticalSlideInStrategy(remainingHeight, startFromCurrentPosition) {
 
     override fun updateVisibleHeight(view: View, visibleHeight: Float) {
         view.clipBounds = Rect(0, view.height - visibleHeight.toInt(), view.width, view.height)

@@ -46,6 +46,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
         Orchestra.launch {
             on(loginContainer).slideIn(Direction.Right) {
                 duration = 600
+                startFromCurrentPosition = true
             }
         }
     }
@@ -55,6 +56,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
             on(loginContainer).slideOut(Direction.Left) {
                 duration = 600
                 remainingSpace = resources.getDimension(R.dimen.margin50)
+                startFromCurrentPosition = true
             }
         }
     }

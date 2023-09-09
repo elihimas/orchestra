@@ -2,41 +2,49 @@ package com.elihimas.orchestra.animations
 
 import android.graphics.Rect
 import android.view.View
+import kotlin.math.absoluteValue
 
-class SlideOutDownStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
-    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
+abstract class VerticalSlideOutStrategy(
+    private val remainingHeight: Float,
+    private val startFromCurrentPosition: Boolean
+) : AnimationStrategy {
+
+    private var initialPush = 0f
 
     override fun init(vararg views: View) {
-
+        initialPush = if (startFromCurrentPosition) {
+             views[0].translationY.absoluteValue
+        } else {
+            0f
+        }
     }
 
     override fun update(view: View, proportion: Float) {
-        val down = view.height * proportion
+        val targetPush = view.height - remainingHeight
+        val push =
+            initialPush + (targetPush - initialPush) * (proportion)
 
-        view.clipBounds = Rect(0, 0, view.width, (view.height - down).toInt())
-        view.translationY = down + initialVisibleHeight
+        updatePush(view, push)
     }
 
-    override fun updateVisibleHeight(view: View, visibleHeight: Float) {
-        TODO("Not yet implemented")
+    abstract fun updatePush(view: View, push: Float)
+}
+
+class SlideOutDownStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
+    VerticalSlideOutStrategy(remainingHeight, startFromCurrentPosition) {
+
+    override fun updatePush(view: View, push: Float) {
+        view.clipBounds = Rect(0, 0, view.width, view.height - push.toInt())
+        view.translationY = push
     }
 }
 
 class SlideOutUpStrategy(remainingHeight: Float, startFromCurrentPosition: Boolean) :
-    VerticalSlideStrategy(remainingHeight, startFromCurrentPosition) {
-    override fun init(vararg views: View) {
+    VerticalSlideOutStrategy(remainingHeight, startFromCurrentPosition) {
 
-    }
-
-    override fun update(view: View, proportion: Float) {
-        val top = view.height * proportion
-
-        view.clipBounds = Rect(0, top.toInt(), view.width, view.height)
-        view.translationY = -top + initialVisibleHeight
-    }
-
-    override fun updateVisibleHeight(view: View, visibleHeight: Float) {
-        TODO("Not yet implemented")
+    override fun updatePush(view: View, push: Float) {
+        view.clipBounds = Rect(0, push.toInt(), view.width, view.height)
+        view.translationY = -push
     }
 }
 
