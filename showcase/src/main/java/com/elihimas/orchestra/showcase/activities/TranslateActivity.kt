@@ -138,7 +138,7 @@ class TranslateActivity : AppCompatActivity() {
 
     private fun translate(x: Float, y: Float) {
         Orchestra.launch {
-            on(binding.targetView).translate(x, y) {
+            on(binding.targetView).translateBy(x, y) {
                 interpolator = data.interpolator
                 duration = 1000
             }

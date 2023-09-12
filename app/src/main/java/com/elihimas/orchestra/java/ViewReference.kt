@@ -1,13 +1,16 @@
 package com.elihimas.orchestra.java
 
 import android.view.View
-import com.elihimas.orchestra.animations.*
+import com.elihimas.orchestra.animations.CircularRevealAnimation
+import com.elihimas.orchestra.animations.Direction
+import com.elihimas.orchestra.animations.slide.SlideAnimation
+import com.elihimas.orchestra.animations.translations.TranslateByAnimation
 import java.util.function.Consumer
 
 class ViewReference(vararg val views: View) : com.elihimas.orchestra.blocks.ViewReference(*views) {
 
-    fun translate(x: Float, y: Float) = translate(x, y, null)
-    fun translate(x: Float, y: Float, config: Consumer<TranslateByAnimation>) = translate(x, y, wrap(config))
+    fun translate(x: Float, y: Float) = translateBy(x, y, null)
+    fun translate(x: Float, y: Float, config: Consumer<TranslateByAnimation>) = translateBy(x, y, wrap(config))
 
     fun circularReveal() = circularReveal(null)
     fun circularReveal(config: Consumer<CircularRevealAnimation>) = circularReveal(wrap(config))

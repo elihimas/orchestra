@@ -1,6 +1,7 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.scale
 
 import android.view.View
+import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.constrains.deeffectors.ScaleAnimationDeEffector
 
 open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {

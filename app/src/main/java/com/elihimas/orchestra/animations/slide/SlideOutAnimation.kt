@@ -1,7 +1,9 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.slide
 
 import android.graphics.Rect
 import android.view.View
+import com.elihimas.orchestra.animations.AnimationStrategy
+import com.elihimas.orchestra.animations.Direction
 import kotlin.math.absoluteValue
 
 abstract class VerticalSlideOutStrategy(

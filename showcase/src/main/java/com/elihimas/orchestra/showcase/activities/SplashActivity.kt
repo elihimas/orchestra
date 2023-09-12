@@ -168,11 +168,11 @@ class SplashActivity : AppCompatActivity() {
                 val sqr3Translation = (bottomSquareRight.marginRight + bottomSquareRight.width) * -1
 
                 parallel {
-                    on(bottomSquareLeft).translate(sqr1Translation.toFloat(), 0f) {
+                    on(bottomSquareLeft).translateBy(sqr1Translation.toFloat(), 0f) {
                         duration = 800
                     }
 
-                    on(bottomSquareRight).translate(sqr3Translation.toFloat(), 0f) {
+                    on(bottomSquareRight).translateBy(sqr3Translation.toFloat(), 0f) {
                         duration = 800
                     }
                 }

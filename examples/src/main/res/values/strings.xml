@@ -3,18 +3,28 @@
 
     <string name="example_fade">Fade</string>
     <string name="example_slide">Slide</string>
+    <string name="example_translate">Translate</string>
 
     <string name="bt_reset">Reset</string>
     <string name="bt_fadein">Fade in</string>
     <string name="bt_fadeout">Fade out</string>
     <string name="bt_slide_in">Slide in</string>
     <string name="bt_slide_out">Slide out</string>
+    <string name="bt_translate_by">Translate by</string>
+    <string name="bt_translate_to">Translate to (using x,y)</string>
+    <string name="bt_translate_to_reference">Translate to (using reference)</string>
 
     <string name="label_target">This is the target of the animation</string>
     <string name="label_direction_selector">Direction selection</string>
     <string name="label_Interpolator_selector">Interpolator selection</string>
     <string name="label_remaining">Remaining</string>
     <string name="label_start_from_current_position">Start from current position</string>
+    <string name="label_x">x</string>
+    <string name="label_y">y</string>
+
+    <string name="rb_parent">Parent</string>
+    <string name="rb_center_reference">Center reference</string>
+    <string name="rb_right_reference">Right reference</string>
 
     <string name="direction_up">Up</string>
     <string name="direction_down">Down</string>

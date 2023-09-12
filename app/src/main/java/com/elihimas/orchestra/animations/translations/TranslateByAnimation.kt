@@ -1,6 +1,7 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.translations
 
 import android.view.View
+import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 
 class TranslateByAnimation(private val x: Float, private val y: Float) : Animation() {

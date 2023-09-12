@@ -1,4 +1,4 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.colors
 
 import android.view.View
 import androidx.annotation.ColorRes

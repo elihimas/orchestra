@@ -2,21 +2,23 @@ package com.elihimas.orchestra.blocks
 
 import androidx.annotation.ColorRes
 import com.elihimas.orchestra.animations.Animation
-import com.elihimas.orchestra.animations.ChangeBackgroundAnimation
-import com.elihimas.orchestra.animations.ChangeTextColorAnimation
 import com.elihimas.orchestra.animations.CircularRevealAnimation
 import com.elihimas.orchestra.animations.DelayAnimation
 import com.elihimas.orchestra.animations.Direction
-import com.elihimas.orchestra.animations.DirectionalScaleAnimation
 import com.elihimas.orchestra.animations.FadeInAnimation
 import com.elihimas.orchestra.animations.FadeOutAnimation
 import com.elihimas.orchestra.animations.ParallelAnimation
 import com.elihimas.orchestra.animations.RotateAnimation
-import com.elihimas.orchestra.animations.ScaleAnimation
-import com.elihimas.orchestra.animations.SlideAnimation
-import com.elihimas.orchestra.animations.SlideOutAnimation
-import com.elihimas.orchestra.animations.TranslateByAnimation
-import com.elihimas.orchestra.animations.TranslateToAnimation
+import com.elihimas.orchestra.animations.colors.ChangeBackgroundAnimation
+import com.elihimas.orchestra.animations.colors.ChangeTextColorAnimation
+import com.elihimas.orchestra.animations.scale.DirectionalScaleAnimation
+import com.elihimas.orchestra.animations.scale.ScaleAnimation
+import com.elihimas.orchestra.animations.slide.SlideAnimation
+import com.elihimas.orchestra.animations.slide.SlideOutAnimation
+import com.elihimas.orchestra.animations.translations.TranslateByAnimation
+import com.elihimas.orchestra.animations.translations.TranslateToPositionAnimation
+import com.elihimas.orchestra.animations.translations.TranslateToReferenceAnimation
+import com.elihimas.orchestra.references.Reference
 import java.util.LinkedList
 import java.util.function.Consumer
 
@@ -129,11 +131,17 @@ open class AnimationsBlock : Block() {
         add(CircularRevealAnimation(), config)
 
 
-    fun translate(x: Float, y: Float, config: (TranslateByAnimation.() -> Unit)? = null) =
+    fun translateBy(x: Float, y: Float, config: (TranslateByAnimation.() -> Unit)? = null) =
         add(TranslateByAnimation(x, y), config)
 
-    fun translateTo(x: Float, y: Float, config: (TranslateToAnimation.() -> Unit)? = null) =
-        add(TranslateToAnimation(x, y), config)
+    fun translateTo(x: Float, y: Float, config: (TranslateToPositionAnimation.() -> Unit)? = null) =
+        add(TranslateToPositionAnimation(x, y), config)
+
+    fun translateTo(
+        reference: Reference,
+        config: (TranslateToReferenceAnimation.() -> Unit)? = null
+    ) =
+        add(TranslateToReferenceAnimation(reference), config)
 
     fun changeBackground(
         @ColorRes vararg colorResIds: Int,

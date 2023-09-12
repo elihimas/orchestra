@@ -1,6 +1,9 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.scale
 
 import android.view.View
+import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.animations.AnimationStrategy
+import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.constrains.deeffectors.DirectionalScaleAnimationDeEffector
 
 //TODO: fix successive translations translation problem

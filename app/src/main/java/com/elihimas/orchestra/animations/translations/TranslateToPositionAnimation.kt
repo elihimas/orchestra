@@ -1,9 +1,10 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.translations
 
 import android.view.View
+import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 
-class TranslateToAnimation(private val destinationX: Float, private val destinationY: Float) : Animation() {
+class TranslateToPositionAnimation(private val destinationX: Float, private val destinationY: Float) : Animation() {
 
     private var initialX = 0f
     private var initialY = 0f
@@ -39,7 +40,7 @@ class TranslateToAnimation(private val destinationX: Float, private val destinat
     override fun getDeEffector() = TranslationDeEffector
 
     override fun clone(): Any {
-        return TranslateToAnimation(destinationX, destinationY).also { clone ->
+        return TranslateToPositionAnimation(destinationX, destinationY).also { clone ->
             cloneFromTo(this, clone)
         }
     }

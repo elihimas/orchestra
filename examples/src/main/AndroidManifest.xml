@@ -26,6 +26,10 @@
             android:name=".activities.SlideActivity"
             android:exported="true"
             android:label="@string/example_slide" />
+        <activity
+            android:name=".activities.TranslateActivity"
+            android:exported="true"
+            android:label="@string/example_translate"/>
     </application>
 
 </manifest>

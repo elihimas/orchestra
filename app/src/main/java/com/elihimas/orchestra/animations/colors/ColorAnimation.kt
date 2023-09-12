@@ -1,8 +1,9 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.colors
 
 import android.animation.ArgbEvaluator
 import android.view.View
 import androidx.annotation.ColorRes
+import com.elihimas.orchestra.animations.Animation
 
 abstract class ColorAnimation(@ColorRes private val initialColorRes: Int, @ColorRes private val finalColorRes: Int) : Animation() {
 
