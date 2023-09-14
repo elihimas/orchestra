@@ -8,13 +8,15 @@ import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.animations.FadeInAnimation
 import com.elihimas.orchestra.animations.FadeOutAnimation
 import com.elihimas.orchestra.animations.ParallelAnimation
-import com.elihimas.orchestra.animations.RotateAnimation
+import com.elihimas.orchestra.animations.RotateByAnimation
+import com.elihimas.orchestra.animations.RotateToAnimation
 import com.elihimas.orchestra.animations.colors.ChangeBackgroundAnimation
 import com.elihimas.orchestra.animations.colors.ChangeTextColorAnimation
 import com.elihimas.orchestra.animations.scale.DirectionalScaleAnimation
 import com.elihimas.orchestra.animations.scale.ScaleAnimation
 import com.elihimas.orchestra.animations.slide.SlideAnimation
 import com.elihimas.orchestra.animations.slide.SlideOutAnimation
+import com.elihimas.orchestra.animations.translations.ResetTranslationAnimation
 import com.elihimas.orchestra.animations.translations.TranslateByAnimation
 import com.elihimas.orchestra.animations.translations.TranslateToPositionAnimation
 import com.elihimas.orchestra.animations.translations.TranslateToReferenceAnimation
@@ -143,6 +145,10 @@ open class AnimationsBlock : Block() {
     ) =
         add(TranslateToReferenceAnimation(reference), config)
 
+    fun resetTranslation(config: (ResetTranslationAnimation.() -> Unit)? = null
+    ) =
+        add(ResetTranslationAnimation(), config)
+
     fun changeBackground(
         @ColorRes vararg colorResIds: Int,
         config: (ChangeBackgroundAnimation.() -> Unit)? = null
@@ -191,12 +197,15 @@ open class AnimationsBlock : Block() {
     fun changeTextColor(@ColorRes vararg colorResIds: Int) =
         changeTextColor(*colorResIds, config = null)
 
-    fun rotate(
+    fun rotateBy(
         angle: Float,
-        config: (RotateAnimation.() -> Unit)? = null
-    ) = add(RotateAnimation(angle), config)
+        config: (RotateByAnimation.() -> Unit)? = null
+    ) = add(RotateByAnimation(angle), config)
 
-    fun rotate(angle: Float) = rotate(angle, config = null)
+    fun rotateTo(
+        angle: Float,
+        config: (RotateToAnimation.() -> Unit)? = null
+    ) = add(RotateToAnimation(angle), config)
 
 
     fun delay(

@@ -13,14 +13,17 @@ import com.elihimas.orchestra.OrchestraContext
 import com.elihimas.orchestra.examples.R
 import com.elihimas.orchestra.examples.databinding.ActivityTranslateBinding
 import com.elihimas.orchestra.references.TranslationReference
+import com.elihimas.orchestra.references.absoluteCenterOf
 import com.elihimas.orchestra.references.bottomToBottomOf
 import com.elihimas.orchestra.references.bottomToTopOf
 import com.elihimas.orchestra.references.endToEndOf
 import com.elihimas.orchestra.references.endToStartOf
+import com.elihimas.orchestra.references.horizontalCenterOf
 import com.elihimas.orchestra.references.startToEndOf
 import com.elihimas.orchestra.references.startToStartOf
 import com.elihimas.orchestra.references.topToBottomOf
 import com.elihimas.orchestra.references.topToTopOf
+import com.elihimas.orchestra.references.verticalCenterOf
 
 enum class TranslateMode {
     TranslateBy, TranslateTo, TranslateByReference
@@ -123,10 +126,9 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun onResetClicked() = with(binding) {
-        val resetableViews = listOf(tvTarget, rightMarker, leftMarker, topMarker, bottomMarker)
-        resetableViews.forEach { view ->
-            view.translationX = 0f
-            view.translationY = 0f
+        Orchestra.launch {
+            on(tvTarget)
+                .resetTranslation()
         }
     }
 
@@ -170,6 +172,8 @@ class TranslateActivity : AppCompatActivity() {
                 2 -> startToEndOf(referenceView)
                 3 -> endToStartOf(referenceView)
                 4 -> endToEndOf(referenceView)
+                5 -> horizontalCenterOf(referenceView)
+                6 -> absoluteCenterOf(referenceView)
                 else -> TODO()
             }
         } else {
@@ -187,6 +191,7 @@ class TranslateActivity : AppCompatActivity() {
                 2 -> topToBottomOf(referenceView)
                 3 -> bottomToTopOf(referenceView)
                 4 -> bottomToBottomOf(referenceView)
+                5 -> verticalCenterOf(referenceView)
                 else -> TODO()
             }
         } else {

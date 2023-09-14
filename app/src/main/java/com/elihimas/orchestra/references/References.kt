@@ -34,9 +34,22 @@ fun bottomToBottomOf(target: View): TranslationReference {
     return SingleTranslationReference(target, ReferenceType.bottomToBottom)
 }
 
+fun horizontalCenterOf(target: View): TranslationReference {
+    return SingleTranslationReference(target, ReferenceType.horizontalCenterOf)
+}
+
+fun verticalCenterOf(target: View): TranslationReference {
+    return SingleTranslationReference(target, ReferenceType.verticalCenterOf)
+}
+
+fun absoluteCenterOf(target: View): TranslationReference {
+    return SingleTranslationReference(target, ReferenceType.absoluteCenterOf)
+}
+
 enum class ReferenceType {
     startToStartOf, startToEndOf, endToStartOf, endToEndOf,
     topToTopOf, topToBottomOf, bottomTotopOf, bottomToBottom,
+    horizontalCenterOf, verticalCenterOf, absoluteCenterOf,
 }
 
 interface TranslationReference {
@@ -84,6 +97,20 @@ data class SingleTranslationReference(val target: View, val type: ReferenceType)
 
             ReferenceType.bottomToBottom -> {
                 y = target.y + target.height - view.height
+            }
+
+
+            ReferenceType.horizontalCenterOf -> {
+                x = target.x + target.width / 2 - view.width / 2
+            }
+
+            ReferenceType.verticalCenterOf -> {
+                y = target.y + target.height / 2 - view.height / 2
+            }
+
+            ReferenceType.absoluteCenterOf -> {
+                x = target.x + target.width / 2 - view.width / 2
+                y = target.y + target.height / 2 - view.height / 2
             }
         }
 

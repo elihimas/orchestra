@@ -1,9 +1,11 @@
 package com.elihimas.orchestra.showcase.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.Direction
+import com.elihimas.orchestra.references.startToStartOf
+import com.elihimas.orchestra.references.verticalCenterOf
 import com.elihimas.orchestra.showcase.R
 import com.elihimas.orchestra.showcase.databinding.ActivityLoginWithRegisterBinding
 
@@ -44,19 +46,45 @@ class LoginWithRegisterActivity : AppCompatActivity() {
 
     private fun navigateToLogin() = with(binding) {
         Orchestra.launch {
-            on(loginContainer).slideIn(Direction.Right) {
-                duration = 600
-                startFromCurrentPosition = true
+            parallel {
+                on(loginContainer).slideIn(Direction.Right) {
+                    duration = 600
+                    startFromCurrentPosition = true
+                }
+
+                on(btLogin)
+                    .parallel {
+                        rotateTo(0f) {
+                            duration = 600
+                        }
+                        resetTranslation {
+                            duration = 600
+                        }
+                    }
             }
         }
     }
 
     private fun navigateToRegister() = with(binding) {
         Orchestra.launch {
-            on(loginContainer).slideOut(Direction.Left) {
-                duration = 600
-                remainingSpace = resources.getDimension(R.dimen.margin50)
-                startFromCurrentPosition = true
+            parallel {
+                on(loginContainer).slideOut(Direction.Left) {
+                    duration = 600
+                    remainingSpace = resources.getDimension(R.dimen.margin50)
+                    startFromCurrentPosition = true
+                }
+
+                on(btLogin)
+                    .parallel {
+                        rotateTo(90f) {
+                            duration = 600
+                        }
+                        translateTo(
+                            startToStartOf(binding.root) + verticalCenterOf(binding.root)
+                        ) {
+                            duration = 600
+                        }
+                    }
             }
         }
     }

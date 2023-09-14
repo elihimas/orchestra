@@ -12,6 +12,8 @@
         <item>startToEndOf</item>
         <item>endToStartOf</item>
         <item>endToEndOf</item>
+        <item>horizontalCenterOf</item>
+        <item>absoluteCenterOf</item>
     </string-array>
 
     <string-array name="vertical_translate_type">
@@ -20,5 +22,6 @@
         <item>topToBottomOf</item>
         <item>bottomToTopOf</item>
         <item>bottomToBottomOf</item>
+        <item>verticalCenterOf</item>
     </string-array>
 </resources>

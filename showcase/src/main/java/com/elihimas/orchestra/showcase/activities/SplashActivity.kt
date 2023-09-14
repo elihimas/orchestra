@@ -51,7 +51,7 @@ class SplashActivity : AppCompatActivity() {
 
                 parallel {
                     on(sqr1)
-                        .rotate(180f) {
+                        .rotateBy(180f) {
                             duration = 300
                         }
                         .scale(2f) {
@@ -62,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
                         .scale(2f) {
                             duration = 400
                         }
-                        .rotate(180f) {
+                        .rotateBy(180f) {
                             duration = 300
                         }
 
@@ -70,7 +70,7 @@ class SplashActivity : AppCompatActivity() {
                         .scale(2f) {
                             duration = 600
                         }
-                        .rotate(720f) {
+                        .rotateBy(720f) {
                             duration = 800
                         }
                 }
