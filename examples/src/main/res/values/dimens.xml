@@ -4,5 +4,6 @@
     <dimen name="targetViewHeight">100dp</dimen>
     <dimen name="targetViewTextSize">18sp</dimen>
 
+    <dimen name="mediumText">18sp</dimen>
     <dimen name="bigText">22sp</dimen>
 </resources>

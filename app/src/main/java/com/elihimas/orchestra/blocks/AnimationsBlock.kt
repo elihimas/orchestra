@@ -18,7 +18,7 @@ import com.elihimas.orchestra.animations.slide.SlideOutAnimation
 import com.elihimas.orchestra.animations.translations.TranslateByAnimation
 import com.elihimas.orchestra.animations.translations.TranslateToPositionAnimation
 import com.elihimas.orchestra.animations.translations.TranslateToReferenceAnimation
-import com.elihimas.orchestra.references.Reference
+import com.elihimas.orchestra.references.TranslationReference
 import java.util.LinkedList
 import java.util.function.Consumer
 
@@ -138,7 +138,7 @@ open class AnimationsBlock : Block() {
         add(TranslateToPositionAnimation(x, y), config)
 
     fun translateTo(
-        reference: Reference,
+        reference: TranslationReference,
         config: (TranslateToReferenceAnimation.() -> Unit)? = null
     ) =
         add(TranslateToReferenceAnimation(reference), config)

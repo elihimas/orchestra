@@ -18,129 +18,275 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/rightMarker"
+        android:layout_width="20dp"
+        android:layout_height="20sp"
+        android:background="#00f"
+        app:layout_constraintBottom_toBottomOf="@id/tvTarget"
+        app:layout_constraintStart_toEndOf="@id/tvTarget"
+        app:layout_constraintTop_toTopOf="@id/tvTarget" />
+
+    <View
+        android:id="@+id/leftMarker"
+        android:layout_width="20dp"
+        android:layout_height="20sp"
+        android:background="#00f"
+        app:layout_constraintBottom_toBottomOf="@id/tvTarget"
+        app:layout_constraintEnd_toStartOf="@id/tvTarget"
+        app:layout_constraintTop_toTopOf="@id/tvTarget" />
+
+    <View
+        android:id="@+id/topMarker"
+        android:layout_width="20dp"
+        android:layout_height="20sp"
+        android:background="#00f"
+        app:layout_constraintBottom_toTopOf="@id/tvTarget"
+        app:layout_constraintEnd_toEndOf="@id/tvTarget"
+        app:layout_constraintStart_toStartOf="@id/tvTarget" />
+
+    <View
+        android:id="@+id/bottomMarker"
+        android:layout_width="20dp"
+        android:layout_height="20sp"
+        android:background="#00f"
+        app:layout_constraintEnd_toEndOf="@id/tvTarget"
+        app:layout_constraintStart_toStartOf="@id/tvTarget"
+        app:layout_constraintTop_toBottomOf="@id/tvTarget" />
+
     <TextView
         android:id="@+id/tvCenterReference"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
+        android:layout_marginTop="100dp"
+        android:alpha="0.7"
+        android:background="@color/orangeDark"
         android:padding="10dp"
-        android:text="center reference"
+        android:text="@string/label_center_reference"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/etX"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="7dp"
-        app:layout_constraintBottom_toTopOf="@id/etX"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/label_type_of_translation"
+        app:layout_constraintBottom_toTopOf="@+id/rgTranslationType"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvLabelX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/label_x"
-        android:textSize="@dimen/bigText"
-        app:layout_constraintBottom_toBottomOf="@id/etX"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etX" />
-
-    <EditText
-        android:id="@+id/etX"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        android:textSize="@dimen/bigText"
-        app:layout_constraintBottom_toTopOf="@+id/etY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvLabelX" />
-
-
-    <TextView
-        android:id="@+id/tvLabelY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/label_y"
-        app:layout_constraintBottom_toBottomOf="@+id/etY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etY" />
-
-    <EditText
-        android:id="@+id/etY"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/rgReferences"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvLabelY" />
-
     <RadioGroup
-        android:id="@+id/rgReferences"
+        android:id="@+id/rgTranslationType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/btReset"
+        app:layout_constraintBottom_toTopOf="@id/containersBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioButton
-            android:id="@+id/rbParent"
+            android:id="@+id/rbTranslateBy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/rb_parent" />
+            android:text="@string/bt_translate_by" />
 
         <RadioButton
-            android:id="@+id/rbCenterReference"
+            android:id="@+id/rbTranslateTo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_center_reference" />
+            android:text="@string/bt_translate_to" />
 
         <RadioButton
-            android:id="@+id/rbRightReference"
+            android:id="@+id/rbTranslateToReference"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rb_right_reference" />
+            android:text="@string/bt_translate_to_reference" />
+
     </RadioGroup>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/containersBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="positionalControlsContainer,refereceControlsContainer" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/positionalControlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tvStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvLabelX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/label_x"
+            android:textSize="@dimen/bigText"
+            app:layout_constraintBottom_toBottomOf="@id/etX"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etX" />
+
+        <EditText
+            android:id="@+id/etX"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:textSize="@dimen/bigText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvLabelX"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLabelY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/label_y"
+            android:textSize="@dimen/bigText"
+            app:layout_constraintBottom_toBottomOf="@+id/etY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etY" />
+
+        <EditText
+            android:id="@+id/etY"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvLabelY"
+            app:layout_constraintTop_toBottomOf="@id/etX" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/refereceControlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/tvStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvHorizontalReference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_horizontal_reference"
+            android:textSize="@dimen/mediumText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spHorizontalReference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvHorizontalReference"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHorizontalTranslateType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_translate_type"
+            android:textSize="@dimen/mediumText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spHorizontalReference" />
+
+        <Spinner
+            android:id="@+id/spHorizontalTranslateType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvHorizontalTranslateType"
+            app:layout_constraintTop_toBottomOf="@id/spHorizontalReference" />
+
+
+        <TextView
+            android:id="@+id/tvVerticalReference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/label_vertical_reference"
+            android:textSize="@dimen/mediumText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHorizontalTranslateType" />
+
+        <Spinner
+            android:id="@+id/spVerticalReference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvHorizontalReference"
+            app:layout_constraintTop_toTopOf="@id/tvVerticalReference" />
+
+        <TextView
+            android:id="@+id/tvVerticalTranslateType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_translate_type"
+            android:textSize="@dimen/mediumText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spVerticalReference" />
+
+        <Spinner
+            android:id="@+id/spVerticalTranslateType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvVerticalTranslateType"
+            app:layout_constraintTop_toBottomOf="@id/spVerticalReference" />
+
+
+        <!--        <RadioGroup-->
+        <!--            android:id="@+id/rgReferences"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content">-->
+
+        <!--            <RadioButton-->
+        <!--                android:id="@+id/rbParent"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:checked="true"-->
+        <!--                android:text="@string/rb_parent" />-->
+
+        <!--            <RadioButton-->
+        <!--                android:id="@+id/rbCenterReference"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/rb_center_reference" />-->
+
+        <!--            <RadioButton-->
+        <!--                android:id="@+id/rbRightReference"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/rb_right_reference" />-->
+        <!--        </RadioGroup>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        app:layout_constraintBottom_toTopOf="@id/btReset"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bt_reset"
-        app:layout_constraintBottom_toTopOf="@id/btTranslateBy"
+        app:layout_constraintBottom_toTopOf="@id/btTranslate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btTranslateBy"
+        android:id="@+id/btTranslate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bt_translate_by"
-        app:layout_constraintBottom_toTopOf="@id/btTranslateToPosition"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btTranslateToPosition"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bt_translate_to"
-        app:layout_constraintBottom_toTopOf="@id/btTranslateToReference"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btTranslateToReference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bt_translate_to_reference"
+        android:text="@string/bt_translate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
