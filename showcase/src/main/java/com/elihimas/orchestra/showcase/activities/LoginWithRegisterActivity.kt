@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.Direction
-import com.elihimas.orchestra.references.absoluteCenterOf
 import com.elihimas.orchestra.references.horizontalCenterOf
 import com.elihimas.orchestra.references.verticalCenterOf
 import com.elihimas.orchestra.showcase.R
@@ -47,7 +46,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
 
     private fun navigateToLogin() = with(binding) {
         val animationDuration = 400L
-        
+
         Orchestra.launch {
             parallel {
                 on(loginContainer).slideIn(Direction.Right) {
@@ -63,7 +62,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                         resetTranslation {
                             duration = animationDuration
                         }
-                        scale(1f){
+                        scale(1f) {
                             duration = animationDuration
                         }
                     }
@@ -76,9 +75,14 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                         resetTranslation {
                             duration = animationDuration
                         }
-                        scale(0.7f){
+                        scale(0.7f) {
                             duration = animationDuration
                         }
+                    }
+
+                on(tvTitle)
+                    .translateTo(horizontalCenterOf(loginCenter)) {
+                        duration = animationDuration
                     }
             }
         }
@@ -96,7 +100,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                 }
 
                 on(btRegister).parallel {
-                    translateTo(absoluteCenterOf(btLogin)) {
+                    translateTo(verticalCenterOf(btLogin) + horizontalCenterOf(registerCenter)) {
                         duration = animationDuration
                     }
                     rotateTo(0f) {
@@ -109,7 +113,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
 
                 on(btLogin)
                     .parallel {
-                        rotateTo(90f) {
+                        rotateTo(-90f) {
                             duration = animationDuration
                         }
                         translateTo(
@@ -120,6 +124,11 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                         scale(0.7f) {
                             duration = animationDuration
                         }
+                    }
+
+                on(tvTitle)
+                    .translateTo(horizontalCenterOf(registerCenter)) {
+                        duration = animationDuration
                     }
             }
         }

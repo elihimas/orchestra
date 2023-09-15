@@ -7,6 +7,29 @@
     tools:context=".activities.LoginWithRegisterActivity">
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Space
+        android:id="@+id/loginCenter"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/login_half_margin"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/verticalGuideline" />
+
+    <Space
+        android:id="@+id/registerCenter"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/login_half_margin"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/verticalGuideline" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,8 +136,8 @@
         android:text="@string/bt_login"
         android:textSize="44sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/loginCenter"
+        app:layout_constraintStart_toStartOf="@id/loginCenter" />
 
     <Button
         android:id="@+id/btRegister"
@@ -129,6 +152,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/rightGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:textSize="@dimen/large_text"
+        android:text="@string/orchestra"
+        android:textColor="#dfff"
+        app:layout_constraintEnd_toEndOf="@id/loginCenter"
+        app:layout_constraintStart_toStartOf="@id/loginCenter"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="large_text">40dp</dimen>
+
     <dimen name="login_margin">70dp</dimen>
     <dimen name="login_half_margin">35dp</dimen>
 </resources>
