@@ -2,7 +2,6 @@ package com.elihimas.orchestra.java
 
 import android.view.View
 import com.elihimas.orchestra.SetupContext
-import com.elihimas.orchestra.blocks.ParallelBlock
 import java.util.function.Consumer
 
 class Orchestra : com.elihimas.orchestra.Orchestra() {
@@ -18,7 +17,7 @@ class Orchestra : com.elihimas.orchestra.Orchestra() {
     }
 
     fun then(block: Runnable) {
-        then {
+        andThen {
             block.run()
         }
     }

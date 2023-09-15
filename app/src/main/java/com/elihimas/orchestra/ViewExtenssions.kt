@@ -38,7 +38,7 @@ fun TextView.setTextFading(
             duration = configuration.fadeoutDuration
             interpolator = configuration.fadeoutInterpolator
         }
-    }.then {
+    }.andThen {
         this.text = text
 
         Orchestra.launch {
@@ -128,7 +128,7 @@ fun View.scale(
             duration = configuration.scaleOutDuration
             interpolator = configuration.scaleOutInterpolator
         }
-    }.then {
+    }.andThen {
         operation()
 
         Orchestra.launch {

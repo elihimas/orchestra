@@ -17,7 +17,7 @@ interface OrchestraContext {
     fun delay(duration: Int)
     fun on(vararg views: View): ViewReference
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
-    fun then(block: () -> Unit)
+    fun andThen(block: () -> Unit)
     fun createAnimation(): AnimationsBlock
 }
 
@@ -63,7 +63,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
     //TODO this should be a block for two reasons:
     // if two then are called all blocks will be run together even if one of the blocks finishes first
     // executionLatch will be unnecessary
-    override fun then(block: () -> Unit) {
+    override fun andThen(block: () -> Unit) {
         GlobalScope.launch {
             executionLatch.await()
             GlobalScope.launch(Dispatchers.Main) {

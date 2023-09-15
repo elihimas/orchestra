@@ -156,7 +156,7 @@ class RunAndCodeControls(context: Context, private val attrs: AttributeSet? = nu
                     finalAlpha = showButtonAlpha
                 }
             }
-        }.then {
+        }.andThen {
             tvCodeContainer.visibility = GONE
         }
     }

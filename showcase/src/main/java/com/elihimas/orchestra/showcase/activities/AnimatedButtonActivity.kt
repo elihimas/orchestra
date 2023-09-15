@@ -104,7 +104,7 @@ class AnimatedButtonActivity : AppCompatActivity() {
                         interpolator = AccelerateInterpolator()
                     }
             }
-        }.then {
+        }.andThen {
             enableDisableView.forEach { view ->
                 view.isEnabled = true
             }

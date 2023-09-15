@@ -188,7 +188,7 @@ class SplashActivity : AppCompatActivity() {
                         duration = 800
                     }
             }
-                .then {
+                .andThen {
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     finish()
                 }

@@ -80,7 +80,7 @@ class TranslateActivity : AppCompatActivity() {
     }
 
     private fun onApplyClicked() {
-        toggleSettings().then {
+        toggleSettings().andThen {
             updateShowConstrainedElement()
             updateInterpolator()
         }
