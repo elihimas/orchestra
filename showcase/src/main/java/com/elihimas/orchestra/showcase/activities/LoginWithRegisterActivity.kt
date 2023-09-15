@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.animations.Direction
-import com.elihimas.orchestra.references.startToStartOf
+import com.elihimas.orchestra.references.absoluteCenterOf
+import com.elihimas.orchestra.references.horizontalCenterOf
 import com.elihimas.orchestra.references.verticalCenterOf
 import com.elihimas.orchestra.showcase.R
 import com.elihimas.orchestra.showcase.databinding.ActivityLoginWithRegisterBinding
@@ -45,20 +46,38 @@ class LoginWithRegisterActivity : AppCompatActivity() {
 
 
     private fun navigateToLogin() = with(binding) {
+        val animationDuration = 400L
+        
         Orchestra.launch {
             parallel {
                 on(loginContainer).slideIn(Direction.Right) {
-                    duration = 600
+                    duration = animationDuration
                     startFromCurrentPosition = true
                 }
 
                 on(btLogin)
                     .parallel {
                         rotateTo(0f) {
-                            duration = 600
+                            duration = animationDuration
                         }
                         resetTranslation {
-                            duration = 600
+                            duration = animationDuration
+                        }
+                        scale(1f){
+                            duration = animationDuration
+                        }
+                    }
+
+                on(btRegister)
+                    .parallel {
+                        rotateTo(-90f) {
+                            duration = animationDuration
+                        }
+                        resetTranslation {
+                            duration = animationDuration
+                        }
+                        scale(0.7f){
+                            duration = animationDuration
                         }
                     }
             }
@@ -66,23 +85,40 @@ class LoginWithRegisterActivity : AppCompatActivity() {
     }
 
     private fun navigateToRegister() = with(binding) {
+        val animationDuration = 400L
+
         Orchestra.launch {
             parallel {
                 on(loginContainer).slideOut(Direction.Left) {
-                    duration = 600
-                    remainingSpace = resources.getDimension(R.dimen.margin50)
+                    duration = animationDuration
+                    remainingSpace = resources.getDimension(R.dimen.login_margin)
                     startFromCurrentPosition = true
+                }
+
+                on(btRegister).parallel {
+                    translateTo(absoluteCenterOf(btLogin)) {
+                        duration = animationDuration
+                    }
+                    rotateTo(0f) {
+                        duration = animationDuration
+                    }
+                    scale(1f) {
+                        duration = animationDuration
+                    }
                 }
 
                 on(btLogin)
                     .parallel {
                         rotateTo(90f) {
-                            duration = 600
+                            duration = animationDuration
                         }
                         translateTo(
-                            startToStartOf(binding.root) + verticalCenterOf(binding.root)
+                            horizontalCenterOf(leftGuideline) + verticalCenterOf(root)
                         ) {
-                            duration = 600
+                            duration = animationDuration
+                        }
+                        scale(0.7f) {
+                            duration = animationDuration
                         }
                     }
             }

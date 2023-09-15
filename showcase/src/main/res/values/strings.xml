@@ -11,6 +11,12 @@
     <string name="example_translation">Translation</string>
     <string name="example_scale">Scale</string>
 
+    <string name="bt_login">Login</string>
+    <string name="bt_register">Register</string>
+
+    <string name="hint_login">login</string>
+    <string name="hint_password">password</string>
+    <string name="hint_confirm_password">confirm password</string>
 
     <string name="login">Login</string>
 

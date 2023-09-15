@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LoginEditText">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:backgroundTint">#bfff</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="LoginEditText.Login" parent="LoginEditText">
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="LoginEditText.Password" parent="LoginEditText">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+</resources>
