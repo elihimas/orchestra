@@ -80,7 +80,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                         }
                     }
 
-                on(tvTitle)
+                on(tvTitle, socialLoginContainer)
                     .translateTo(horizontalCenterOf(loginCenter)) {
                         duration = animationDuration
                     }
@@ -126,7 +126,7 @@ class LoginWithRegisterActivity : AppCompatActivity() {
                         }
                     }
 
-                on(tvTitle)
+                on(tvTitle, socialLoginContainer)
                     .translateTo(horizontalCenterOf(registerCenter)) {
                         duration = animationDuration
                     }

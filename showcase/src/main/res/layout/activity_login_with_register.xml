@@ -134,6 +134,7 @@
         android:layout_marginBottom="150dp"
         android:background="@android:color/transparent"
         android:text="@string/bt_login"
+        android:textColor="#cfff"
         android:textSize="44sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/loginCenter"
@@ -148,22 +149,51 @@
         android:scaleX="0.7"
         android:scaleY="0.7"
         android:text="@string/bt_register"
+        android:textColor="#cfff"
         android:textSize="44sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/rightGuideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <!--    android:textColor="#dfff"-->
+    <ImageView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:textSize="@dimen/large_text"
-        android:text="@string/orchestra"
-        android:textColor="#dfff"
+        android:src="@drawable/round_letter_o"
+
         app:layout_constraintEnd_toEndOf="@id/loginCenter"
         app:layout_constraintStart_toStartOf="@id/loginCenter"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/socialLoginContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+
+        app:layout_constraintEnd_toEndOf="@id/loginCenter"
+        app:layout_constraintStart_toStartOf="@id/loginCenter"
+        app:layout_constraintTop_toBottomOf="@id/btLogin">
+
+        <ImageView
+            android:id="@+id/ivFacebook"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/facebook_round_icon" />
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/ivTwitter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/twitter_round_icon" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
