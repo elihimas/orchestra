@@ -11,7 +11,7 @@ object Examples {
         Example(FadeActivity::class.java, R.string.example_fade),
         Example(SlideActivity::class.java, R.string.example_slide),
         Example(TranslateActivity::class.java, R.string.example_translate),
-        Example(SpacingActivity::class.java, R.string.example_translate),
+        Example(SpacingActivity::class.java, R.string.example_spacing),
     )
 
 }
