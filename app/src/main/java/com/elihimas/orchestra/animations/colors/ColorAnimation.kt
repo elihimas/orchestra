@@ -11,7 +11,7 @@ abstract class ColorAnimation(@ColorRes private val initialColorRes: Int, @Color
     protected var initialColor: Int = 0
     protected var finalColor: Int = 0
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         val context = views[0].context
 
         initialColor = context.getColor(initialColorRes)

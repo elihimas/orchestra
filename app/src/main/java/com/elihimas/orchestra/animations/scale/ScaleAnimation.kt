@@ -11,7 +11,7 @@ open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
     private var valueDeltaX = 0f
     private var valueDeltaY = 0f
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         initialScaleX = views[0].scaleX
         initialScaleY = views[0].scaleY
         valueDeltaX = scaleX - initialScaleX

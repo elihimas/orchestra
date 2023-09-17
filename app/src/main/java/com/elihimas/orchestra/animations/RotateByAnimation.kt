@@ -7,7 +7,7 @@ class RotateByAnimation(var angle: Float) : Animation() {
     private var initialRotation = 0f
     private var valueDelta = 0f
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         initialRotation = views[0].rotation
         valueDelta = angle
     }

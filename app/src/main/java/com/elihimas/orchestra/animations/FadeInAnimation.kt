@@ -8,7 +8,7 @@ open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float =
 
     private var valueDelta = 0f
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         valueDelta = finalAlpha - initialAlpha
         views.forEach { view -> view.isVisible = true }
     }

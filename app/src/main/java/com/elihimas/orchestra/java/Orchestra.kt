@@ -6,7 +6,7 @@ import java.util.function.Consumer
 
 class Orchestra : com.elihimas.orchestra.Orchestra() {
 
-    override fun on(vararg views: View): ViewReference = ViewReference(*views).apply {
+    override fun on(vararg views: View): ViewReference = ViewReference(views.asList()).apply {
         blocks.add(this)
     }
 

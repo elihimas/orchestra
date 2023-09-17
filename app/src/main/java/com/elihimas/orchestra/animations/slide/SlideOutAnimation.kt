@@ -13,7 +13,7 @@ abstract class VerticalSlideOutStrategy(
 
     private var initialPush = 0f
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialPush = if (startFromCurrentPosition) {
              views[0].translationY.absoluteValue
         } else {
@@ -56,7 +56,7 @@ class SlideOutRightStrategy(remainingWidth: Float, startFromCurrentPosition: Boo
         startFromCurrentPosition
     ) {
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialTranslationX = if (startFromCurrentPosition) {
             views[0].translationX
         } else {
@@ -79,7 +79,7 @@ class SlideOutLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Bool
         startFromCurrentPosition
     ) {
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialTranslationX = if (startFromCurrentPosition) {
             -views[0].translationX
         } else {
@@ -114,7 +114,7 @@ class SlideOutAnimation(direction: Direction) : SlideAnimation(direction) {
         }
     }
 
-    override fun afterAnimation(vararg views: View) {
+    override fun afterAnimation(views: List<View>) {
         if (remainingSpace == 0f) {
             views.forEach { view -> view.visibility = View.INVISIBLE }
         }

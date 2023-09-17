@@ -13,7 +13,7 @@ class TranslateToPositionAnimation(private val destinationX: Float, private val 
 
     var areCoordinatesCenter = false
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         initialX = views[0].x
         initialY = views[0].y
 

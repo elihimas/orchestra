@@ -10,14 +10,14 @@ class TranslateToReferenceAnimation(private val reference: TranslationReference)
 
     private lateinit var translateDelegate: TranslateToPositionAnimation
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         val point = reference.getPointFor(views[0])
 
         val destinationX = point.destinationX ?: views[0].x
         val destinationY = point.destinationY ?: views[0].y
 
         translateDelegate = TranslateToPositionAnimation(destinationX, destinationY)
-        translateDelegate.beforeAnimation(*views)
+        translateDelegate.beforeAnimation(views)
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) {

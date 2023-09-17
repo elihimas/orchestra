@@ -4,7 +4,7 @@ import android.view.View
 import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.constrains.References
 
-open class ViewReference(private vararg val views: View) : AnimationsBlock() {
+open class ViewReference(private val views: List<View>) : AnimationsBlock() {
 
     override fun updateAnimationTimeBounds() {
         var previousAnimationStart = start
@@ -37,7 +37,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
         while (currentAnimations.peekFirst()?.let { time >= it.end } == true) {
             val pastAnimation = currentAnimations.removeFirst()
 
-            pastAnimation.finishAnimation(*views)
+            pastAnimation.finishAnimation(views)
         }
     }
 
@@ -74,7 +74,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
             time >= animations[nextAnimationIndex].start
         ) {
             val nextAnimation = animations[nextAnimationIndex]
-            nextAnimation.beforeAnimation(*views)
+            nextAnimation.beforeAnimation(views)
 
             views.forEach {view->
                 view.initAffectedViewsIfNecessary(nextAnimation)
@@ -89,7 +89,7 @@ open class ViewReference(private vararg val views: View) : AnimationsBlock() {
 
     override fun forever(block: AnimationsBlock.() -> Unit) {
         hasForeverAnimation = true
-        ViewReference(*views).also { animations ->
+        ViewReference(views).also { animations ->
             block.invoke(animations)
             val foreverAnimation = ForeverAnimation(animations)
             this.animations.add(foreverAnimation)

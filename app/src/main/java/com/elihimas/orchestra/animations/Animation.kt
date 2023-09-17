@@ -30,9 +30,9 @@ abstract class Animation(
     //TODO: review all init implementations to add support
     // to animate on multiple views
     // if an animation needs an view initialization the animation need to store each view data
-    open fun beforeAnimation(vararg views: View) {}
+    open fun beforeAnimation(views: List<View>) {}
 
-    open fun afterAnimation(vararg views: View) {}
+    open fun afterAnimation(views: List<View>) {}
 
     open fun runAnimation(view: View, endAction: Runnable?) {
         addAnimation(view, view.animate().also {
@@ -71,11 +71,11 @@ abstract class Animation(
         end = start + duration
     }
 
-    open fun finishAnimation(vararg views: View) {
+    open fun finishAnimation(views: List<View>) {
         views.forEach { view ->
             updateAnimationByProportion(view, 1f)
         }
-        afterAnimation(*views)
+        afterAnimation(views)
     }
 
     open fun getDeEffector(): DeEffector? = null

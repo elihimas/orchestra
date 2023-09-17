@@ -8,7 +8,8 @@ class ResetTranslationAnimation() : Animation() {
 
     private var translationXDelta: Float = 0f
     private var translationYDelta: Float = 0f
-    override fun beforeAnimation(vararg views: View) {
+
+    override fun beforeAnimation(views: List<View>) {
         translationXDelta = views[0].translationX
         translationYDelta = views[0].translationY
     }

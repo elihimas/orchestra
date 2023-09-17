@@ -9,7 +9,7 @@ class TranslateByAnimation(private val x: Float, private val y: Float) : Animati
     private var initialX = 0f
     private var initialY = 0f
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         initialX = views[0].translationX
         initialY = views[0].translationY
     }

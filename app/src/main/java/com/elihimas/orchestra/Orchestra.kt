@@ -40,7 +40,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
 
     override fun createAnimation() = AnimationsBlock()
 
-    override fun on(vararg views: View) = ViewReference(*views).apply {
+    override fun on(vararg views: View) = ViewReference(views.asList()).apply {
         blocks.add(this)
     }
 

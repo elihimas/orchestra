@@ -23,7 +23,7 @@ abstract class VerticalSlideInStrategy(
 
     var initialVisibleHeight = 0f
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialVisibleHeight = if (startFromCurrentPosition) {
             views[0].height - views[0].translationY.absoluteValue
         } else {
@@ -62,7 +62,7 @@ class SlideInDownStrategy(remainingHeight: Float, startFromCurrentPosition: Bool
 
 class SlideInLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
     HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialTranslationX = if (startFromCurrentPosition) {
             views[0].translationX
         } else {
@@ -82,7 +82,7 @@ class SlideInLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boole
 
 class SlideInRightStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
     HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialTranslationX = if (startFromCurrentPosition) {
             views[0].translationX
         } else {
@@ -122,12 +122,12 @@ open class SlideAnimation(
         }
     }
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         slideStrategy = createSlideStrategy()
 
         views.forEach { view -> view.visibility = View.VISIBLE }
 
-        slideStrategy.init(*views)
+        slideStrategy.init(views)
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) =

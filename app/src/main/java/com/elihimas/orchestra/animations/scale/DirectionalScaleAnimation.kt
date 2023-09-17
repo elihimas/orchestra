@@ -14,7 +14,7 @@ abstract class VerticalStrategy(private var scaleY: Float) : AnimationStrategy {
     private var deltaY: Float = 0f
     private var valueDeltaY = 0f
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialHeight = views[0].height
         initialScaleY = views[0].scaleY
         valueDeltaY = scaleY - initialScaleY
@@ -43,7 +43,7 @@ abstract class HorizontalStrategy(var scaleX: Float) : AnimationStrategy {
     private var deltaX: Float = 0f
     private var valueDeltaX = 0f
 
-    override fun init(vararg views: View) {
+    override fun init(views: List<View>) {
         initialWidth = views[0].width
         initialScaleX = views[0].scaleX
         valueDeltaX = scaleX - initialScaleX
@@ -104,8 +104,8 @@ class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : An
         Direction.Right -> RightStrategy(scale)
     }
 
-    override fun beforeAnimation(vararg views: View) {
-        animationStrategy.init(*views)
+    override fun beforeAnimation(views: List<View>) {
+        animationStrategy.init(views)
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) =

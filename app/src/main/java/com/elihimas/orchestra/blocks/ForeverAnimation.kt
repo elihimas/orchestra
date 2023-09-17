@@ -26,9 +26,9 @@ class ForeverAnimation(val animations: ViewReference) : Animation() {
         return animations.calculateDuration()
     }
 
-    override fun beforeAnimation(vararg views: View) {
+    override fun beforeAnimation(views: List<View>) {
         animations.animations.forEach { animation ->
-            animation.beforeAnimation(*views)
+            animation.beforeAnimation(views)
         }
     }
 

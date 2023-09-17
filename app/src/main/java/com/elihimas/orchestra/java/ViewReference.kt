@@ -7,7 +7,7 @@ import com.elihimas.orchestra.animations.slide.SlideAnimation
 import com.elihimas.orchestra.animations.translations.TranslateByAnimation
 import java.util.function.Consumer
 
-class ViewReference(vararg val views: View) : com.elihimas.orchestra.blocks.ViewReference(*views) {
+class ViewReference(val views: List<View>) : com.elihimas.orchestra.blocks.ViewReference(views) {
 
     fun translate(x: Float, y: Float) = translateBy(x, y, null)
     fun translate(x: Float, y: Float, config: Consumer<TranslateByAnimation>) = translateBy(x, y, wrap(config))
