@@ -29,7 +29,13 @@
         <activity
             android:name=".activities.TranslateActivity"
             android:exported="true"
-            android:label="@string/example_translate"/>
+            android:label="@string/example_translate" />
+
+
+        <activity
+            android:name=".activities.SpacingActivity"
+            android:exported="true"
+            android:label="@string/example_spacing" />
     </application>
 
 </manifest>

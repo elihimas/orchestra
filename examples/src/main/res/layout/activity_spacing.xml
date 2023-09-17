@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SpacingActivity">
+
+    <View
+        android:id="@+id/scalingSqr1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/scalingSqr2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:layout_marginStart="120dp"
+        android:background="@color/orange"
+        app:layout_constraintStart_toEndOf="@id/scalingSqr1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/scalingSqr3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:layout_marginStart="120dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toEndOf="@id/scalingSqr2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/scalingSqr4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:layout_marginStart="120dp"
+        android:background="@color/orange"
+        app:layout_constraintStart_toEndOf="@id/scalingSqr3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGuide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+
+    <View
+        android:id="@+id/translatingSqr1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/leftGuide"
+        app:layout_constraintStart_toStartOf="@id/leftGuide"
+        app:layout_constraintTop_toBottomOf="@id/scalingSqr1" />
+
+    <View
+        android:id="@+id/translatingSqr2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="20dp"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="@id/leftGuide"
+        app:layout_constraintStart_toStartOf="@id/leftGuide"
+        app:layout_constraintTop_toBottomOf="@id/translatingSqr1" />
+
+
+    <View
+        android:id="@+id/translatingSqr3"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_margin="20dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/leftGuide"
+        app:layout_constraintStart_toStartOf="@id/leftGuide"
+        app:layout_constraintTop_toBottomOf="@id/translatingSqr2" />
+
+    <View
+        android:id="@+id/translatingSqr4"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_margin="20dp"
+        android:background="@color/orange"
+        app:layout_constraintEnd_toEndOf="@id/leftGuide"
+        app:layout_constraintStart_toStartOf="@id/leftGuide"
+        app:layout_constraintTop_toBottomOf="@id/translatingSqr3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
