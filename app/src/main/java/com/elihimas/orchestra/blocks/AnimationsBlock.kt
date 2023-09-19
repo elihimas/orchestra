@@ -8,8 +8,8 @@ import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.animations.FadeInAnimation
 import com.elihimas.orchestra.animations.FadeOutAnimation
 import com.elihimas.orchestra.animations.ParallelAnimation
-import com.elihimas.orchestra.animations.RotateByAnimation
-import com.elihimas.orchestra.animations.RotateToAnimation
+import com.elihimas.orchestra.animations.rotation.RotateByAnimation
+import com.elihimas.orchestra.animations.rotation.RotateToAnimation
 import com.elihimas.orchestra.animations.colors.ChangeBackgroundAnimation
 import com.elihimas.orchestra.animations.colors.ChangeTextColorAnimation
 import com.elihimas.orchestra.animations.scale.DirectionalScaleAnimation

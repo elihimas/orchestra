@@ -1,15 +1,16 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.rotation
 
 import android.view.View
+import com.elihimas.orchestra.animations.Animation
 
-class RotateByAnimation(var angle: Float) : Animation() {
+class RotateToAnimation(var angle: Float) : Animation() {
 
     private var initialRotation = 0f
     private var valueDelta = 0f
 
     override fun beforeAnimation(views: List<View>) {
         initialRotation = views[0].rotation
-        valueDelta = angle
+        valueDelta = angle - initialRotation
     }
 
     override fun updateAnimationByProportion(view: View, proportion: Float) {
@@ -17,7 +18,7 @@ class RotateByAnimation(var angle: Float) : Animation() {
     }
 
     override fun clone(): Any {
-        return RotateByAnimation(angle).also { clone ->
+        return RotateToAnimation(angle).also { clone ->
             cloneFromTo(this, clone)
         }
     }
