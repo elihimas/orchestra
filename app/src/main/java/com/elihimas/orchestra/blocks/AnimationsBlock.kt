@@ -27,12 +27,12 @@ import java.util.function.Consumer
 open class AnimationsBlock : Block() {
     // TODO add x(Consumer<XAnimation>) versions for all functions to better support Java
 
-    val currentAnimations = LinkedList<Animation>()
-    var nextAnimationIndex = 0
-    val animations = mutableListOf<Animation>()
+    internal val currentAnimations = LinkedList<Animation>()
+    internal var nextAnimationIndex = 0
+    internal val animations = mutableListOf<Animation>()
 
     override fun resetForeverData() {
-		// TODO: review this
+        // TODO: review this
     }
 
     fun clone() = AnimationsBlock().also { clone ->
@@ -42,7 +42,7 @@ open class AnimationsBlock : Block() {
     }
 
     override fun checkHasForeverAnimation(): Boolean {
-		// TODO: review this
+        // TODO: review this
         return animations.any { it.isInfinite }
     }
 
@@ -63,7 +63,6 @@ open class AnimationsBlock : Block() {
 
         return this
     }
-
 
     fun fadeIn() = add(FadeInAnimation(), null)
 

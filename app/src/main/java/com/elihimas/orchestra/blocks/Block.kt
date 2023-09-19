@@ -2,19 +2,19 @@ package com.elihimas.orchestra.blocks
 
 abstract class Block {
     internal var start = 0f
-    var end = 0f
-    var hasForeverAnimation = false
+    internal var end = 0f
+    internal var hasForeverAnimation = false
 
-    open val viewsCount: Int
+    internal open val viewsCount: Int
         get() = TODO()
 
-    abstract fun checkHasForeverAnimation(): Boolean
+    internal abstract fun checkHasForeverAnimation(): Boolean
 
-    open fun runBlock() {}
+    internal open fun runBlock() {}
 
-    abstract fun calculateDuration(): Long
-    open fun updateAnimations(time: Float) {}
-    open fun updateAnimationTimeBounds() {}
+    internal abstract fun calculateDuration(): Long
+    internal open fun updateAnimations(time: Float) {}
+    internal open fun updateAnimationTimeBounds() {}
 
-    abstract fun resetForeverData()
+    internal abstract fun resetForeverData()
 }

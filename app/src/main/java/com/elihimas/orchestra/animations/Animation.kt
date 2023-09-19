@@ -6,9 +6,14 @@ import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import com.elihimas.orchestra.OrchestraConfiguration
 import com.elihimas.orchestra.constrains.DeEffector
+import com.elihimas.orchestra.constrains.References
 
 abstract class Animation(
     var duration: Long = OrchestraConfiguration.General.duration,
+    // TODO: create a spacing strategy regarding the start of the next animation
+    //  the end of the current animation should be one of:
+    //      start + duration
+    //      start + duration + spacing increment  (current default)
     var spacing: Long = OrchestraConfiguration.General.spacing
 ) : Cloneable {
     var isInfinite = false
@@ -41,13 +46,26 @@ abstract class Animation(
         to.spacing = from.spacing
     }
 
+    open fun updateAnimationByTime(views: List<View>, time: Float) {
+        views.forEachIndexed { index, view ->
+            val spacingDelay = index * spacing
+            val viewTime = time - spacingDelay - delay - start
+
+            updateAnimationByTime(view, viewTime)
+
+            view.updateAffectedViewsIfNecessary(this)
+        }
+    }
+
     open fun updateAnimationByTime(view: View, time: Float) {
-//        val proportion = 1 - (end - time) / deltaTime
-        val proportion = (time) / duration
+        val proportion = time / duration
 
         if (proportion in 0.0..1.0) {
             val interpolatedProportion = interpolator.getInterpolation(proportion)
-            updateAnimationByProportion(view, interpolatedProportion)
+            updateAnimationByProportion(
+                view,
+                interpolatedProportion
+            )
         }
     }
 
@@ -55,7 +73,7 @@ abstract class Animation(
         TODO("Not yet implemented")
     }
 
-    open fun calculateDuration(viewsCount: Int): Long =
+    internal open fun calculateDuration(viewsCount: Int): Long =
         delay + duration + (viewsCount - 1) * spacing
 
     open fun updateAnimationTimeBounds(baseTime: Float, viewsCount: Int) {
@@ -64,11 +82,21 @@ abstract class Animation(
     }
 
     open fun finishAnimation(views: List<View>) {
-        views.forEach { view ->
+        views.forEach {  view ->
             updateAnimationByProportion(view, 1f)
         }
         afterAnimation(views)
     }
 
     open fun getDeEffector(): DeEffector? = null
+
+    // TODO: move this to a proper location
+    fun View.updateAffectedViewsIfNecessary(animation: Animation) {
+        val deEffector = animation.getDeEffector()
+        val affectedViews = References.map[this]
+
+        if (affectedViews?.views?.isNotEmpty() == true) {
+            deEffector?.applyEffect(this, affectedViews)
+        }
+    }
 }

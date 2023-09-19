@@ -45,14 +45,7 @@ open class ViewReference(private val views: List<View>) : AnimationsBlock() {
     }
 
     private fun updateAnimation(animation: Animation, time: Float) {
-        views.forEachIndexed { index, view ->
-            val spacingDelay = index * animation.spacing
-            val viewTime = time - spacingDelay - animation.delay - animation.start
-
-            animation.updateAnimationByTime(view, viewTime)
-
-            view.updateAffectedViewsIfNecessary(animation)
-        }
+        animation.updateAnimationByTime(views, time)
     }
 
     // TODO: move this to a proper location
@@ -62,16 +55,6 @@ open class ViewReference(private val views: List<View>) : AnimationsBlock() {
 
         if (affectedViews?.views?.isNotEmpty() == true) {
             deEffector?.beforeAnimation(this, affectedViews)
-        }
-    }
-
-    // TODO: move this to a proper location
-    private fun View.updateAffectedViewsIfNecessary(animation: Animation) {
-        val deEffector = animation.getDeEffector()
-        val affectedViews = References.map[this]
-
-        if (affectedViews?.views?.isNotEmpty() == true) {
-            deEffector?.applyEffect(this, affectedViews)
         }
     }
 

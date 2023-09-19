@@ -1,37 +1,49 @@
 package com.elihimas.orchestra.animations.translations
 
 import android.view.View
-import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.animations.StatefulAnimation
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 
-class TranslateToPositionAnimation(private val destinationX: Float, private val destinationY: Float) : Animation() {
-
-    private var initialX = 0f
-    private var initialY = 0f
-    private var deltaX = 0f
-    private var deltaY = 0f
+class TranslateToPositionAnimation(
+    private val destinationX: Float,
+    private val destinationY: Float
+) : StatefulAnimation<TranslateToPositionData>() {
 
     var areCoordinatesCenter = false
 
     override fun beforeAnimation(views: List<View>) {
-        initialX = views[0].x
-        initialY = views[0].y
+        animationDataList = buildList {
+            views.forEach { view ->
 
-        if(areCoordinatesCenter) {
-            val xIncrement = views[0].width/2
-            val yIncrement = views[0].height/2
+                val initialX = view.x
+                val initialY = view.y
+                val deltaX: Float
+                val deltaY: Float
 
-            deltaX = destinationX - initialX - xIncrement
-            deltaY = destinationY - initialY - yIncrement
-        }else{
-            deltaX = destinationX - initialX
-            deltaY = destinationY - initialY
+
+                if (areCoordinatesCenter) {
+                    val xIncrement = view.width / 2
+                    val yIncrement = view.height / 2
+
+                    deltaX = destinationX - initialX - xIncrement
+                    deltaY = destinationY - initialY - yIncrement
+                } else {
+                    deltaX = destinationX - initialX
+                    deltaY = destinationY - initialY
+                }
+
+                add(TranslateToPositionData(initialX, initialY, deltaX, deltaY))
+            }
         }
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) {
-        val newX = initialX + proportion * deltaX
-        val newY = initialY + proportion * deltaY
+    override fun updateAnimationByProportion(
+        view: View,
+        proportion: Float,
+        animationData: TranslateToPositionData
+    ) {
+        val newX = animationData.initialX + proportion * animationData.deltaX
+        val newY = animationData.initialY + proportion * animationData.deltaY
 
         view.x = newX
         view.y = newY

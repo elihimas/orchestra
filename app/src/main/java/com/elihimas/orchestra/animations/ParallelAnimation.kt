@@ -12,15 +12,37 @@ class ParallelAnimation(private val reference: AnimationsBlock) : Animation() {
         }
     }
 
-    override fun updateAnimationByTime(view: View, time: Float) {
+    override fun updateAnimationByTime(views: List<View>, time: Float) {
         reference.animations.forEach { animation ->
-            animation.updateAnimationByTime(view, time)
+            animation.updateAnimationByTime(views, time)
+        }
+
+        views.forEach { view ->
+            view.updateAffectedViewsIfNecessary(this)
         }
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) {
+    override fun finishAnimation(views: List<View>) {
         reference.animations.forEach { animation ->
-            animation.updateAnimationByProportion(view, proportion)
+            if (animation is StatefulAnimation<*>) {
+                finishStatefulAnimation(animation, views)
+            } else {
+                views.forEach { view ->
+                    animation.updateAnimationByProportion(view, 1f)
+                }
+            }
+        }
+
+        afterAnimation(views)
+    }
+
+    private fun <T> finishStatefulAnimation(animation: StatefulAnimation<T>, views: List<View>) {
+        views.forEachIndexed { index, view ->
+            val animationData = animation.animationDataList[index]
+
+            animation.updateAnimationByProportion(
+                view, 1f, animationData
+            )
         }
     }
 
