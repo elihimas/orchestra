@@ -9,10 +9,10 @@ class ForeverAnimation(val animations: ViewReference) : Animation() {
         isInfinite = true
     }
 
-    override fun updateAnimationTimeBounds(baseTime: Float) {
+    override fun updateAnimationTimeBounds(baseTime: Float, viewsCount: Int) {
         var previousAnimationStart = baseTime
         animations.animations.forEach { animation ->
-            animation.updateAnimationTimeBounds(baseTime = previousAnimationStart)
+            animation.updateAnimationTimeBounds(baseTime = previousAnimationStart, viewsCount)
 
             previousAnimationStart = animation.end
         }
@@ -22,7 +22,7 @@ class ForeverAnimation(val animations: ViewReference) : Animation() {
         duration = (end - start).toLong()//TODO verify if can be deleted
     }
 
-    override fun calculateDuration(): Long {
+    override fun calculateDuration(viewsCount: Int): Long {
         return animations.calculateDuration()
     }
 

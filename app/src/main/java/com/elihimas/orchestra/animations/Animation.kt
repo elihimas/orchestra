@@ -13,19 +13,9 @@ abstract class Animation(
 ) : Cloneable {
     var isInfinite = false
     internal var start = 0f
-        set(value) {
-            deltaTime = end - value
-            field = value
-        }
     internal var end = 0f
-        set(value) {
-            deltaTime = value - start
-            field = value
-        }
     var delay = 0L
     var interpolator: Interpolator = LinearInterpolator()
-
-    var deltaTime = 0f
 
     //TODO: review all init implementations to add support
     // to animate on multiple views
@@ -52,7 +42,8 @@ abstract class Animation(
     }
 
     open fun updateAnimationByTime(view: View, time: Float) {
-        val proportion = 1 - (end - time) / deltaTime
+//        val proportion = 1 - (end - time) / deltaTime
+        val proportion = (time) / duration
 
         if (proportion in 0.0..1.0) {
             val interpolatedProportion = interpolator.getInterpolation(proportion)
@@ -64,11 +55,12 @@ abstract class Animation(
         TODO("Not yet implemented")
     }
 
-    open fun calculateDuration(): Long = duration + delay
+    open fun calculateDuration(viewsCount: Int): Long =
+        delay + duration + (viewsCount - 1) * spacing
 
-    open fun updateAnimationTimeBounds(baseTime: Float) {
+    open fun updateAnimationTimeBounds(baseTime: Float, viewsCount: Int) {
         start = baseTime + delay
-        end = start + duration
+        end = baseTime + calculateDuration(viewsCount)
     }
 
     open fun finishAnimation(views: List<View>) {

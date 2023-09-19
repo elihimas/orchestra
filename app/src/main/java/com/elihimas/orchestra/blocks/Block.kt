@@ -5,6 +5,9 @@ abstract class Block {
     var end = 0f
     var hasForeverAnimation = false
 
+    open val viewsCount: Int
+        get() = TODO()
+
     abstract fun checkHasForeverAnimation(): Boolean
 
     open fun runBlock() {}

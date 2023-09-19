@@ -39,18 +39,20 @@ class ParallelAnimation(private val reference: AnimationsBlock) : Animation() {
         }
     }
 
-    override fun calculateDuration(): Long {
-        val maxDuration = reference.animations.maxOf { animation -> animation.calculateDuration() }
+    override fun calculateDuration(viewsCount: Int): Long {
+        val maxDuration =
+            reference.animations.maxOf { animation -> animation.calculateDuration(viewsCount) }
         this.duration = maxDuration
         return maxDuration
     }
 
-    override fun updateAnimationTimeBounds(baseTime: Float) {
+    override fun updateAnimationTimeBounds(baseTime: Float, viewsCount: Int) {
         reference.animations.forEach { animation ->
-            animation.updateAnimationTimeBounds(baseTime)
+            animation.updateAnimationTimeBounds(baseTime, viewsCount)
         }
 
-        val duration = reference.animations.maxOf { animation -> animation.calculateDuration() }
+        val duration =
+            reference.animations.maxOf { animation -> animation.calculateDuration(viewsCount) }
 
         start = baseTime
         end = baseTime + duration

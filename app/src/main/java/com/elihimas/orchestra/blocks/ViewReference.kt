@@ -6,10 +6,13 @@ import com.elihimas.orchestra.constrains.References
 
 open class ViewReference(private val views: List<View>) : AnimationsBlock() {
 
+    override val viewsCount: Int
+        get() = views.size
+
     override fun updateAnimationTimeBounds() {
         var previousAnimationStart = start
         animations.forEach { animation ->
-            animation.updateAnimationTimeBounds(baseTime = previousAnimationStart)
+            animation.updateAnimationTimeBounds(baseTime = previousAnimationStart, viewsCount)
 
             previousAnimationStart = animation.end
         }
@@ -42,8 +45,11 @@ open class ViewReference(private val views: List<View>) : AnimationsBlock() {
     }
 
     private fun updateAnimation(animation: Animation, time: Float) {
-        views.forEach { view ->
-            animation.updateAnimationByTime(view, time)
+        views.forEachIndexed { index, view ->
+            val spacingDelay = index * animation.spacing
+            val viewTime = time - spacingDelay - animation.delay - animation.start
+
+            animation.updateAnimationByTime(view, viewTime)
 
             view.updateAffectedViewsIfNecessary(animation)
         }
@@ -76,7 +82,7 @@ open class ViewReference(private val views: List<View>) : AnimationsBlock() {
             val nextAnimation = animations[nextAnimationIndex]
             nextAnimation.beforeAnimation(views)
 
-            views.forEach {view->
+            views.forEach { view ->
                 view.initAffectedViewsIfNecessary(nextAnimation)
             }
 

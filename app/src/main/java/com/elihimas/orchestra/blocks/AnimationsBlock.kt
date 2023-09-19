@@ -47,7 +47,7 @@ open class AnimationsBlock : Block() {
     }
 
     override fun calculateDuration(): Long = animations.sumOf { animation ->
-        animation.calculateDuration()
+        animation.calculateDuration(viewsCount)
     }
 
     open fun <T : Animation> add(animation: T, config: (T.() -> Unit)?): AnimationsBlock {
@@ -145,7 +145,8 @@ open class AnimationsBlock : Block() {
     ) =
         add(TranslateToReferenceAnimation(reference), config)
 
-    fun resetTranslation(config: (ResetTranslationAnimation.() -> Unit)? = null
+    fun resetTranslation(
+        config: (ResetTranslationAnimation.() -> Unit)? = null
     ) =
         add(ResetTranslationAnimation(), config)
 
