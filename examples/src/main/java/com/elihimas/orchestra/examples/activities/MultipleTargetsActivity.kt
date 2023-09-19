@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.examples.databinding.ActivityMultipleTargetsBinding
+import com.elihimas.orchestra.references.horizontalCenterOf
 
 class MultipleTargetsActivity : AppCompatActivity() {
 
@@ -27,6 +28,10 @@ class MultipleTargetsActivity : AppCompatActivity() {
                 on(squareRotateTo1, squareRotateTo2).rotateTo(90f)
 
                 on(squareScale1, squareScale2).scale(1f)
+
+                on(squareTranslate1, squareTranslate2).translateTo(horizontalCenterOf(root))
+
+
             }
         }
     }
