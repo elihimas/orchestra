@@ -35,6 +35,10 @@ class SpacingActivity : AppCompatActivity() {
                 view.translationY = 0f
             }
 
+            listOf(fadeOut1, fadeOut2, fadeOut3, fadeOut4).forEach { view ->
+                view.alpha = 1f
+            }
+
             Orchestra.launch {
                 parallel {
                     on(scalingSqr1, scalingSqr2, scalingSqr3, scalingSqr4).scale(2f) {
@@ -54,6 +58,12 @@ class SpacingActivity : AppCompatActivity() {
                             duration = 1000
                             spacing = 200
                             interpolator = AccelerateDecelerateInterpolator()
+                        }
+
+                    on(fadeOut1, fadeOut2, fadeOut3, fadeOut4)
+                        .fadeOut {
+                            duration = 1_800
+                            spacing = 600
                         }
                 }
             }

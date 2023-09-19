@@ -103,4 +103,40 @@
         app:layout_constraintTop_toBottomOf="@id/translatingSqr3" />
 
 
+    <View
+        android:id="@+id/fadeOut1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="50dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/translatingSqr4" />
+
+    <View
+        android:id="@+id/fadeOut2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:background="@color/orange"
+        app:layout_constraintStart_toEndOf="@id/fadeOut1"
+        app:layout_constraintTop_toTopOf="@id/fadeOut1" />
+
+
+    <View
+        android:id="@+id/fadeOut3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toEndOf="@id/fadeOut2"
+        app:layout_constraintTop_toTopOf="@id/fadeOut1" />
+
+    <View
+        android:id="@+id/fadeOut4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:background="@color/orange"
+        app:layout_constraintStart_toEndOf="@id/fadeOut3"
+        app:layout_constraintTop_toTopOf="@id/fadeOut1"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

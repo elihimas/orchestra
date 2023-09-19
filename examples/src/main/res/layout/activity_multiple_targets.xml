@@ -90,18 +90,18 @@
                 android:id="@+id/tvTranslateTitle"
                 style="@style/Title"
                 android:layout_marginTop="@dimen/titleSpace"
-                android:text="@string/label_translate"
+                android:text="@string/label_translate_to"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/squareScale1" />
 
             <View
-                android:id="@+id/squareTranslate1"
+                android:id="@+id/squareTranslateTo1"
                 style="@style/Square.Orange"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTranslateTitle" />
 
             <View
-                android:id="@+id/squareTranslate2"
+                android:id="@+id/squareTranslateTo2"
                 style="@style/Square.Black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTranslateTitle" />
@@ -110,7 +110,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/squareTranslate1" />
+                app:layout_constraintTop_toBottomOf="@id/squareTranslateTo1" />
+
+            <TextView
+                android:id="@+id/tvTranslateByTitle"
+                style="@style/Title"
+                android:layout_marginTop="@dimen/titleSpace"
+                android:text="@string/label_translate_by"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/squareTranslateTo1" />
+
+            <View
+                android:id="@+id/squareTranslateBy1"
+                style="@style/Square.Orange"
+                android:translationX="10dp"
+                android:translationY="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTranslateByTitle" />
+
+            <View
+                android:id="@+id/squareTranslateBy2"
+                style="@style/Square.Black"
+                android:layout_margin="50dp"
+                app:layout_constraintStart_toEndOf="@id/squareTranslateBy1"
+                app:layout_constraintTop_toBottomOf="@id/tvTranslateByTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

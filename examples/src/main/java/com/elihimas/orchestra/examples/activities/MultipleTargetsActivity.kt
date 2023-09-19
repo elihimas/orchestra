@@ -29,9 +29,9 @@ class MultipleTargetsActivity : AppCompatActivity() {
 
                 on(squareScale1, squareScale2).scale(1f)
 
-                on(squareTranslate1, squareTranslate2).translateTo(horizontalCenterOf(root))
+                on(squareTranslateTo1, squareTranslateTo2).translateTo(horizontalCenterOf(root))
 
-
+                on(squareTranslateBy1, squareTranslateBy2).translateBy(80f, -60f)
             }
         }
     }
