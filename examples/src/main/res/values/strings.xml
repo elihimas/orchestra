@@ -30,6 +30,7 @@
     <string name="label_vertical_reference">vertical reference:</string>
     <string name="label_horizontal_reference">horizontal reference:</string>
     <string name="label_rotate_by">Rotate by</string>
+    <string name="label_rotate_to">Rotate to</string>
 
     <string name="rb_parent">Parent</string>
     <string name="rb_center_reference">Center reference</string>

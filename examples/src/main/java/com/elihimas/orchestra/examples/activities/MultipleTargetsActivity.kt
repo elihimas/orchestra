@@ -21,7 +21,11 @@ class MultipleTargetsActivity : AppCompatActivity() {
 
     private fun runAnimations() = with(binding) {
         Orchestra.launch {
-            on(squareRotate1, squareRotate2).rotateBy(90f)
+            parallel {
+                on(squareRotateBy1, squareRotateBy2).rotateBy(90f)
+
+                on(squareRotateTo1, squareRotateTo2).rotateTo(90f)
+            }
         }
     }
 }

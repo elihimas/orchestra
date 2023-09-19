@@ -1,20 +1,28 @@
 package com.elihimas.orchestra.animations.rotation
 
 import android.view.View
-import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.animations.StatefulAnimation
 
-class RotateToAnimation(var angle: Float) : Animation() {
+class RotateToAnimation(var angle: Float) : StatefulAnimation<RotateToData>() {
 
-    private var initialRotation = 0f
-    private var valueDelta = 0f
 
     override fun beforeAnimation(views: List<View>) {
-        initialRotation = views[0].rotation
-        valueDelta = angle - initialRotation
+        animationDataList = buildList {
+            views.forEach { view ->
+                val initialRotation = view.rotation
+                val valueDelta = angle - initialRotation
+
+                add(RotateToData(initialRotation, valueDelta))
+            }
+        }
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) {
-        view.rotation = initialRotation + proportion * valueDelta
+    override fun updateAnimationByProportion(
+        view: View,
+        proportion: Float,
+        animationData: RotateToData
+    ) {
+        view.rotation = animationData.initialRotation + proportion * animationData.valueDelta
     }
 
     override fun clone(): Any {

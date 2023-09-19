@@ -18,27 +18,50 @@
             android:paddingBottom="100dp">
 
             <TextView
-                android:id="@+id/tvRotateTitle"
+                android:id="@+id/tvRotateByTitle"
                 style="@style/Title"
                 android:text="@string/label_rotate_by"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/squareRotate1"
+                android:id="@+id/squareRotateBy1"
                 style="@style/Square.Orange"
                 android:rotation="45"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvRotateTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvRotateByTitle" />
 
             <View
-                android:id="@+id/squareRotate2"
+                android:id="@+id/squareRotateBy2"
                 style="@style/Square.Black"
                 android:rotation="60"
-                app:layout_constraintStart_toEndOf="@id/squareRotate1"
-                app:layout_constraintTop_toBottomOf="@id/tvRotateTitle" />
+                app:layout_constraintStart_toEndOf="@id/squareRotateBy1"
+                app:layout_constraintTop_toBottomOf="@id/tvRotateByTitle" />
 
 
+
+
+            <TextView
+                android:id="@+id/tvRotateToTitle"
+                style="@style/Title"
+                android:layout_marginTop="@dimen/titleSpace"
+                android:text="@string/label_rotate_to"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/squareRotateBy1" />
+
+            <View
+                android:id="@+id/squareRotateTo1"
+                style="@style/Square.Orange"
+                android:rotation="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRotateToTitle" />
+
+            <View
+                android:id="@+id/squareRotateTo2"
+                style="@style/Square.Black"
+                android:rotation="-45"
+                app:layout_constraintStart_toEndOf="@id/squareRotateTo1"
+                app:layout_constraintTop_toBottomOf="@id/tvRotateToTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
