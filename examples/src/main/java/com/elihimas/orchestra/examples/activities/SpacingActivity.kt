@@ -25,23 +25,36 @@ class SpacingActivity : AppCompatActivity() {
                 sqr.scaleY = 1f
             }
 
-            Orchestra.launch {
-                on(scalingSqr1, scalingSqr2, scalingSqr3, scalingSqr4).scale(2f) {
-                    spacing = 200
-                    duration = 700
-                }
+            listOf(
+                translatingSqr1,
+                translatingSqr2,
+                translatingSqr3,
+                translatingSqr4
+            ).forEach { view ->
+                view.translationX = 0f
+                view.translationY = 0f
+            }
 
-                on(
-                    translatingSqr4,
-                    translatingSqr3,
-                    translatingSqr2,
-                    translatingSqr1,
-                ).translateTo(
-                    horizontalCenterOf(rightGuide)
-                ) {
-                    duration = 2_000
-                    spacing = 800
-                    interpolator = AccelerateDecelerateInterpolator()
+            Orchestra.launch {
+                parallel {
+                    on(scalingSqr1, scalingSqr2, scalingSqr3, scalingSqr4).scale(2f) {
+                        duration = 700
+                        spacing = 200
+                    }
+
+                    on(
+                        translatingSqr4,
+                        translatingSqr3,
+                        translatingSqr2,
+                        translatingSqr1,
+                    )
+                        .translateTo(
+                            horizontalCenterOf(rightGuide)
+                        ) {
+                            duration = 1000
+                            spacing = 200
+                            interpolator = AccelerateDecelerateInterpolator()
+                        }
                 }
             }
         }
