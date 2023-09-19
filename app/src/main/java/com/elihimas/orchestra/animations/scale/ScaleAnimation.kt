@@ -1,26 +1,31 @@
 package com.elihimas.orchestra.animations.scale
 
 import android.view.View
-import com.elihimas.orchestra.animations.Animation
+import com.elihimas.orchestra.animations.StatefulAnimation
 import com.elihimas.orchestra.constrains.deeffectors.ScaleAnimationDeEffector
 
-open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : Animation() {
-
-    var initialScaleX = 1f
-    var initialScaleY = 1f
-    private var valueDeltaX = 0f
-    private var valueDeltaY = 0f
+open class ScaleAnimation(var scaleX: Float, var scaleY: Float) : StatefulAnimation<ScaleData>() {
 
     override fun beforeAnimation(views: List<View>) {
-        initialScaleX = views[0].scaleX
-        initialScaleY = views[0].scaleY
-        valueDeltaX = scaleX - initialScaleX
-        valueDeltaY = scaleY - initialScaleY
+        animationDataList = buildList {
+            views.forEach { view ->
+                val initialScaleX = view.scaleX
+                val initialScaleY = view.scaleY
+                val valueDeltaX = scaleX - initialScaleX
+                val valueDeltaY = scaleY - initialScaleY
+
+                add(ScaleData(initialScaleX, initialScaleY, valueDeltaX, valueDeltaY))
+            }
+        }
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) {
-        val scaleX = initialScaleX + proportion * valueDeltaX
-        val scaleY = initialScaleY + proportion * valueDeltaY
+    override fun updateAnimationByProportion(
+        view: View,
+        proportion: Float,
+        animationData: ScaleData
+    ) {
+        val scaleX = animationData.initialScaleX + proportion * animationData.valueDeltaX
+        val scaleY = animationData.initialScaleY + proportion * animationData.valueDeltaY
         view.scaleX = scaleX
         view.scaleY = scaleY
     }

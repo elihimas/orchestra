@@ -25,6 +25,8 @@ class MultipleTargetsActivity : AppCompatActivity() {
                 on(squareRotateBy1, squareRotateBy2).rotateBy(90f)
 
                 on(squareRotateTo1, squareRotateTo2).rotateTo(90f)
+
+                on(squareScale1, squareScale2).scale(1f)
             }
         }
     }

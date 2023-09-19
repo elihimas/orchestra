@@ -27,18 +27,15 @@
             <View
                 android:id="@+id/squareRotateBy1"
                 style="@style/Square.Orange"
-                android:rotation="45"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRotateByTitle" />
 
             <View
                 android:id="@+id/squareRotateBy2"
                 style="@style/Square.Black"
-                android:rotation="60"
+                android:rotation="45"
                 app:layout_constraintStart_toEndOf="@id/squareRotateBy1"
                 app:layout_constraintTop_toBottomOf="@id/tvRotateByTitle" />
-
-
 
 
             <TextView
@@ -62,6 +59,31 @@
                 android:rotation="-45"
                 app:layout_constraintStart_toEndOf="@id/squareRotateTo1"
                 app:layout_constraintTop_toBottomOf="@id/tvRotateToTitle" />
+
+
+            <TextView
+                android:id="@+id/tvScaleTitle"
+                style="@style/Title"
+                android:layout_marginTop="@dimen/titleSpace"
+                android:text="@string/label_scale"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/squareRotateTo1" />
+
+            <View
+                android:id="@+id/squareScale1"
+                style="@style/Square.Orange"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvScaleTitle" />
+
+            <View
+                android:id="@+id/squareScale2"
+                style="@style/Square.Black"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                app:layout_constraintStart_toEndOf="@id/squareScale1"
+                app:layout_constraintTop_toBottomOf="@id/tvScaleTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
