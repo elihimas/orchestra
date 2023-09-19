@@ -37,6 +37,9 @@
             android:name=".activities.ScalingActivity"
             android:exported="true"
             android:label="@string/example_scaling" />
+        <activity
+            android:name=".activities.MultipleTargetsActivity"
+            android:exported="true"
+            android:label="@string/example_multiple_targets" />
     </application>
-
 </manifest>

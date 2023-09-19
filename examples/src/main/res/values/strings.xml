@@ -6,6 +6,7 @@
     <string name="example_translate">Translate</string>
     <string name="example_spacing">Spacing</string>
     <string name="example_scaling">Scaling</string>
+    <string name="example_multiple_targets">Animation upon multiple targets</string>
 
     <string name="bt_reset">Reset</string>
     <string name="bt_fadein">Fade in</string>
@@ -28,6 +29,7 @@
     <string name="label_translate_type">translate type:</string>
     <string name="label_vertical_reference">vertical reference:</string>
     <string name="label_horizontal_reference">horizontal reference:</string>
+    <string name="label_rotate_by">Rotate by</string>
 
     <string name="rb_parent">Parent</string>
     <string name="rb_center_reference">Center reference</string>
@@ -51,4 +53,5 @@
     <string name="interpolator_linear_out_slow_in">"Linear out slow in "</string>
     <string name="interpolator_overshoot">Overshoot</string>
     <string name="label_center_reference">center reference</string>
+    <string name="bt_run_animations">Run animations</string>
 </resources>
