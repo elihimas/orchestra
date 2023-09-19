@@ -5,6 +5,7 @@
     <string name="example_slide">Slide</string>
     <string name="example_translate">Translate</string>
     <string name="example_spacing">Spacing</string>
+    <string name="example_scaling">Scaling</string>
 
     <string name="bt_reset">Reset</string>
     <string name="bt_fadein">Fade in</string>
