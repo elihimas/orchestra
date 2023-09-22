@@ -2,38 +2,39 @@ package com.elihimas.orchestra.animations.slide
 
 import android.graphics.Rect
 import android.view.View
-import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.animations.AnimationStrategy
 import com.elihimas.orchestra.animations.Direction
+import com.elihimas.orchestra.animations.StatefulAnimation
 import com.elihimas.orchestra.constrains.deeffectors.TranslationDeEffector
 import kotlin.math.absoluteValue
 
 // TODO: simplify horizontal strategies based on vertical slides
 abstract class HorizontalSlideStrategy(
     val remainingWidth: Float, val startFromCurrentPosition: Boolean
-) : AnimationStrategy {
+) : AnimationStrategy<SlideData>{
 
-    var initialTranslationX = 0f
 }
 
 abstract class VerticalSlideInStrategy(
     private val remainingHeight: Float,
     private val startFromCurrentPosition: Boolean
-) : AnimationStrategy {
+) : AnimationStrategy<SlideData> {
 
-    var initialVisibleHeight = 0f
+    override fun createAnimationDataFor(views: List<View>): List<SlideData> = buildList {
+        views.forEach { view ->
+            val initialVisibleHeight = if (startFromCurrentPosition) {
+                view.height - view.translationY.absoluteValue
+            } else {
+                0f
+            }
 
-    override fun init(views: List<View>) {
-        initialVisibleHeight = if (startFromCurrentPosition) {
-            views[0].height - views[0].translationY.absoluteValue
-        } else {
-            0f
+            add(SlideData(initialVisibleHeight))
         }
     }
 
-    override fun update(view: View, proportion: Float) {
+    override fun update(view: View, proportion: Float, animationData: SlideData) {
         val visibleHeight =
-            initialVisibleHeight + (view.height - remainingHeight - initialVisibleHeight) * proportion
+            animationData.initialVisibleSpace + (view.height - remainingHeight - animationData.initialVisibleSpace) * proportion
 
         updateVisibleHeight(view, visibleHeight)
     }
@@ -62,17 +63,21 @@ class SlideInDownStrategy(remainingHeight: Float, startFromCurrentPosition: Bool
 
 class SlideInLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
     HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
-    override fun init(views: List<View>) {
-        initialTranslationX = if (startFromCurrentPosition) {
-            views[0].translationX
-        } else {
-            views[0].width.toFloat()
+    override fun createAnimationDataFor(views: List<View>): List<SlideData> = buildList {
+        views.forEach { view ->
+            val initialTranslationX = if (startFromCurrentPosition) {
+                view.translationX
+            } else {
+                view.width.toFloat()
+            }
+
+            add(SlideData(initialTranslationX))
         }
     }
 
-    override fun update(view: View, proportion: Float) {
+    override fun update(view: View, proportion: Float, animationData: SlideData) {
         val rightPush =
-            view.width - initialTranslationX + (initialTranslationX - remainingWidth) * proportion
+            view.width - animationData.initialVisibleSpace + (animationData.initialVisibleSpace - remainingWidth) * proportion
         val translationX = view.width - rightPush
 
         view.clipBounds = Rect(0, 0, rightPush.toInt(), view.height)
@@ -82,18 +87,22 @@ class SlideInLeftStrategy(remainingWidth: Float, startFromCurrentPosition: Boole
 
 class SlideInRightStrategy(remainingWidth: Float, startFromCurrentPosition: Boolean) :
     HorizontalSlideStrategy(remainingWidth, startFromCurrentPosition) {
-    override fun init(views: List<View>) {
-        initialTranslationX = if (startFromCurrentPosition) {
-            views[0].translationX
-        } else {
-            -views[0].width.toFloat()
+    override fun createAnimationDataFor(views: List<View>): List<SlideData> = buildList {
+        views.forEach { view ->
+            val initialTranslationX = if (startFromCurrentPosition) {
+                view.translationX
+            } else {
+                -view.width.toFloat()
+            }
+
+            add(SlideData(initialTranslationX))
         }
     }
 
-    override fun update(view: View, proportion: Float) {
+    override fun update(view: View, proportion: Float, animationData: SlideData) {
         val targetLeftPush = view.width - remainingWidth
         val leftPush =
-            view.width + initialTranslationX + (targetLeftPush - (view.width + initialTranslationX)) * proportion
+            view.width + animationData.initialVisibleSpace + (targetLeftPush - (view.width + animationData.initialVisibleSpace)) * proportion
 
         view.clipBounds = Rect(view.width - (leftPush.toInt()), 0, view.width, view.height)
         view.translationX = -view.width + leftPush
@@ -109,11 +118,11 @@ open class SlideAnimation(
     protected var direction: Direction,
     var remainingSpace: Float = 0f,
     var startFromCurrentPosition: Boolean = false
-) : Animation() {
+) : StatefulAnimation<SlideData>() {
 
-    private lateinit var slideStrategy: AnimationStrategy
+    private lateinit var slideStrategy: AnimationStrategy<SlideData>
 
-    open fun createSlideStrategy(): AnimationStrategy {
+    open fun createSlideStrategy(): AnimationStrategy<SlideData> {
         return when (direction) {
             Direction.Up -> SlideInUpStrategy(remainingSpace, startFromCurrentPosition)
             Direction.Down -> SlideInDownStrategy(remainingSpace, startFromCurrentPosition)
@@ -127,11 +136,15 @@ open class SlideAnimation(
 
         views.forEach { view -> view.visibility = View.VISIBLE }
 
-        slideStrategy.init(views)
+        animationDataList = slideStrategy.createAnimationDataFor(views)
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) =
-        slideStrategy.update(view, proportion)
+    override fun updateAnimationByProportion(
+        view: View,
+        proportion: Float,
+        animationData: SlideData
+    ) =
+        slideStrategy.update(view, proportion, animationData)
 
     override fun getDeEffector() = TranslationDeEffector
 

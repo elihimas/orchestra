@@ -107,12 +107,6 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTranslateTitle" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/squareTranslateTo1" />
-
-            <TextView
                 android:id="@+id/tvTranslateByTitle"
                 style="@style/Title"
                 android:layout_marginTop="@dimen/titleSpace"
@@ -134,6 +128,62 @@
                 android:layout_margin="50dp"
                 app:layout_constraintStart_toEndOf="@id/squareTranslateBy1"
                 app:layout_constraintTop_toBottomOf="@id/tvTranslateByTitle" />
+
+            <TextView
+                android:id="@+id/tvSlideInTitle"
+                style="@style/Title"
+                android:layout_marginTop="@dimen/titleSpace"
+                android:text="@string/label_slide_in"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/squareTranslateBy1" />
+
+            <View
+                android:id="@+id/squareSlideInUp1"
+                style="@style/Square.Orange"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSlideInTitle" />
+
+            <View
+                android:id="@+id/squareSlideInUp2"
+                style="@style/Square.Black"
+                app:layout_constraintStart_toEndOf="@id/squareSlideInUp1"
+                app:layout_constraintTop_toBottomOf="@id/tvSlideInTitle" />
+
+            <View
+                android:id="@+id/squareSlideInDown1"
+                style="@style/Square.Orange"
+                app:layout_constraintStart_toEndOf="@id/squareSlideInUp2"
+                app:layout_constraintTop_toBottomOf="@id/tvSlideInTitle" />
+
+            <View
+                android:id="@+id/squareSlideInDown2"
+                style="@style/Square.Black"
+                app:layout_constraintStart_toEndOf="@id/squareSlideInDown1"
+                app:layout_constraintTop_toBottomOf="@id/tvSlideInTitle" />
+
+            <View
+                android:id="@+id/squareSlideInRight1"
+                style="@style/Square.Black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/squareSlideInUp1" />
+
+            <View
+                android:id="@+id/squareSlideInRight2"
+                style="@style/Square.Orange"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/squareSlideInRight1" />
+
+            <View
+                android:id="@+id/squareSlideInLeft1"
+                style="@style/Square.Orange"
+                app:layout_constraintStart_toEndOf="@id/squareSlideInRight2"
+                app:layout_constraintTop_toBottomOf="@id/squareSlideInUp1" />
+
+            <View
+                android:id="@+id/squareSlideInLeft2"
+                style="@style/Square.Black"
+                app:layout_constraintStart_toEndOf="@id/squareSlideInRight2"
+                app:layout_constraintTop_toBottomOf="@id/squareSlideInLeft1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

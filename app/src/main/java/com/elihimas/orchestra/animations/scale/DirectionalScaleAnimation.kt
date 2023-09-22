@@ -1,29 +1,36 @@
 package com.elihimas.orchestra.animations.scale
 
 import android.view.View
-import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.animations.AnimationStrategy
 import com.elihimas.orchestra.animations.Direction
+import com.elihimas.orchestra.animations.StatefulAnimation
 import com.elihimas.orchestra.constrains.deeffectors.DirectionalScaleAnimationDeEffector
 
 //TODO: fix successive translations translation problem
 
-abstract class VerticalStrategy(private var scaleY: Float) : AnimationStrategy {
+abstract class VerticalStrategy(private var scaleY: Float) :
+    AnimationStrategy<DirectionalScaleData> {
+
+    // TODO: move this to DirectionalScaleData
     private var initialScaleY = 1f
     private var initialHeight = 0
     private var deltaY: Float = 0f
     private var valueDeltaY = 0f
 
-    override fun init(views: List<View>) {
-        initialHeight = views[0].height
-        initialScaleY = views[0].scaleY
-        valueDeltaY = scaleY - initialScaleY
+    override fun createAnimationDataFor(views: List<View>): List<DirectionalScaleData> = buildList {
+        views.forEach { view ->
+            initialHeight = view.height
+            initialScaleY = view.scaleY
+            valueDeltaY = scaleY - initialScaleY
 
-        //TODO: review this. this delta is necessary to handle previous scale operations
-        deltaY = ((views[0].height * views[0].scaleY) - views[0].height) / 2
+            //TODO: review this. this delta is necessary to handle previous scale operations
+            deltaY = ((view.height * view.scaleY) - view.height) / 2
+
+            add(DirectionalScaleData())
+        }
     }
 
-    override fun update(view: View, proportion: Float) {
+    override fun update(view: View, proportion: Float, animationData: DirectionalScaleData) {
         val yIncrement = proportion * valueDeltaY
         val scaleY = initialScaleY + yIncrement
         view.scaleY = scaleY
@@ -37,22 +44,28 @@ abstract class VerticalStrategy(private var scaleY: Float) : AnimationStrategy {
     abstract fun translate(view: View, translation: Float)
 }
 
-abstract class HorizontalStrategy(var scaleX: Float) : AnimationStrategy {
+abstract class HorizontalStrategy(var scaleX: Float) : AnimationStrategy<DirectionalScaleData> {
+
+    // TODO: move this to DirectionalScaleData
     private var initialScaleX = 1f
     private var initialWidth = 0
     private var deltaX: Float = 0f
     private var valueDeltaX = 0f
 
-    override fun init(views: List<View>) {
-        initialWidth = views[0].width
-        initialScaleX = views[0].scaleX
-        valueDeltaX = scaleX - initialScaleX
+    override fun createAnimationDataFor(views: List<View>): List<DirectionalScaleData> = buildList {
+        views.forEach { view ->
+            initialWidth = view.width
+            initialScaleX = view.scaleX
+            valueDeltaX = scaleX - initialScaleX
 
-        //TODO: review this. this delta is necessary to handle previous scale operations
-        deltaX = ((views[0].width * views[0].scaleX) - views[0].width) / 2
+            //TODO: review this. this delta is necessary to handle previous scale operations
+            deltaX = ((view.width * view.scaleX) - view.width) / 2
+
+            add(DirectionalScaleData())
+        }
     }
 
-    override fun update(view: View, proportion: Float) {
+    override fun update(view: View, proportion: Float, animationData: DirectionalScaleData) {
         val xIncrement = proportion * valueDeltaX
         val scaleX = initialScaleX + xIncrement
         view.scaleX = scaleX
@@ -95,9 +108,10 @@ class RightStrategy(scaleY: Float) : HorizontalStrategy(scaleY) {
 }
 
 //TODO: handle all directions
-class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : Animation() {
+class DirectionalScaleAnimation(val scale: Float, var direction: Direction) :
+    StatefulAnimation<DirectionalScaleData>() {
 
-    private val animationStrategy: AnimationStrategy = when (direction) {
+    private val animationStrategy: AnimationStrategy<DirectionalScaleData> = when (direction) {
         Direction.Up -> UpStrategy(scale)
         Direction.Down -> DownStrategy(scale)
         Direction.Left -> LeftStrategy(scale)
@@ -105,11 +119,15 @@ class DirectionalScaleAnimation(val scale: Float, var direction: Direction) : An
     }
 
     override fun beforeAnimation(views: List<View>) {
-        animationStrategy.init(views)
+        animationDataList = animationStrategy.createAnimationDataFor(views)
     }
 
-    override fun updateAnimationByProportion(view: View, proportion: Float) =
-        animationStrategy.update(view, proportion)
+    override fun updateAnimationByProportion(
+        view: View,
+        proportion: Float,
+        animationData: DirectionalScaleData
+    ) =
+        animationStrategy.update(view, proportion, animationData)
 
     override fun getDeEffector() = DirectionalScaleAnimationDeEffector
 

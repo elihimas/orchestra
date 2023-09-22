@@ -8,6 +8,7 @@ import com.elihimas.orchestra.actions.InvisibleAction
 import com.elihimas.orchestra.actions.OnClick
 import com.elihimas.orchestra.actions.ScaleSetupAction
 import com.elihimas.orchestra.actions.SetupAction
+import com.elihimas.orchestra.actions.SlideAction
 import com.elihimas.orchestra.animations.Direction
 import com.elihimas.orchestra.constrains.AffectedViews
 import com.elihimas.orchestra.constrains.Constrain
@@ -50,6 +51,9 @@ class SetupReference(private vararg val views: View) {
 
     fun invisible() = add(InvisibleAction())
     fun bounce() = add(BounceAction())
+
+    fun setSlideInTo(visibleSize: Float, direction: Direction) =
+        add(SlideAction(visibleSize, direction))
 
     //TODO move this to extensions
     fun bounce(config: BounceAction.() -> Unit): SetupReference {

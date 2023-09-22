@@ -34,6 +34,7 @@
     <string name="label_scale">Scale</string>
     <string name="label_translate_to">Translate to</string>
     <string name="label_translate_by">Translate by</string>
+    <string name="label_slide_in">Slide in</string>
 
     <string name="rb_parent">Parent</string>
     <string name="rb_center_reference">Center reference</string>

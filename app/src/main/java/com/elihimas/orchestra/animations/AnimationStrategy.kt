@@ -2,7 +2,7 @@ package com.elihimas.orchestra.animations
 
 import android.view.View
 
-interface AnimationStrategy {
-    fun init(views: List<View>)
-    fun update(view: View, proportion: Float)
+interface AnimationStrategy<AnimationData> {
+    fun createAnimationDataFor(views: List<View>): List<AnimationData>
+    fun update(view: View, proportion: Float, animationData: AnimationData)
 }
