@@ -4,6 +4,7 @@ import android.view.View
 import com.elihimas.orchestra.actions.AlphaAction
 import com.elihimas.orchestra.actions.BounceAction
 import com.elihimas.orchestra.actions.DirectionalScaleSetupAction
+import com.elihimas.orchestra.actions.FadeOutAction
 import com.elihimas.orchestra.actions.InvisibleAction
 import com.elihimas.orchestra.actions.OnClick
 import com.elihimas.orchestra.actions.ScaleSetupAction
@@ -19,7 +20,9 @@ class SetupContext {
 
     private val references = mutableListOf<SetupReference>()
 
-    fun on(vararg views: View) = SetupReference(*views).apply {
+    fun on(vararg views: View) = on(views.asList())
+
+    fun on(views: List<View>) = SetupReference(views).apply {
         references.add(this)
     }
 
@@ -31,7 +34,7 @@ class SetupContext {
 
 }
 
-class SetupReference(private vararg val views: View) {
+class SetupReference(private val views: List<View>) {
 
     private val actions = mutableListOf<SetupAction>()
 
@@ -50,6 +53,7 @@ class SetupReference(private vararg val views: View) {
         add(DirectionalScaleSetupAction(scale, direction))
 
     fun invisible() = add(InvisibleAction())
+    fun fadeOut(targetFade: Float = 0f) = add(FadeOutAction(targetFade))
     fun bounce() = add(BounceAction())
 
     fun setSlideInTo(visibleSize: Float, direction: Direction) =

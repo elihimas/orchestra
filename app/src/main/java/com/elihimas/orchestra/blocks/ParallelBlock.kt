@@ -1,14 +1,11 @@
 package com.elihimas.orchestra.blocks
 
 import com.elihimas.orchestra.Orchestra
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.concurrent.CountDownLatch
 
 class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
 
     override fun checkHasForeverAnimation(): Boolean {
-		// TODO: review this
+        // TODO: review this
         return orchestraContext.blocks.any { it.checkHasForeverAnimation() }
     }
 
@@ -31,7 +28,7 @@ class ParallelBlock(private val orchestraContext: Orchestra) : Block() {
     }
 
     override fun resetForeverData() {
-		// TODO: review this
+        // TODO: review this
         orchestraContext.blocks.forEach { block ->
             block.resetForeverData()
         }

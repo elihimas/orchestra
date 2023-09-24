@@ -10,7 +10,7 @@ abstract class StatefulAnimation<AnimationData> : Animation() {
     override fun updateAnimationByTime(views: List<View>, time: Float) {
         views.forEachIndexed { index, view ->
             val spacingDelay = index * spacing
-            val viewTime = time - spacingDelay - delay - start
+            val viewTime = time - spacingDelay - start
             val animationData = animationDataList[index]
 
             updateAnimationByTime(view, viewTime, animationData)

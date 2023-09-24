@@ -4,7 +4,7 @@ import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
 import androidx.core.animation.doOnEnd
 import com.elihimas.orchestra.blocks.Block
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.max
 
 private fun LinkedList<Block>.removeStartedBlocks(time: Float): LinkedList<Block> {

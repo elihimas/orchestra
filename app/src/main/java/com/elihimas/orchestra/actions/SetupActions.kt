@@ -11,7 +11,7 @@ import com.elihimas.orchestra.constrains.DeEffector
 import com.elihimas.orchestra.constrains.References
 
 abstract class SetupAction {
-    fun runSetup(views: Array<out View>) {
+    fun runSetup(views: List<View>) {
         views.forEach { view ->
             view.post {
                 runSetup(view)
@@ -38,8 +38,14 @@ class AlphaAction(private val value: Float) : SetupAction() {
 class InvisibleAction : SetupAction() {
     override fun runSetup(view: View) {
         view.visibility = View.INVISIBLE
+        view.alpha = 0f
     }
+}
 
+class FadeOutAction(val targetFade: Float = 0f) : SetupAction() {
+    override fun runSetup(view: View) {
+        view.alpha = targetFade
+    }
 }
 
 class OnClick(private val onClickListener: View.OnClickListener) : SetupAction() {
@@ -69,6 +75,7 @@ class SlideAction(private val visibleSize: Float, private val direction: Directi
                 val strategy = SlideInLeftStrategy(0f, true)
                 strategy.update(view, 0f, SlideData(visibleLeft))
             }
+
             Direction.Right -> {
                 val visibleRight = view.width - visibleSize
                 val strategy = SlideInRightStrategy(0f, true)

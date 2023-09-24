@@ -15,6 +15,7 @@ interface OrchestraContext {
     fun changeSpeed(targetSpeed: Float)
     fun delay(duration: Long)
     fun delay(duration: Int)
+    fun on(views: List<View>): ViewReference
     fun on(vararg views: View): ViewReference
     fun parallel(block: Orchestra.() -> Unit): ParallelContext
     fun andThen(block: () -> Unit)
@@ -40,7 +41,9 @@ open class Orchestra : OrchestraContext, ParallelContext {
 
     override fun createAnimation() = AnimationsBlock()
 
-    override fun on(vararg views: View) = ViewReference(views.asList()).apply {
+    override fun on(vararg views: View) = on(views.asList())
+
+    override fun on(views: List<View>) = ViewReference(views).apply {
         blocks.add(this)
     }
 
