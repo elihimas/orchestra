@@ -4,6 +4,7 @@
 
     <string name="title_select_example">Select an example</string>
 
+    <string name="example_math_game">Math game</string>
     <string name="example_login_with_register">Login with register</string>
     <string name="example_sliding_login">Sliding login </string>
     <string name="example_scaling_login">Scaling login </string>
@@ -19,6 +20,10 @@
     <string name="hint_confirm_password">confirm password</string>
 
     <string name="login">Login</string>
+
+    <string name="bt_easy">Easy</string>
+    <string name="bt_medium">Medium</string>
+    <string name="bt_hard">Hard</string>
 
     <string name="code_animated_button">
 // Animation\n
@@ -94,7 +99,7 @@ Orchestra.launch {\n
 \t\t\t  }\n
 \t\t  }\n
 \n
-\t\t  on(*slidingViews)\n
+\t\t  on(slidingViews)\n
 \t\t\t\t  .delay(300)\n
 \t\t\t\t  .slide(Direction.Up) {\n
 \t\t\t\t\t  duration = 600\n
@@ -134,4 +139,6 @@ Orchestra.launch {\n
 \t  }\n
 }
     </string>
+    <string name="label_difficulty">Difficulty</string>
+    <string name="label_math_game">Math game!</string>
 </resources>

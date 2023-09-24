@@ -18,6 +18,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.mathgame.MathGameSplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.mathgame.MathGameActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MainActivity"
             android:exported="true" />
         <activity
