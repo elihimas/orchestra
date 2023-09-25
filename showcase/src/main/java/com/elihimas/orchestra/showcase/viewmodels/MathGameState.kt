@@ -7,6 +7,8 @@ data class MathGameState(
 
 data class GameQuestion(
     val statement: String,
-    val options: List<String>,
+    val options: List<QuestionOption>,
     val expectedAnswer: String
 )
+
+data class QuestionOption(val text: String, val isAvailable: Boolean)
