@@ -17,9 +17,10 @@ interface OrchestraContext {
     fun delay(duration: Int)
     fun on(views: List<View>): ViewReference
     fun on(vararg views: View): ViewReference
-    fun parallel(block: Orchestra.() -> Unit): ParallelContext
+    fun parallel(block: OrchestraContext.() -> Unit): OrchestraContext
     fun andThen(block: () -> Unit)
     fun createAnimation(): AnimationsBlock
+    fun <T : View> createCustomAnimationFor(vararg views: T): CustomAnimationReference<T>
 }
 
 open class Orchestra : OrchestraContext, ParallelContext {
@@ -47,13 +48,18 @@ open class Orchestra : OrchestraContext, ParallelContext {
         blocks.add(this)
     }
 
+    override fun <T : View> createCustomAnimationFor(vararg views: T): CustomAnimationReference<T> =
+        CustomAnimationReferenceImpl(views.asList()).apply {
+            blocks.add(this)
+        }
+
     override fun delay(duration: Long) {
         blocks.add(DelayBlock(duration))
     }
 
     override fun delay(duration: Int) = delay(duration.toLong())
 
-    override fun parallel(block: Orchestra.() -> Unit): Orchestra {
+    override fun parallel(block: OrchestraContext.() -> Unit): OrchestraContext {
         val orchestraContext = createOrchestra()
         block.invoke(orchestraContext)
         blocks.add(ParallelBlock(orchestraContext).also {
@@ -106,7 +112,7 @@ open class Orchestra : OrchestraContext, ParallelContext {
             return setupContext
         }
 
-        fun launch(block: OrchestraContext.() -> Unit): OrchestraContext {
+        fun launch(block: Orchestra.() -> Unit): OrchestraContext {
             val orchestraContext = currentOrchestra()
             block.invoke(orchestraContext)
             orchestraContext.runBlocks()
