@@ -1,8 +1,9 @@
-package com.elihimas.orchestra.animations
+package com.elihimas.orchestra.animations.opacity
 
 import android.view.View
 import android.view.ViewPropertyAnimator
 import androidx.core.view.isVisible
+import com.elihimas.orchestra.animations.Animation
 
 open class FadeInAnimation(var initialAlpha: Float = 0f, var finalAlpha: Float = 1f) : Animation(600) {
 

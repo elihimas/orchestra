@@ -5,13 +5,14 @@ import com.elihimas.orchestra.animations.Animation
 import com.elihimas.orchestra.animations.CircularRevealAnimation
 import com.elihimas.orchestra.animations.DelayAnimation
 import com.elihimas.orchestra.animations.Direction
-import com.elihimas.orchestra.animations.FadeInAnimation
-import com.elihimas.orchestra.animations.FadeOutAnimation
+import com.elihimas.orchestra.animations.opacity.FadeInAnimation
+import com.elihimas.orchestra.animations.opacity.FadeOutAnimation
 import com.elihimas.orchestra.animations.ParallelAnimation
 import com.elihimas.orchestra.animations.rotation.RotateByAnimation
 import com.elihimas.orchestra.animations.rotation.RotateToAnimation
 import com.elihimas.orchestra.animations.colors.ChangeBackgroundAnimation
 import com.elihimas.orchestra.animations.colors.ChangeTextColorAnimation
+import com.elihimas.orchestra.animations.opacity.OpacityToAnimation
 import com.elihimas.orchestra.animations.scale.DirectionalScaleAnimation
 import com.elihimas.orchestra.animations.scale.ScaleAnimation
 import com.elihimas.orchestra.animations.slide.SlideAnimation
@@ -63,6 +64,9 @@ open class AnimationsBlock : Block() {
 
         return this
     }
+
+    fun opacityTo(targetAlpha: Float, config: ((OpacityToAnimation.() -> Unit))? = null) =
+        add(OpacityToAnimation(targetAlpha), config)
 
     fun fadeIn() = add(FadeInAnimation(), null)
 
