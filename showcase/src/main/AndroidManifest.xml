@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.mathgame.MathGameSplashActivity"
+            android:name=".activities.mathgame.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.mathgame.MathGameActivity"
+            android:name=".activities.mathgame.game.GameActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

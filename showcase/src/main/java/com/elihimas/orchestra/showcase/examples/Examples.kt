@@ -8,7 +8,7 @@ import com.elihimas.orchestra.showcase.activities.ScaleActivity
 import com.elihimas.orchestra.showcase.activities.ScalingLoginActivity
 import com.elihimas.orchestra.showcase.activities.SlidingLoginActivity
 import com.elihimas.orchestra.showcase.activities.TranslateActivity
-import com.elihimas.orchestra.showcase.activities.mathgame.MathGameSplashActivity
+import com.elihimas.orchestra.showcase.activities.mathgame.MainActivity
 
 object Examples {
 
@@ -24,7 +24,7 @@ object Examples {
 ////    CoordinatorLayout,
 //    Slide,
     fun getExamples() = listOf(
-        Example(MathGameSplashActivity::class.java, R.string.example_math_game),
+        Example(MainActivity::class.java, R.string.example_math_game),
         Example(LoginWithRegisterActivity::class.java, R.string.example_login_with_register),
         Example(SlidingLoginActivity::class.java, R.string.example_sliding_login),
         Example(ScalingLoginActivity::class.java, R.string.example_scaling_login),

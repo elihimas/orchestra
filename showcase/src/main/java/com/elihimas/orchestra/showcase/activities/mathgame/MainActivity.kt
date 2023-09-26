@@ -9,12 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.elihimas.orchestra.Orchestra
 import com.elihimas.orchestra.references.bottomToTopOf
 import com.elihimas.orchestra.references.verticalCenterOf
-import com.elihimas.orchestra.showcase.databinding.ActivityMathGameSplashBinding
+import com.elihimas.orchestra.showcase.activities.mathgame.game.GameActivity
+import com.elihimas.orchestra.showcase.databinding.ActivityMathGameMainBinding
 import com.elihimas.orchestra.showcase.mathgame.Difficulty
 
-class MathGameSplashActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityMathGameSplashBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityMathGameMainBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -80,7 +81,7 @@ class MathGameSplashActivity : AppCompatActivity() {
     }
 
     private fun openMathGame(difficulty: Difficulty) {
-        startActivity(Intent(this, MathGameActivity::class.java))
+        startActivity(Intent(this, GameActivity::class.java))
     }
 
     private fun runAnimation() = with(binding) {
@@ -101,7 +102,7 @@ class MathGameSplashActivity : AppCompatActivity() {
 
                 on(fadeInViews).fadeIn {
                     delay = 300
-                    spacing = 60
+                    timeSpacing = 60
                 }
             }
         }
