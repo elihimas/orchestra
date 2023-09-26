@@ -2,7 +2,7 @@ package com.elihimas.orchestra
 
 import com.elihimas.orchestra.blocks.Block
 
-// TODO: add delay and spacing
+// TODO: add delay, spacing and interpolator
 data class AnimationConfiguration(var duration: Long)
 
 interface CustomAnimationReference<T>{

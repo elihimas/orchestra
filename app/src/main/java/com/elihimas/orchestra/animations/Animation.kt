@@ -14,7 +14,7 @@ abstract class Animation(
     //  the end of the current animation should be one of:
     //      start + duration
     //      start + duration + spacing increment  (current default)
-    var spacing: Long = OrchestraConfiguration.General.spacing
+    var timeSpacing: Long = OrchestraConfiguration.General.timeSpacing
 ) : Cloneable {
     var isInfinite = false
     internal var start = 0f
@@ -43,12 +43,12 @@ abstract class Animation(
 
     internal fun cloneFromTo(from: Animation, to: Animation) {
         to.duration = from.duration
-        to.spacing = from.spacing
+        to.timeSpacing = from.timeSpacing
     }
 
     open fun updateAnimationByTime(views: List<View>, time: Float) {
         views.forEachIndexed { index, view ->
-            val spacingDelay = index * spacing
+            val spacingDelay = index * timeSpacing
             val viewTime = time - spacingDelay - delay - start
 
             updateAnimationByTime(view, viewTime)
@@ -74,7 +74,7 @@ abstract class Animation(
     }
 
     internal open fun calculateDuration(viewsCount: Int): Long =
-        delay + duration + (viewsCount - 1) * spacing
+        delay + duration + (viewsCount - 1) * timeSpacing
 
     open fun updateAnimationTimeBounds(baseTime: Float, viewsCount: Int) {
         start = baseTime + delay

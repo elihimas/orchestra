@@ -43,7 +43,7 @@ class SpacingActivity : AppCompatActivity() {
                 parallel {
                     on(scalingSqr1, scalingSqr2, scalingSqr3, scalingSqr4).scale(2f) {
                         duration = 700
-                        spacing = 200
+                        timeSpacing = 200
                     }
 
                     on(
@@ -56,14 +56,14 @@ class SpacingActivity : AppCompatActivity() {
                             horizontalCenterOf(rightGuide)
                         ) {
                             duration = 1000
-                            spacing = 200
+                            timeSpacing = 200
                             interpolator = AccelerateDecelerateInterpolator()
                         }
 
                     on(fadeOut1, fadeOut2, fadeOut3, fadeOut4)
                         .fadeOut {
                             duration = 1_800
-                            spacing = 600
+                            timeSpacing = 600
                         }
                 }
             }
